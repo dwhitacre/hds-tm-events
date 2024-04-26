@@ -9,8 +9,8 @@ import { Component } from '@angular/core';
           <span>HD's Events</span>
         </a>
         <div class="layout-topbar-menu">
-          <p-button icon="pi pi-github" [text]="true"></p-button>
-          <p-button icon="pi pi-discord" [text]="true"></p-button>
+          <p-button icon="pi pi-github" [text]="true" (onClick)="openGithub()"></p-button>
+          <p-button icon="pi pi-discord" [text]="true" (onClick)="openDiscord()"></p-button>
         </div>
       </div>
     `,
@@ -74,4 +74,10 @@ import { Component } from '@angular/core';
     `]
 })
 export class TopBarComponent {
+  openGithub() {
+    window.open("https://github.com/dwhitacre/hds-tm-events")
+  }
+  openDiscord() {
+    window.open("https://discord.gg/yR5EtqAWW7")
+  }
 }

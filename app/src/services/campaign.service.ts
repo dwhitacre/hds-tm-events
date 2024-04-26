@@ -4,7 +4,7 @@ import { Campaign } from "src/domain/campaign";
 
 @Injectable({providedIn: 'root'})
 export class CampaignService {
-  #baseUrl = '../assets/data/campaign'
+  #baseUrl = 'assets/data/campaign'
 
   constructor(private httpClient: HttpClient) {}
 

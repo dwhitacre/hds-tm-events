@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { CampaignService } from 'src/services/campaign.service';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [RouterModule],
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  template: `
+    <router-outlet></router-outlet>
+  `,
+  styles: [],
+  providers: [CampaignService],
 })
 export class AppComponent {
   title = 'app';

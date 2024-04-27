@@ -10,6 +10,7 @@ import { LogService } from "src/services/log.service";
 export interface Standings {
   leaderboard: Leaderboard,
   loading: boolean
+  toplimit: number
 }
 
 @Injectable()
@@ -18,6 +19,15 @@ export class StandingsStore extends ComponentStore<Standings> {
 
   readonly leaderboard$ = this.select(state => state.leaderboard)
   readonly loading$ = this.select(state => state.loading)
+  readonly toplimit$ = this.select(state => state.toplimit)
+
+  readonly vm$ = this.select(this.leaderboard$, this.toplimit$, (leaderboard, toplimit) => {
+    return {
+      top: leaderboard.tops?.filter(top => top.position <= toplimit),
+      bottom: leaderboard.tops?.filter(top => top.position > toplimit),
+      playercount: leaderboard.playercount,
+    }
+  })
 
   constructor(private leaderboardService: LeaderboardService, private logService: LogService) {
     super({
@@ -25,7 +35,8 @@ export class StandingsStore extends ComponentStore<Standings> {
         tops: null,
         playercount: 0,
       },
-      loading: true
+      loading: true,
+      toplimit: 8
     })
 
     this.fetchLeaderboard()

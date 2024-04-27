@@ -11,21 +11,35 @@ import { CommonModule } from "@angular/common";
         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
       </div>
       <ng-template #standings>
-        <div class="standings" *ngIf="standingsStore.leaderboard$ | async as leaderboard">
-          <ng-container *ngFor="let top of leaderboard.tops">
-            <ng-container *ngIf="top.position < 9; else loser">
+        <ng-container *ngIf="standingsStore.vm$ | async as vm">
+          <div class="standings-top">
+            <ng-container *ngFor="let top of vm.top">
               <player-card [player]="top.player" [position]="top.position" [score]="top.score || top.time || 0"></player-card>
             </ng-container>
-            <ng-template #loser>
-              <player-row [player]="top.player" [position]="top.position" [score]="top.score || top.time || 0"></player-row>
-            </ng-template>
-          </ng-container>
-        </div>
+          </div>
+          <div class="standings-bottom" *ngIf="vm.bottom">
+            <p-table [value]="vm.bottom">
+              <ng-template pTemplate="body" let-bottom>
+                  <tr>
+                    <td>{{bottom.position}}</td>
+                    <td><img [alt]="bottom.name" [src]="bottom.image || 'assets/images/hds-events-nobg.png'" width="64" class="shadow-4" /></td>
+                    <td>{{bottom.player.name}}</td>
+                    <td>{{bottom.score || bottom.time || 0}}</td>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                  Total player count: {{ vm.playercount }}
+                </div>
+              </ng-template>
+            </p-table>
+          </div>
+        </ng-container>
       </ng-template>
     </layout>
   `,
   styles: [`
-    .standings {
+    .standings-top {
       display: flex;
       justify-content: center;
       flex-direction: row;
@@ -33,14 +47,22 @@ import { CommonModule } from "@angular/common";
       gap: 24px 36px;
     }
 
-    player-row {
+    .standings-bottom {
+      margin-top: 48px;
       width: 100%;
-      height: 16px;
+      height: 24px;
       display: flex;
       justify-content: center;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 24px 36px;
+    }
+
+    :host::ng-deep table.p-datatable-table {
+      min-width: 48rem;
+    }
+
+    @media (max-width:768px) {
+      :host::ng-deep table.p-datatable-table {
+        min-width: 24rem;
+      }
     }
   `],
   providers: [StandingsStore]

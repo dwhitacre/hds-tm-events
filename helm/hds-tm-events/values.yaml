@@ -26,13 +26,18 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
   hosts:
     - host: hdweeklyleague.com
+      paths:
+        - /
+    - host: www.hdweeklyleague.com
       paths:
         - /
   tls:
     - hosts:
         - hdweeklyleague.com
+        - www.hdweeklyleague.com
       secretName: hdweeklyleague-tls
     
 

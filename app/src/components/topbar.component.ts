@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
       <div class="layout-topbar">
         <a class="layout-topbar-logo" routerLink="">
           <img src="assets/images/hds-events-nobg.png" alt="logo" height="32">
-          <span>HD's Events</span>
+          <span>HD Weekly League</span>
         </a>
         <div class="layout-topbar-menu">
           <p-button icon="pi pi-github" [text]="true" (onClick)="openGithub()"></p-button>

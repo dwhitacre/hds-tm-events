@@ -30,6 +30,8 @@ import { Component } from "@angular/core";
       flex-direction: column;
       justify-content: space-between;
       padding-top: 6rem;
+      padding-left: 15%;
+      padding-right: 15%;
     }
 
     .layout-main {

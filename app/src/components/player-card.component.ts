@@ -6,7 +6,7 @@ import { Player } from 'src/domain/player';
     template: `
       <p-card [style]="{ width: '268px'}">
         <ng-template pTemplate="header">
-          <img alt="Card" [src]="player.image || 'assets/images/hds-events-nobg.png'" height="192" />
+          <img [alt]="player.name" [src]="player.image || 'assets/images/hds-events-nobg.png'" height="192" />
         </ng-template>
         <ng-template pTemplate="content">
           <div class="player-content">

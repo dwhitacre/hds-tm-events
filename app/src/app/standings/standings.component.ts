@@ -13,7 +13,12 @@ import { CommonModule } from "@angular/common";
       <ng-template #standings>
         <div class="standings" *ngIf="standingsStore.leaderboard$ | async as leaderboard">
           <ng-container *ngFor="let top of leaderboard.tops">
-            <player-card [player]="top.player" [position]="top.position" [score]="top.score || top.time || 0"></player-card>
+            <ng-container *ngIf="top.position < 9; else loser">
+              <player-card [player]="top.player" [position]="top.position" [score]="top.score || top.time || 0"></player-card>
+            </ng-container>
+            <ng-template #loser>
+              <player-row [player]="top.player" [position]="top.position" [score]="top.score || top.time || 0"></player-row>
+            </ng-template>
           </ng-container>
         </div>
       </ng-template>
@@ -25,7 +30,17 @@ import { CommonModule } from "@angular/common";
       justify-content: center;
       flex-direction: row;
       flex-wrap: wrap;
-      gap: 24px 48px;
+      gap: 24px 36px;
+    }
+
+    player-row {
+      width: 100%;
+      height: 16px;
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 24px 36px;
     }
   `],
   providers: [StandingsStore]

@@ -13,7 +13,9 @@ import { CommonModule } from "@angular/common";
       </div>
       <ng-template #standings>
         <div *ngIf="standingsStore.leaderboard$ | async as leaderboard">
-          {{ leaderboard | json }}
+          <ng-container *ngFor="let top of leaderboard.tops">
+            <player-card [player]="top.player" [position]="top.position" [score]="top.score || top.time || 0"></player-card>
+          </ng-container>
         </div>
       </ng-template>
     </layout>

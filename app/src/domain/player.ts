@@ -7,4 +7,5 @@ export interface Player {
   id: string
   zone: Zone
   meta?: PlayerMeta
+  image?: string
 }

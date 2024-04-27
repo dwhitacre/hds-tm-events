@@ -19,7 +19,7 @@ import { Player } from 'src/domain/player';
     `,
     styles: [`
       :host::ng-deep .p-card {
-        border: 2px var(--gray-700) solid;
+        border: 2px var(--surface-border) solid;
         border-radius: 0;
       }
 

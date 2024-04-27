@@ -7,9 +7,8 @@ import { CommonModule } from "@angular/common";
   selector: 'standings',
   template: `
     <layout>
-      <div>standings</div>
       <div *ngIf="standingsStore.loading$ | async; else standings">
-        loading
+        <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
       </div>
       <ng-template #standings>
         <div *ngIf="standingsStore.leaderboard$ | async as leaderboard">

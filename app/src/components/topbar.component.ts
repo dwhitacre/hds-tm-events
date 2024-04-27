@@ -28,6 +28,7 @@ import { Component } from '@angular/core';
         align-items: center;
         box-shadow: 0 3px 5px #00000005,0 0 2px #0000000d,0 1px 4px #00000014;
         border-bottom: 1px solid var(--surface-border);
+        background-color: var(--surface-card);
       }
 
       .layout-topbar .layout-topbar-logo {

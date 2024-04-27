@@ -10,7 +10,7 @@ import { Player } from 'src/domain/player';
         </ng-template>
         <ng-template pTemplate="content">
           <div class="player-content">
-            <span class="position">{{ position }}</span>
+            <span class="position"> {{ position }}</span>
             <span class="name">{{ player.name }}</span>
             <span class="score">{{ score }}</span>
           </div>
@@ -20,7 +20,7 @@ import { Player } from 'src/domain/player';
     styles: [`
       :host::ng-deep .p-card {
         border: 2px var(--surface-border) solid;
-        border-radius: 0;
+        border-radius: 4px;
       }
 
       :host::ng-deep .p-card-body {
@@ -33,14 +33,7 @@ import { Player } from 'src/domain/player';
       .player-content {
         display: flex;
         gap: 2px;
-      }
-
-      .position {
-        flex-grow: 1;
-      }
-
-      .name {
-        flex-grow: 3;
+        justify-content: space-between;
       }
     `]
 })

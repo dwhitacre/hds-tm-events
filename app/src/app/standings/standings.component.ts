@@ -11,7 +11,7 @@ import { CommonModule } from "@angular/common";
         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
       </div>
       <ng-template #standings>
-        <div *ngIf="standingsStore.leaderboard$ | async as leaderboard">
+        <div class="standings" *ngIf="standingsStore.leaderboard$ | async as leaderboard">
           <ng-container *ngFor="let top of leaderboard.tops">
             <player-card [player]="top.player" [position]="top.position" [score]="top.score || top.time || 0"></player-card>
           </ng-container>
@@ -20,6 +20,13 @@ import { CommonModule } from "@angular/common";
     </layout>
   `,
   styles: [`
+    .standings {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 24px 48px;
+    }
   `],
   providers: [StandingsStore]
 })

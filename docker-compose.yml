@@ -3,5 +3,8 @@ services:
   app:
     build:
       context: app
+    image: hds-tm-events-app
+    environment:
+      - PORT=1234
     ports:
-      - 8080:80
+      - 8080:1234

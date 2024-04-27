@@ -14,3 +14,5 @@ FROM nginx
 
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist/app/browser /usr/share/nginx/html/
+
+CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/nginx.conf && nginx -g 'daemon off;'

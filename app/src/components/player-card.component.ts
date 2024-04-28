@@ -10,7 +10,7 @@ import { Player } from 'src/domain/player';
         </ng-template>
         <ng-template pTemplate="content">
           <div class="player-content">
-            <span class="position"> {{ position }}</span>
+            <span class="position"> {{ position | position }}</span>
             <span class="name">{{ player.name }}</span>
             <span class="score">{{ score }}</span>
           </div>

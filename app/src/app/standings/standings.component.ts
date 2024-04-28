@@ -2,6 +2,7 @@ import { Component, NgModule } from "@angular/core";
 import { ComponentsModule } from "src/components/components.module";
 import { StandingsStore } from "./standings.store";
 import { CommonModule } from "@angular/common";
+import { PositionPipe } from "../../pipes/position.pipe";
 
 @Component({
   selector: 'standings',
@@ -21,7 +22,7 @@ import { CommonModule } from "@angular/common";
             <p-table [value]="vm.bottom">
               <ng-template pTemplate="body" let-bottom>
                   <tr>
-                    <td>{{bottom.position}}</td>
+                    <td>{{bottom.position | position }}</td>
                     <td><img [alt]="bottom.player.name" [src]="bottom.player.image || 'assets/images/hds-events-nobg.png'" width="64" class="shadow-4" /></td>
                     <td>{{bottom.player.name}}</td>
                     <td>{{bottom.score || bottom.time || 0}}</td>
@@ -72,8 +73,8 @@ export class StandingsComponent {
 }
 
 @NgModule({
-  imports: [CommonModule, ComponentsModule],
-  exports: [StandingsComponent],
-  declarations: [StandingsComponent],
+    exports: [StandingsComponent],
+    declarations: [StandingsComponent],
+    imports: [CommonModule, ComponentsModule, PositionPipe]
 })
 export class StandingsModule {}

@@ -1,23 +1,28 @@
-import { Component, Input } from '@angular/core';
-import { Player } from 'src/domain/player';
+import { Component, Input } from '@angular/core'
+import { Player } from 'src/domain/player'
 
 @Component({
-    selector: 'player-card',
-    template: `
-      <p-card [style]="{ width: '268px'}">
-        <ng-template pTemplate="header">
-          <img [alt]="player.name" [src]="player.image || 'assets/images/hds-events-nobg.png'" height="192" />
-        </ng-template>
-        <ng-template pTemplate="content">
-          <div class="player-content">
-            <span class="position"> {{ position | position }}</span>
-            <span class="name">{{ player.name }}</span>
-            <span class="score">{{ score }}</span>
-          </div>
-        </ng-template>
-      </p-card>
-    `,
-    styles: [`
+  selector: 'player-card',
+  template: `
+    <p-card [style]="{ width: '268px' }">
+      <ng-template pTemplate="header">
+        <img
+          [alt]="player.name"
+          [src]="player.image || 'assets/images/hds-events-nobg.png'"
+          height="192"
+        />
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="player-content">
+          <span class="position"> {{ position | position }}</span>
+          <span class="name">{{ player.name }}</span>
+          <span class="score">{{ score }}</span>
+        </div>
+      </ng-template>
+    </p-card>
+  `,
+  styles: [
+    `
       :host::ng-deep .p-card {
         border: 2px var(--surface-border) solid;
         border-radius: 4px;
@@ -35,7 +40,8 @@ import { Player } from 'src/domain/player';
         gap: 2px;
         justify-content: space-between;
       }
-    `]
+    `,
+  ],
 })
 export class PlayerCardComponent {
   @Input() player!: Player

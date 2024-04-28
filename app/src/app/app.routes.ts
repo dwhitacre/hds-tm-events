@@ -1,13 +1,13 @@
-import { Route } from '@angular/router';
-import { StandingsComponent } from './standings/standings.component';
+import { Route } from '@angular/router'
+import { StandingsComponent } from './standings/standings.component'
 
 export const appRoutes: Route[] = [
   {
     path: 'standings',
-    component: StandingsComponent
+    component: StandingsComponent,
   },
   {
     path: '**',
-    redirectTo: 'standings'
-  }
-];
+    redirectTo: 'standings',
+  },
+]

@@ -1,4 +1,4 @@
-import { Top } from "./top";
+import { Top } from './top'
 
 export interface Leaderboard {
   tops: Array<Top> | null

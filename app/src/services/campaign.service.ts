@@ -1,8 +1,8 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Campaign } from "src/domain/campaign";
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { Campaign } from 'src/domain/campaign'
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class CampaignService {
   #baseUrl = 'assets/data/campaign'
 

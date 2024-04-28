@@ -1,20 +1,29 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
-    selector: 'topbar',
-    template: `
-      <div class="layout-topbar">
-        <a class="layout-topbar-logo" routerLink="">
-          <img src="assets/images/hds-events-nobg.png" alt="logo" height="32">
-          <span>HD Weekly League</span>
-        </a>
-        <div class="layout-topbar-menu">
-          <p-button icon="pi pi-github" [text]="true" (onClick)="openGithub()"></p-button>
-          <p-button icon="pi pi-discord" [text]="true" (onClick)="openDiscord()"></p-button>
-        </div>
+  selector: 'topbar',
+  template: `
+    <div class="layout-topbar">
+      <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/images/hds-events-nobg.png" alt="logo" height="32" />
+        <span>HD Weekly League</span>
+      </a>
+      <div class="layout-topbar-menu">
+        <p-button
+          icon="pi pi-github"
+          [text]="true"
+          (onClick)="openGithub()"
+        ></p-button>
+        <p-button
+          icon="pi pi-discord"
+          [text]="true"
+          (onClick)="openDiscord()"
+        ></p-button>
       </div>
-    `,
-    styles: [`
+    </div>
+  `,
+  styles: [
+    `
       .layout-topbar {
         position: fixed;
         height: 4rem;
@@ -23,10 +32,10 @@ import { Component } from '@angular/core';
         top: 0;
         width: 100%;
         padding: 0 2rem;
-        transition: left .2s;
+        transition: left 0.2s;
         display: flex;
         align-items: center;
-        box-shadow: 0 3px 5px #00000005,0 0 2px #0000000d,0 1px 4px #00000014;
+        box-shadow: 0 3px 5px #00000005, 0 0 2px #0000000d, 0 1px 4px #00000014;
         border-bottom: 1px solid var(--surface-border);
         background-color: var(--surface-card);
       }
@@ -62,7 +71,7 @@ import { Component } from '@angular/core';
         width: 2rem;
         height: 2rem;
         cursor: pointer;
-        transition: background-color .2s;
+        transition: background-color 0.2s;
       }
 
       span {
@@ -72,13 +81,14 @@ import { Component } from '@angular/core';
       a {
         text-decoration: none;
       }
-    `]
+    `,
+  ],
 })
 export class TopBarComponent {
   openGithub() {
-    window.open("https://github.com/dwhitacre/hds-tm-events")
+    window.open('https://github.com/dwhitacre/hds-tm-events')
   }
   openDiscord() {
-    window.open("https://discord.gg/yR5EtqAWW7")
+    window.open('https://discord.gg/yR5EtqAWW7')
   }
 }

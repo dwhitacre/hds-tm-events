@@ -1,4 +1,6 @@
 replicaCount: 2
+maxUnavailable: 1
+
 image:
   repository: hdstmevents/app
   pullPolicy: Always

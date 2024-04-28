@@ -22,7 +22,7 @@ import { CommonModule } from "@angular/common";
               <ng-template pTemplate="body" let-bottom>
                   <tr>
                     <td>{{bottom.position}}</td>
-                    <td><img [alt]="bottom.name" [src]="bottom.image || 'assets/images/hds-events-nobg.png'" width="64" class="shadow-4" /></td>
+                    <td><img [alt]="bottom.player.name" [src]="bottom.player.image || 'assets/images/hds-events-nobg.png'" width="64" class="shadow-4" /></td>
                     <td>{{bottom.player.name}}</td>
                     <td>{{bottom.score || bottom.time || 0}}</td>
                   </tr>

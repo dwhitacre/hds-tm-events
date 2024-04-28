@@ -52,6 +52,6 @@ jobs:
       - name: Helm Upgrade
         shell: bash
         run: |
-          doctl kubernetes cluster kubeconfig save ${{ secrets.DIGITALOCEAN_CLUSTER_NAME }}
+          doctl kubernetes cluster kubeconfig save --expiry-seconds 240 ${{ secrets.DIGITALOCEAN_CLUSTER_NAME }}
           helm dependency update ./helm/hds-tm-events
           helm -n hds-tm-events upgrade --install --wait --timeout 60s --atomic hds-tm-events ./helm/hds-tm-events/

@@ -24,8 +24,9 @@ jobs:
       - run: yarn
       - run: yarn lint
       - run: yarn test
-  docker:
+  deploy:
     runs-on: ubuntu-latest
+    environment: hdweeklyleague.com
     steps:
       - uses: actions/checkout@v4
         with:

@@ -43,4 +43,14 @@ jobs:
         with:
           context: app
           push: ${{ env.BRANCH_NAME == 'main' }}
-          tags: hdstmevents/app:latest
+          tags: hdstmevents/app:lates
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Helm Upgrade
+        shell: bash
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.DIGITALOCEAN_CLUSTER_NAME }}
+          helm dependency update ./helm/hds-tm-events
+          helm -n hds-tm-events upgrade --install --wait --timeout 60s --atomic hds-tm-events ./helm/hds-tm-events/

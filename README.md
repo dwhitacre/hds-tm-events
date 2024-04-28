@@ -16,4 +16,5 @@ yarn start
 ```
 yarn test
 yarn lint
+yarn format
 ```

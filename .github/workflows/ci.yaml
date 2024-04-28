@@ -26,6 +26,7 @@ jobs:
       - run: yarn test
   deploy:
     runs-on: ubuntu-latest
+    needs: [main]
     environment: hdweeklyleague.com
     steps:
       - uses: actions/checkout@v4

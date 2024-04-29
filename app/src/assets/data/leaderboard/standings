@@ -2,35 +2,40 @@
   "tops": [
     {
       "player": {
-        "name": "Mathyper"
+        "name": "Mathyper",
+        "image": "assets/images/CAN.jpg"
       },
       "position": 1,
       "score": 20
     },
     {
       "player": {
-        "name": "Marius"
+        "name": "Marius",
+        "image": "assets/images/GER.jpg"
       },
       "position": 2,
       "score": 15
     },
     {
       "player": {
-        "name": "Kakne"
+        "name": "Kakne",
+        "image": "assets/images/halcyon.png"
       },
       "position": 3,
       "score": 10
     },
     {
       "player": {
-        "name": "Tewbs"
+        "name": "Tewbs",
+        "image": "assets/images/CAN.jpg"
       },
       "position": 3,
       "score": 10
     },
     {
       "player": {
-        "name": "Dummy"
+        "name": "Dummy",
+        "image": "assets/images/airky.png"
       },
       "position": 5,
       "score": 5
@@ -58,7 +63,8 @@
     },
     {
       "player": {
-        "name": "Wolf"
+        "name": "Wolf",
+        "image": "assets/images/pikachu.jpg"
       },
       "position": 9,
       "score": 1

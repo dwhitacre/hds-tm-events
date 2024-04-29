@@ -56,7 +56,8 @@
     },
     {
       "player": {
-        "name": "Chomp/Kai"
+        "name": "Chomp",
+        "image": "assets/images/chomp.png"
       },
       "position": 5,
       "score": 5
@@ -71,7 +72,8 @@
     },
     {
       "player": {
-        "name": "XO"
+        "name": "XO",
+        "image": "assets/images/xo.gif"
       },
       "position": 9,
       "score": 1

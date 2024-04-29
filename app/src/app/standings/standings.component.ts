@@ -35,6 +35,7 @@ import { PositionPipe } from '../../pipes/position.pipe'
                         'assets/images/hds-events-nobg.png'
                       "
                       width="64"
+                      height="37"
                       class="shadow-4"
                     />
                   </td>

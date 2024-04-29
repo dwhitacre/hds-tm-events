@@ -44,7 +44,7 @@ jobs:
         with:
           context: app
           push: ${{ env.BRANCH_NAME == 'main' }}
-          tags: hdstmevents/app:lates
+          tags: hdstmevents/app:latest
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:

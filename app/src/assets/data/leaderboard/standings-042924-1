@@ -42,14 +42,16 @@
     },
     {
       "player": {
-        "name": "Noiszia"
+        "name": "Noiszia",
+        "image": "assets/images/ARG.jpg"
       },
       "position": 5,
       "score": 5
     },
     {
       "player": {
-        "name": "Spoder"
+        "name": "Spoder",
+        "image": "assets/images/USA.jpg"
       },
       "position": 5,
       "score": 5
@@ -80,7 +82,8 @@
     },
     {
       "player": {
-        "name": "Randomize"
+        "name": "Randomize",
+        "image": "assets/images/USA.jpg"
       },
       "position": 9,
       "score": 1

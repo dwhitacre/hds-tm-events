@@ -15,7 +15,7 @@ export interface Standings {
 
 @Injectable()
 export class StandingsStore extends ComponentStore<Standings> {
-  #leaderboardUid = 'standings-042924-0'
+  #leaderboardUid = 'standings-042924-1'
 
   readonly leaderboard$ = this.select((state) => state.leaderboard)
   readonly loading$ = this.select((state) => state.loading)

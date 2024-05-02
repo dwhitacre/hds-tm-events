@@ -15,7 +15,7 @@ export interface Standings {
 
 @Injectable()
 export class StandingsStore extends ComponentStore<Standings> {
-  #leaderboardUid = 'standings-042924-1'
+  #leaderboardUid = 'standings'
 
   readonly leaderboard$ = this.select((state) => state.leaderboard)
   readonly loading$ = this.select((state) => state.loading)
@@ -54,7 +54,10 @@ export class StandingsStore extends ComponentStore<Standings> {
       switchMap(() =>
         this.leaderboardService.getLeaderboard(this.#leaderboardUid).pipe(
           tapResponse({
-            next: (leaderboard) => this.patchState({ leaderboard }),
+            next: (leaderboard) => {
+              if (!leaderboard) return this.logService.error(new Error('Leaderboard does not exist.'))
+              this.patchState({ leaderboard })
+            },
             error: (error: HttpErrorResponse) => this.logService.error(error),
             finalize: () => this.patchState({ loading: false }),
           }),

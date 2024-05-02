@@ -4,7 +4,7 @@ import { Leaderboard } from 'src/domain/leaderboard'
 
 @Injectable({ providedIn: 'root' })
 export class LeaderboardService {
-  #baseUrl = 'assets/data/leaderboard'
+  #baseUrl = 'api/leaderboard'
 
   constructor(private httpClient: HttpClient) {}
 

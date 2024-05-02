@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api'
 export class LogService {
   constructor(private messageService: MessageService) {}
 
-  error(error: HttpErrorResponse) {
+  error(error: HttpErrorResponse | Error) {
     console.error(error)
     this.messageService.add({
       severity: 'error',

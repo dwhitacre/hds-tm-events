@@ -27,7 +27,7 @@ func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
 
-	http.HandleFunc("/leaderboard/{id}", func (w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/api/leaderboard/{id}", func (w http.ResponseWriter, r *http.Request) {
 		id := r.PathValue("id")
 		
 		file, err := os.Open("leaderboard/" + id)
@@ -54,5 +54,5 @@ func main() {
 	})
 
 	logger.Info("Server started")
-	logger.Error("Server exited", http.ListenAndServe(":8080", nil))
+	logger.Error("Server exited", http.ListenAndServe(":8081", nil))
 }

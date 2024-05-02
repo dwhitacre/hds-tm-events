@@ -55,7 +55,10 @@ export class StandingsStore extends ComponentStore<Standings> {
         this.leaderboardService.getLeaderboard(this.#leaderboardUid).pipe(
           tapResponse({
             next: (leaderboard) => {
-              if (!leaderboard) return this.logService.error(new Error('Leaderboard does not exist.'))
+              if (!leaderboard)
+                return this.logService.error(
+                  new Error('Leaderboard does not exist.'),
+                )
               this.patchState({ leaderboard })
             },
             error: (error: HttpErrorResponse) => this.logService.error(error),

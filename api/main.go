@@ -27,6 +27,11 @@ func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
 
+	http.HandleFunc("/ready", func (w http.ResponseWriter, r *http.Request) {
+		logger.Debug("Ready")
+		w.WriteHeader(http.StatusNoContent)
+	})
+
 	http.HandleFunc("/api/leaderboard/{id}", func (w http.ResponseWriter, r *http.Request) {
 		id := r.PathValue("id")
 		

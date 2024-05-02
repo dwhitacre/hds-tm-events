@@ -8,8 +8,12 @@ metadata:
     "helm.sh/hook": test-success
 spec:
   containers:
-    - name: wget
+    - name: wget-app
       image: busybox
       command: ['wget']
-      args: ['{{ include "hds-tm-events.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "hds-tm-events.fullname" . }}:{{ .Values.app.service.port }}']
+    - name: wget-api
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "hds-tm-events.fullname" . }}:{{ .Values.api.service.port }}']
   restartPolicy: Never

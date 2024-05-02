@@ -1,6 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "hds-tm-events.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
+{{- $appSvcPort := .Values.app.service.port -}}
+{{- $apiSvcPort := .Values.api.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -28,14 +29,19 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ . }}
+          - path: /
             pathType: Prefix
             backend:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: {{ $svcPort }}
-          {{- end }}
+                  number: {{ $appSvcPort }}
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $apiSvcPort }}
     {{- end }}
   {{- end }}

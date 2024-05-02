@@ -1,10 +1,37 @@
 replicaCount: 2
 maxUnavailable: 1
 
-image:
-  repository: hdstmevents/app
-  pullPolicy: Always
-  tag: latest
+app:
+  image:
+    repository: hdstmevents/app
+    pullPolicy: Always
+    tag: latest
+  resources:
+    limits:
+      cpu: 250m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  service:
+    port: 80
+  securityContext: {}
+
+api:
+  image:
+    repository: hdstmevents/api
+    pullPolicy: Always
+    tag: latest
+  resources:
+    limits:
+      cpu: 250m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  service:
+    port: 8081
+  securityContext: {}
 
 imagePullSecrets: []
 nameOverride: ""
@@ -17,11 +44,9 @@ serviceAccount:
 
 podAnnotations: {}
 podSecurityContext: {}
-securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
 
 ingress:
   enabled: true
@@ -31,25 +56,12 @@ ingress:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
   hosts:
     - host: hdweeklyleague.com
-      paths:
-        - /
     - host: www.hdweeklyleague.com
-      paths:
-        - /
   tls:
     - hosts:
         - hdweeklyleague.com
         - www.hdweeklyleague.com
       secretName: hdweeklyleague-tls
-    
-
-resources:
-  limits:
-    cpu: 250m
-    memory: 256Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
 
 nodeSelector: {}
 tolerations: []

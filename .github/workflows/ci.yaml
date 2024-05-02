@@ -33,6 +33,12 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
+          context: api
+          push: true
+          tags: hdstmevents/api:latest
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
           context: app
           push: true
           tags: hdstmevents/app:latest

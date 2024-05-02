@@ -1,0 +1,93 @@
+{
+  "tops": [
+    {
+      "player": {
+        "name": "Mathyper",
+        "image": "assets/images/CAN.jpg"
+      },
+      "position": 1,
+      "score": 20
+    },
+    {
+      "player": {
+        "name": "Marius",
+        "image": "assets/images/GER.jpg"
+      },
+      "position": 2,
+      "score": 15
+    },
+    {
+      "player": {
+        "name": "Kakne",
+        "image": "assets/images/halcyon.png"
+      },
+      "position": 3,
+      "score": 10
+    },
+    {
+      "player": {
+        "name": "Tewbs",
+        "image": "assets/images/CAN.jpg"
+      },
+      "position": 3,
+      "score": 10
+    },
+    {
+      "player": {
+        "name": "Dummy",
+        "image": "assets/images/airky.png"
+      },
+      "position": 5,
+      "score": 5
+    },
+    {
+      "player": {
+        "name": "Noiszia",
+        "image": "assets/images/ARG.jpg"
+      },
+      "position": 5,
+      "score": 5
+    },
+    {
+      "player": {
+        "name": "Spoder",
+        "image": "assets/images/USA.jpg"
+      },
+      "position": 5,
+      "score": 5
+    },
+    {
+      "player": {
+        "name": "Chomp",
+        "image": "assets/images/chomp.png"
+      },
+      "position": 5,
+      "score": 5
+    },
+    {
+      "player": {
+        "name": "Wolf",
+        "image": "assets/images/pikachu.jpg"
+      },
+      "position": 9,
+      "score": 1
+    },
+    {
+      "player": {
+        "name": "XO",
+        "image": "assets/images/xo.gif"
+      },
+      "position": 9,
+      "score": 1
+    },
+    {
+      "player": {
+        "name": "Randomize",
+        "image": "assets/images/USA.jpg"
+      },
+      "position": 9,
+      "score": 1
+    }  
+  ],
+  "playercount": 11
+}

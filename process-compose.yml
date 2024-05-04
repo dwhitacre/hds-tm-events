@@ -1,0 +1,22 @@
+version: "0.5"
+
+processes:
+  api:
+    working_dir: api
+    command: go run .
+    readiness_probe:
+      http_get:
+        host: 127.0.0.1
+        scheme: http
+        path: "/ready"
+        port: 8081
+    environment:
+      - "DATABASE_CONNSTR=postgres://hds-tm-events:Passw0rd!@localhost:5432/hds-tm-events?pool_max_conns=10"
+  app:
+    working_dir: app
+    command: yarn start
+  db:
+    working_dir: .
+    command: docker compose up db
+    shutdown:
+      command: docker compose stop db

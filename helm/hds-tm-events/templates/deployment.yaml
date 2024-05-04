@@ -51,6 +51,12 @@ spec:
             {{- toYaml .Values.api.securityContext | nindent 12 }}
           image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
           imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+          env:
+            - name: DATABASE_CONNSTR
+              valueFrom:
+                secretKeyRef:
+                  name: hds-tm-events-api
+                  key: DATABASE_CONNSTR
           ports:
             - name: api-http
               containerPort: 8081

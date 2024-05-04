@@ -3,4 +3,6 @@
 
 !leaderboard
 !go.mod
+!go.sum
 !*.go
+!*/*.go

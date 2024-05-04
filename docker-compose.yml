@@ -6,6 +6,8 @@ services:
       context: api
     image: hdstmevents/api:latest
     restart: unless-stopped
+    environment:
+      DATABASE_CONNSTR: postgres://hds-tm-events:Passw0rd!@localhost:5432/hds-tm-events?pool_max_conns=10
     ports:
       - 8081:8081
     networks:
@@ -27,7 +29,18 @@ services:
     volumes:
       - ./docker/nginx.conf:/etc/nginx/nginx.conf
     networks:
-      - server-network    
+      - server-network
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: Passw0rd!
+      POSTGRES_USER: hds-tm-events
+    networks:
+      - server-network
+    ports:
+      - 5432:5432
 
 networks:
   server-network:

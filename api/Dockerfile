@@ -2,10 +2,12 @@ FROM golang:1.22 AS build
 
 WORKDIR /app
 
-COPY go.mod ./
+COPY go.mod go.sum ./
 RUN go mod download
 
 COPY *.go ./
+COPY api/*.go ./api/
+COPY domain/*.go ./domain/
 RUN CGO_ENABLED=0 GOOS=linux go build -o /hdstmevents-api
 
 FROM gcr.io/distroless/base-debian12

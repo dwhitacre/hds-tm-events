@@ -7,7 +7,7 @@ services:
     image: hdstmevents/api:latest
     restart: unless-stopped
     environment:
-      DATABASE_CONNSTR: postgres://hds-tm-events:Passw0rd!@localhost:5432/hds-tm-events?pool_max_conns=10
+      DATABASE_CONNSTR: postgres://hdstmevents:Passw0rd!@localhost:5432/hdstmevents?pool_max_conns=10
     ports:
       - 8081:8081
     networks:
@@ -36,7 +36,7 @@ services:
     shm_size: 128mb
     environment:
       POSTGRES_PASSWORD: Passw0rd!
-      POSTGRES_USER: hds-tm-events
+      POSTGRES_USER: hdstmevents
     networks:
       - server-network
     ports:

@@ -21,8 +21,9 @@ func main() {
 	}
 	defer dbpool.Close()
 
-	http.HandleFunc("/ready", api.ReadyHandler(logger, dbpool))
-	http.HandleFunc("/api/leaderboard/{id}", api.LeaderboardHandler(logger, dbpool))
+	api.Setup(logger, dbpool)
+	http.HandleFunc("/ready", api.ReadyHandler)
+	http.HandleFunc("/api/leaderboard/{id}", api.LeaderboardHandler)
 
 	logger.Info("Server started")
 	logger.Error("Server exited", http.ListenAndServe(":8081", nil))

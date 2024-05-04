@@ -57,6 +57,11 @@ spec:
                 secretKeyRef:
                   name: hds-tm-events-api
                   key: DATABASE_CONNSTR
+            - name: ADMIN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hds-tm-events-api
+                  key: ADMIN_KEY
           ports:
             - name: api-http
               containerPort: 8081

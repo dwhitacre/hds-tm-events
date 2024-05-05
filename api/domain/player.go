@@ -60,7 +60,7 @@ func PlayerAdd(db *pgxpool.Pool, player *Player) (error, *Player) {
 	}
 
 	if (result.RowsAffected() != 1) {
-		return errors.New("Rows affected not 1"), nil
+		return errors.New("rows affected not 1"), nil
 	}
 
 	return nil, player
@@ -83,7 +83,7 @@ func PlayerUpdate(db *pgxpool.Pool, player *Player) (error, *Player) {
 	}
 
 	if (result.RowsAffected() != 1) {
-		return errors.New("Rows affected not 1"), nil
+		return errors.New("rows affected not 1"), nil
 	}
 
 	return nil, player

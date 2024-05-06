@@ -31,18 +31,15 @@ func WeeklyGet(db *pgxpool.Pool, id int) (error, *Weekly) {
 }
 
 func WeeklyAdd(db *pgxpool.Pool, weekly *Weekly) (error, *Weekly) {
-	result, err := db.Exec(
+	row := db.QueryRow(
 		context.Background(),
-		`insert into weekly (name) values ($1)`,
+		`insert into weekly (name) values ($1) returning id, name`,
 		weekly.Name,
 	)
 
+	err := row.Scan(&weekly)
 	if err != nil {
 		return err, nil
-	}
-
-	if (result.RowsAffected() != 1) {
-		return errors.New("rows affected not 1"), nil
 	}
 
 	return nil, weekly
@@ -67,38 +64,17 @@ func WeeklyUpdate(db *pgxpool.Pool, weekly *Weekly) (error, *Weekly) {
 	return nil, weekly
 }
 
-func WeeklyRemove(db *pgxpool.Pool, weekly *Weekly) (error, *Weekly) {
-	result, err := db.Exec(
-		context.Background(),
-		`delete from match where id=$1`,
-		weekly.Id,
-	)
-
-	if err != nil {
-		return err, nil
-	}
-
-	if (result.RowsAffected() != 1) {
-		return errors.New("rows affected not 1"), nil
-	}
-
-	return nil, weekly
-}
-
 func WeeklyAddMatch(db *pgxpool.Pool, weeklyMatch *WeeklyMatch) (error, *WeeklyMatch) {
-	result, err := db.Exec(
+	row := db.QueryRow(
 		context.Background(),
-		`insert into weeklyMatch (weeklyfk, matchfk) values ($1, $2)`,
+		`insert into weeklyMatch (weeklyfk, matchfk) values ($1, $2) returning id, weeklyfk, matchfk`,
 		weeklyMatch.WeeklyFk,
 		weeklyMatch.MatchFk,
 	)
 
+	err := row.Scan(&weeklyMatch)
 	if err != nil {
 		return err, nil
-	}
-
-	if (result.RowsAffected() != 1) {
-		return errors.New("rows affected not 1"), nil
 	}
 
 	return nil, weeklyMatch

@@ -45,9 +45,9 @@ func PlayerList(db *pgxpool.Pool) (error, *[]Player) {
 }
 
 func PlayerAdd(db *pgxpool.Pool, player *Player) (error, *Player) {
-	result, err := db.Exec(
+	row := db.QueryRow(
 		context.Background(),
-		`insert into player (accountid, name, image, twitch, discord) values ($1, $2, $3, $4, $5)`,
+		`insert into player (accountid, name, image, twitch, discord) values ($1, $2, $3, $4, $5) returning id, accountid, name, image, twitch, discord`,
 		player.AccountId,
 		player.Name,
 		player.Image,
@@ -55,12 +55,9 @@ func PlayerAdd(db *pgxpool.Pool, player *Player) (error, *Player) {
 		player.Discord,
 	)
 
+	err := row.Scan(&player)
 	if err != nil {
 		return err, nil
-	}
-
-	if (result.RowsAffected() != 1) {
-		return errors.New("rows affected not 1"), nil
 	}
 
 	return nil, player

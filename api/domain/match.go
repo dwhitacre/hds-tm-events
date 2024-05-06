@@ -32,18 +32,15 @@ func MatchGet(db *pgxpool.Pool, id int) (error, *Match) {
 }
 
 func MatchAdd(db *pgxpool.Pool, match *Match) (error, *Match) {
-	result, err := db.Exec(
+	row := db.QueryRow(
 		context.Background(),
-		`insert into match (name) values ($1)`,
+		`insert into match (name) values ($1) returning id, name`,
 		match.Name,
 	)
 
+	err := row.Scan(&match)
 	if err != nil {
 		return err, nil
-	}
-
-	if (result.RowsAffected() != 1) {
-		return errors.New("rows affected not 1"), nil
 	}
 
 	return nil, match
@@ -69,19 +66,16 @@ func MatchUpdate(db *pgxpool.Pool, match *Match) (error, *Match) {
 }
 
 func MatchAddPlayer(db *pgxpool.Pool, matchPlayer *MatchPlayer) (error, *MatchPlayer) {
-	result, err := db.Exec(
+	row := db.QueryRow(
 		context.Background(),
-		`insert into matchplayer (matchfk, playerfk) values ($1, $2)`,
+		`insert into matchplayer (matchfk, playerfk) values ($1, $2) returning id, matchfk, playerfk, score`,
 		matchPlayer.MatchFk,
 		matchPlayer.PlayerFk,
 	)
 
+	err := row.Scan(&matchPlayer)
 	if err != nil {
 		return err, nil
-	}
-
-	if (result.RowsAffected() != 1) {
-		return errors.New("rows affected not 1"), nil
 	}
 
 	return nil, matchPlayer

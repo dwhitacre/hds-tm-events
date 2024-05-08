@@ -21,10 +21,3 @@ processes:
     command: docker compose up db
     shutdown:
       command: docker compose stop db
-  test:
-    working_dir: test
-    command: yarn start
-    depends_on:
-      api:
-      app:
-      db:

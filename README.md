@@ -75,3 +75,17 @@ tern migrate -d +1
 ```
 tern migrate -d -1
 ```
+
+### Test
+
+The `/test` directory contains api tests for the solution. This will be expanded to include e2e tests. Currently this does not run in process compose / docker compose as it needs the db seeding to happen before running.
+
+- Running locally with browser
+```
+yarn start
+```
+
+- Running headless
+```
+yarn cypress run
+```

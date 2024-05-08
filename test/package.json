@@ -1,0 +1,13 @@
+{
+  "name": "hds-tm-events-test",
+  "version": "0.0.0",
+  "author": "Dan Whitacre <dan@whitacre.dev>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "cypress": "^13.8.1"
+  },
+  "scripts": {
+    "start": "cypress open --e2e -b \"firefox\""
+  }
+}

@@ -4,7 +4,7 @@ Companion software repository for HD's Trackmania Events. For each part of the s
 
 ### Process Compose
 
-From the root you can kick off the `app`, `api`, and `db` all in one go. This does not run the db migrations, you want to run those separately.
+From the root you can kick off the `app`, `api`, `db`, and `test` all in one go. This does not run the db migrations, you want to run those separately otherwise the tests will fail.
 ```
 process-compose
 ```

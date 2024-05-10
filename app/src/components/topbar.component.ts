@@ -10,11 +10,6 @@ import { Component } from '@angular/core'
       </a>
       <div class="layout-topbar-menu">
         <p-button
-          icon="pi pi-github"
-          [text]="true"
-          (onClick)="openGithub()"
-        ></p-button>
-        <p-button
           icon="pi pi-discord"
           [text]="true"
           (onClick)="openDiscord()"

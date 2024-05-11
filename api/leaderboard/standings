@@ -14,7 +14,7 @@
         "image": "assets/images/halcyon.png"
       },
       "position": 2,
-      "score": 20
+      "score": 35
     },
     {
       "player": {
@@ -37,15 +37,15 @@
         "name": "Heav.YL",
         "image": "assets/images/FRA.jpg"
       },
-      "position": 0,
-      "score": 0
+      "position": 5,
+      "score": 10
     },
     {
       "player": {
         "name": "Tewbs",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 6,
+      "position": 5,
       "score": 10
     },
     {

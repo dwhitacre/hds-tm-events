@@ -34,10 +34,18 @@
     },
     {
       "player": {
+        "name": "Heav.YL",
+        "image": "assets/images/FRA.jpg"
+      },
+      "position": 0,
+      "score": 0
+    },
+    {
+      "player": {
         "name": "Tewbs",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 4,
+      "position": 6,
       "score": 10
     },
     {
@@ -45,7 +53,7 @@
         "name": "Chomp",
         "image": "assets/images/chomp.png"
       },
-      "position": 6,
+      "position": 7,
       "score": 6
     },
     {
@@ -53,7 +61,7 @@
         "name": "Noiszia",
         "image": "assets/images/ARG.jpg"
       },
-      "position": 7,
+      "position": 8,
       "score": 5
     },
     {
@@ -61,7 +69,7 @@
         "name": "Spoder",
         "image": "assets/images/USA.jpg"
       },
-      "position": 7,
+      "position": 8,
       "score": 5
     },
     {
@@ -69,7 +77,7 @@
         "name": "Cosmos",
         "image": "assets/images/USA.jpg"
       },
-      "position": 9,
+      "position": 10,
       "score": 2
     },
     {
@@ -77,7 +85,7 @@
         "name": "Wolf",
         "image": "assets/images/pikachu.jpg"
       },
-      "position": 9,
+      "position": 10,
       "score": 2
     },
     {
@@ -85,7 +93,7 @@
         "name": "DanOnTheMoon",
         "image": "assets/images/USA.jpg"
       },
-      "position": 11,
+      "position": 12,
       "score": 1
     },
     {
@@ -93,7 +101,7 @@
         "name": "MustardTiger15",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 11,
+      "position": 12,
       "score": 1
     },
     {
@@ -101,7 +109,7 @@
         "name": "Randomize",
         "image": "assets/images/USA.jpg"
       },
-      "position": 11,
+      "position": 12,
       "score": 1
     },
     {
@@ -109,7 +117,7 @@
         "name": "VB.J4K_TM",
         "image": "assets/images/ITA.jpg"
       },
-      "position": 11,
+      "position": 12,
       "score": 1
     },
     {
@@ -117,7 +125,7 @@
         "name": "XO",
         "image": "assets/images/xo.gif"
       },
-      "position": 11,
+      "position": 12,
       "score": 1
     },
     {
@@ -125,7 +133,7 @@
         "name": "BeeRent",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 16,
+      "position": 17,
       "score": 0
     },
     {
@@ -133,7 +141,7 @@
         "name": "JustMarcel",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 16,
+      "position": 17,
       "score": 0
     },
     {
@@ -141,7 +149,7 @@
         "name": "Liquid",
         "image": "assets/images/CRO.jpg"
       },
-      "position": 16,
+      "position": 17,
       "score": 0
     },
     {
@@ -149,7 +157,7 @@
         "name": "Washed_Machine",
         "image": "assets/images/GER.jpg"
       },
-      "position": 16,
+      "position": 17,
       "score": 0
     },
     {
@@ -157,9 +165,9 @@
         "name": "Xtrevv",
         "image": "assets/images/USA.jpg"
       },
-      "position": 16,
+      "position": 17,
       "score": 0
     }
   ],
-  "playercount": 20
+  "playercount": 21
 }

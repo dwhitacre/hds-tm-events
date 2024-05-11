@@ -66,6 +66,14 @@
     },
     {
       "player": {
+        "name": "Cosmos",
+        "image": "assets/images/USA.jpg"
+      },
+      "position": 9,
+      "score": 2
+    },
+    {
+      "player": {
         "name": "Wolf",
         "image": "assets/images/pikachu.jpg"
       },
@@ -74,18 +82,10 @@
     },
     {
       "player": {
-        "name": "Cosmos",
-        "image": "assets/images/USA.jpg"
-      },
-      "position": 10,
-      "score": 1
-    },
-    {
-      "player": {
         "name": "DanOnTheMoon",
         "image": "assets/images/USA.jpg"
       },
-      "position": 10,
+      "position": 11,
       "score": 1
     },
     {
@@ -93,7 +93,7 @@
         "name": "MustardTiger15",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 10,
+      "position": 11,
       "score": 1
     },
     {
@@ -101,7 +101,7 @@
         "name": "Randomize",
         "image": "assets/images/USA.jpg"
       },
-      "position": 10,
+      "position": 11,
       "score": 1
     },
     {
@@ -109,7 +109,7 @@
         "name": "VB.J4K_TM",
         "image": "assets/images/ITA.jpg"
       },
-      "position": 10,
+      "position": 11,
       "score": 1
     },
     {
@@ -117,7 +117,7 @@
         "name": "XO",
         "image": "assets/images/xo.gif"
       },
-      "position": 10,
+      "position": 11,
       "score": 1
     },
     {

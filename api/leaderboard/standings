@@ -98,6 +98,14 @@
     },
     {
       "player": {
+        "name": "VB.J4K_TM",
+        "image": "assets/images/ITA.jpg"
+      },
+      "position": 10,
+      "score": 1
+    },
+    {
+      "player": {
         "name": "XO",
         "image": "assets/images/xo.gif"
       },
@@ -109,7 +117,7 @@
         "name": "BeeRent",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 14,
+      "position": 15,
       "score": 0
     },
     {
@@ -117,7 +125,7 @@
         "name": "JustMarcel",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 14,
+      "position": 15,
       "score": 0
     },
     {
@@ -125,7 +133,7 @@
         "name": "Liquid",
         "image": "assets/images/CRO.jpg"
       },
-      "position": 14,
+      "position": 15,
       "score": 0
     },
     {
@@ -133,7 +141,7 @@
         "name": "MustardTiger15",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 14,
+      "position": 15,
       "score": 0
     },
     {
@@ -141,7 +149,7 @@
         "name": "Washed_Machine",
         "image": "assets/images/GER.jpg"
       },
-      "position": 14,
+      "position": 15,
       "score": 0
     },
     {
@@ -149,9 +157,9 @@
         "name": "Xtrevv",
         "image": "assets/images/USA.jpg"
       },
-      "position": 14,
+      "position": 15,
       "score": 0
     }
   ],
-  "playercount": 19
+  "playercount": 20
 }

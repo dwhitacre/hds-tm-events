@@ -90,6 +90,14 @@
     },
     {
       "player": {
+        "name": "MustardTiger15",
+        "image": "assets/images/CAN.jpg"
+      },
+      "position": 10,
+      "score": 1
+    },
+    {
+      "player": {
         "name": "Randomize",
         "image": "assets/images/USA.jpg"
       },
@@ -117,7 +125,7 @@
         "name": "BeeRent",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 15,
+      "position": 16,
       "score": 0
     },
     {
@@ -125,7 +133,7 @@
         "name": "JustMarcel",
         "image": "assets/images/CAN.jpg"
       },
-      "position": 15,
+      "position": 16,
       "score": 0
     },
     {
@@ -133,15 +141,7 @@
         "name": "Liquid",
         "image": "assets/images/CRO.jpg"
       },
-      "position": 15,
-      "score": 0
-    },
-    {
-      "player": {
-        "name": "MustardTiger15",
-        "image": "assets/images/CAN.jpg"
-      },
-      "position": 15,
+      "position": 16,
       "score": 0
     },
     {
@@ -149,7 +149,7 @@
         "name": "Washed_Machine",
         "image": "assets/images/GER.jpg"
       },
-      "position": 15,
+      "position": 16,
       "score": 0
     },
     {
@@ -157,7 +157,7 @@
         "name": "Xtrevv",
         "image": "assets/images/USA.jpg"
       },
-      "position": 15,
+      "position": 16,
       "score": 0
     }
   ],

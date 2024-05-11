@@ -114,12 +114,44 @@
     },
     {
       "player": {
+        "name": "JustMarcel",
+        "image": "assets/images/CAN.jpg"
+      },
+      "position": 14,
+      "score": 0
+    },
+    {
+      "player": {
+        "name": "Liquid",
+        "image": "assets/images/CRO.jpg"
+      },
+      "position": 14,
+      "score": 0
+    },
+    {
+      "player": {
         "name": "MustardTiger15",
         "image": "assets/images/CAN.jpg"
       },
       "position": 14,
       "score": 0
+    },
+    {
+      "player": {
+        "name": "Washed_Machine",
+        "image": "assets/images/GER.jpg"
+      },
+      "position": 14,
+      "score": 0
+    },
+    {
+      "player": {
+        "name": "Xtrevv",
+        "image": "assets/images/USA.jpg"
+      },
+      "position": 14,
+      "score": 0
     }
   ],
-  "playercount": 15
+  "playercount": 19
 }

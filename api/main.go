@@ -14,6 +14,7 @@ func main() {
 	api.Setup(logger)
 	http.HandleFunc("/ready", api.ReadyHandler)
 	http.HandleFunc("/api/leaderboard/{id}", api.LeaderboardHandler)
+	http.HandleFunc("/api/player/{id}", api.PlayerHandler)
 
 	logger.Info("Server started")
 	logger.Error("Server exited", http.ListenAndServe(":8081", nil))

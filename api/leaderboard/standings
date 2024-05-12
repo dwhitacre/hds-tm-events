@@ -32,28 +32,26 @@
     },
     {
       "player": {
-        "name": "Heav.YL",
-        "image": "assets/images/FRA.jpg"
+        "accountId": "943245e6-cc01-40ec-80f9-77bb2cbb5914"
       },
       "position": 4,
       "score": 15
     },
     {
       "player": {
-        "name": "Tewbs",
-        "image": "assets/images/CAN.jpg"
+        "accountId": "f5e37115-d85a-4f3e-bc5a-969d6e29fede"
       },
       "position": 6,
       "score": 10
     },
     {
       "player": {
-        "name": "Chomp",
+        "accountId": "83b5f677-3296-4d2a-ad6b-5a100565de22",
         "image": "assets/images/chomp.png"
       },
       "position": 7,
       "score": 6
-    },
+    },  
     {
       "player": {
         "name": "Noiszia",

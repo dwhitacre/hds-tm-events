@@ -2,6 +2,7 @@ package domain
 
 import (
 	"encoding/json"
+	"errors"
 	"os"
 )
 
@@ -38,11 +39,15 @@ func ToPlayer(playerData *PlayerData, player *Player) error {
 	return nil
 }
 
-func PlayerGet(accountId string) (*Player, error) {
-	file, err := os.Open("player/" + accountId)
+func PlayerGet(player *Player) error {
+	if player.AccountId == "" {
+		return errors.New("missing account id, nothing to gets")
+	}
+
+	file, err := os.Open("player/" + player.AccountId)
 	
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer file.Close()
 
@@ -50,13 +55,12 @@ func PlayerGet(accountId string) (*Player, error) {
 
 	jsonParser := json.NewDecoder(file)
 	if err = jsonParser.Decode(&playerData); err != nil {
-		return nil, err
+		return err
 	}
 
-	var player Player
-	if err = ToPlayer(&playerData, &player); err != nil {
-		return nil, err
+	if err = ToPlayer(&playerData, player); err != nil {
+		return err
 	}
 
-	return &player, nil
+	return nil
 }

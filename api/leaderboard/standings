@@ -54,31 +54,28 @@
     },  
     {
       "player": {
-        "name": "Noiszia",
-        "image": "assets/images/ARG.jpg"
+        "accountId": "dae72d20-d7d1-4908-ac8b-9ae1994cb3b4"
       },
       "position": 8,
       "score": 5
     },
     {
       "player": {
-        "name": "Spoder",
-        "image": "assets/images/USA.jpg"
+        "accountId": "6b9a48bf-a0b4-452a-9151-1e3b53133faf"
       },
       "position": 8,
       "score": 5
     },
     {
       "player": {
-        "name": "Cosmos",
-        "image": "assets/images/USA.jpg"
+        "accountId": "f77223ad-cddc-466e-8680-38edc9057f2d"
       },
       "position": 10,
       "score": 2
     },
     {
       "player": {
-        "name": "Wolf",
+        "accountId": "fcad7ce0-49ac-4c56-ac19-ecfca890a451",
         "image": "assets/images/pikachu.jpg"
       },
       "position": 10,
@@ -86,39 +83,35 @@
     },
     {
       "player": {
-        "name": "DanOnTheMoon",
-        "image": "assets/images/USA.jpg"
+        "accountId": "b8c5c3a0-4cac-4eba-abd4-2f55afab04e2"
       },
       "position": 12,
       "score": 1
     },
     {
       "player": {
-        "name": "MustardTiger15",
-        "image": "assets/images/CAN.jpg"
+        "accountId": "a16a44f5-dc0c-47e1-bf00-6174fec76bf1"
       },
       "position": 12,
       "score": 1
     },
     {
       "player": {
-        "name": "Randomize",
-        "image": "assets/images/USA.jpg"
+        "accountId": "6e3bf3f9-7dcb-47d4-bdae-037ab66628f2"
       },
       "position": 12,
       "score": 1
     },
     {
       "player": {
-        "name": "VB.J4K_TM",
-        "image": "assets/images/ITA.jpg"
+        "accountId": "d85fd2cc-bf6a-44a7-88cc-9d8695b82b88"
       },
       "position": 12,
       "score": 1
     },
     {
       "player": {
-        "name": "XO",
+        "accountId": "a1accb5b-a4f1-43a7-ada7-119a890b12f1",
         "image": "assets/images/xo.gif"
       },
       "position": 12,
@@ -126,40 +119,35 @@
     },
     {
       "player": {
-        "name": "BeeRent",
-        "image": "assets/images/CAN.jpg"
+        "accountId": "3d11c8f8-258b-433f-9395-7c6f42f7784e"
       },
       "position": 17,
       "score": 0
     },
     {
       "player": {
-        "name": "JustMarcel",
-        "image": "assets/images/CAN.jpg"
+        "accountId": "a6d27eb1-55ff-4c54-a8da-6fd5fb064f95"
       },
       "position": 17,
       "score": 0
     },
     {
       "player": {
-        "name": "Liquid",
-        "image": "assets/images/CRO.jpg"
+        "accountId": "70d7c4d4-ff63-4579-9069-05eaf5e60399"
       },
       "position": 17,
       "score": 0
     },
     {
       "player": {
-        "name": "Washed_Machine",
-        "image": "assets/images/GER.jpg"
+        "accountId": "3da84e95-ec21-4635-bc0c-47dc0dbbc62c"
       },
       "position": 17,
       "score": 0
     },
     {
       "player": {
-        "name": "Xtrevv",
-        "image": "assets/images/USA.jpg"
+        "accountId": "d2f9cf26-60c2-4e5e-8770-c1a78cad1124"
       },
       "position": 17,
       "score": 0

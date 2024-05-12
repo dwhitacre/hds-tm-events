@@ -11,13 +11,13 @@ processes:
         path: "/ready"
         port: 8081
     environment:
-      - "DATABASE_CONNSTR=postgres://hdstmevents:Passw0rd!@localhost:5432/hdstmevents?pool_max_conns=10"
+      # - "DATABASE_CONNSTR=postgres://hdstmevents:Passw0rd!@localhost:5432/hdstmevents?pool_max_conns=10"
       - "ADMIN_KEY=developer-test-key"
   app:
     working_dir: app
     command: yarn start
-  db:
-    working_dir: .
-    command: docker compose up db
-    shutdown:
-      command: docker compose stop db
+  # db:
+  #   working_dir: .
+  #   command: docker compose up db
+  #   shutdown:
+  #     command: docker compose stop db

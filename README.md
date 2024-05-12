@@ -2,7 +2,11 @@
 
 Companion software repository for HD's Trackmania Events. For each part of the solution you can run them independently or you run them together using docker, process compose, or helm/k8s.
 
+> Note: The db is not currently used and has been removed from some of the tools, documentation, etc. Not all references have been removed, as it has not been abandoned entirely, just is not needed at this time.
+
 ### Process Compose
+
+> Note the `app` runs on 8080 by default and so does process-compose. I've modified the process compose port to be 8999 via an environment variable `PC_PORT_NUM=8999`.
 
 From the root you can kick off the `app`, `api`, and `db` all in one go. This does not run the db migrations, you want to run those separately.
 ```

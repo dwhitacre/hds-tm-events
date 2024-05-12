@@ -11,13 +11,13 @@ func LeaderboardHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	
 	file, err := os.Open("leaderboard/" + id)
-	defer file.Close()
-
+	
 	if err != nil {
 		logger.Warn("No leaderboard found with id", "id", id, "err", err)
 		w.WriteHeader(http.StatusNoContent)
 		return
 	}
+	defer file.Close()
 
 	var leaderboard domain.Leaderboard
 

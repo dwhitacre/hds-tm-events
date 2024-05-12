@@ -36,7 +36,11 @@ func ToPlayer(playerData *PlayerData, player *Player) error {
 	player.Name = playerData.DisplayName
 
 	if (player.Image == "") {
-		player.Image = "assets/images/" + playerData.Trophies.Zone.Parent.Flag + ".jpg"
+		flag := playerData.Trophies.Zone.Parent.Flag
+		if len(flag) > 3 {
+			flag = playerData.Trophies.Zone.Parent.Parent.Flag
+		}
+		player.Image = "assets/images/" + flag + ".jpg"
 	}
 
 	return nil

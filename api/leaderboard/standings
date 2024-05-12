@@ -17,15 +17,14 @@
     },
     {
       "player": {
-        "name": "Marius",
-        "image": "assets/images/GER.jpg"
+        "accountId": "794a286c-44d9-4276-83ce-431cba7bab74"
       },
       "position": 3,
       "score": 21
     },
     {
       "player": {
-        "name": "Dummy",
+        "accountId": "c7818ba0-5e85-408e-a852-f658e8b90eec",
         "image": "assets/images/airky.png"
       },
       "position": 4,

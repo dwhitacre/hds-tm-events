@@ -29,6 +29,14 @@ func LeaderboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logger.Info("Leaderboard found", "id", id)
+
+	for i := 0; i < len(leaderboard.Tops); i++ {
+		err = domain.PlayerGet(&leaderboard.Tops[i].Player)
+		if err != nil {
+			logger.Warn("Failed to hydrate player", "player", leaderboard.Tops[i].Player)
+		}
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(leaderboard)
 }

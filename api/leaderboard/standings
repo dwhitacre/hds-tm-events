@@ -2,8 +2,7 @@
   "tops": [
     {
       "player": {
-        "name": "Mathyper",
-        "image": "assets/images/CAN.jpg"
+        "accountId": "89894a9a-957c-4c88-8d88-3149283ca2bd"
       },
       "position": 1,
       "score": 40

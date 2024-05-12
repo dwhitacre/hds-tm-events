@@ -34,7 +34,10 @@ type PlayerDataZone struct {
 func ToPlayer(playerData *PlayerData, player *Player) error {
 	player.AccountId = playerData.AccountId
 	player.Name = playerData.DisplayName
-	player.Image = "assets/images/" + playerData.Trophies.Zone.Parent.Flag + ".jpg"
+
+	if (player.Image == "") {
+		player.Image = "assets/images/" + playerData.Trophies.Zone.Parent.Flag + ".jpg"
+	}
 
 	return nil
 }

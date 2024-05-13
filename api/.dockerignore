@@ -2,6 +2,7 @@
 .*
 
 !leaderboard
+!player
 !go.mod
 !go.sum
 !*.go

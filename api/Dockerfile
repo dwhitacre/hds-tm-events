@@ -16,6 +16,8 @@ WORKDIR /
 COPY --from=build /hdstmevents-api /hdstmevents-api
 COPY ./leaderboard /leaderboard
 COPY ./player /player
+COPY ./match /match
+COPY ./weekly /weekly
 
 EXPOSE 8080
 USER nonroot:nonroot

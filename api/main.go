@@ -19,5 +19,5 @@ func main() {
 	http.HandleFunc("/api/weekly/{id}", api.WeeklyHandler)
 
 	logger.Info("Server started")
-	logger.Error("Server exited", http.ListenAndServe(":8081", nil))
+	logger.Error("Server exited", http.ListenAndServe(os.Getenv("HOST") + ":8081", nil))
 }

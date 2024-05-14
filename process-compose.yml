@@ -13,6 +13,7 @@ processes:
     environment:
       # - "DATABASE_CONNSTR=postgres://hdstmevents:Passw0rd!@localhost:5432/hdstmevents?pool_max_conns=10"
       - "ADMIN_KEY=developer-test-key"
+      - "HOST=localhost"
   app:
     working_dir: app
     command: yarn start

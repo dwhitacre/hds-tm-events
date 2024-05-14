@@ -7,9 +7,14 @@ import (
 )
 
 type Leaderboard struct {
-	LeaderboardId string 	`json:"leaderboardId"`
-	Tops        	[]*Top 	`json:"tops"`
-	Playercount 	int   	`json:"playercount"`
+	LeaderboardId string 		`json:"leaderboardId"`
+	Tops        	[]*Top 		`json:"tops"`
+	Playercount 	int   		`json:"playercount"`
+	Weeklies			[]*LeaderboardWeekly `json:"weeklies"`
+}
+
+type LeaderboardWeekly struct {
+	Weekly *Weekly `json:"weekly"`
 }
 
 func LeaderboardGet(leaderboard *Leaderboard) error {
@@ -35,6 +40,13 @@ func LeaderboardGet(leaderboard *Leaderboard) error {
 			return err
 		}
 		leaderboard.Playercount++
+	}
+
+	for i := 0; i < len(leaderboard.Weeklies); i++ {
+		err = WeeklyGet(leaderboard.Weeklies[i].Weekly)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

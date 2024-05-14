@@ -148,5 +148,8 @@
       "position": 17,
       "score": 0
     }
-  ]
+  ],
+  "weeklies": [{
+    "weekly": { "weeklyId": "2024-04-27" }
+  }]
 }

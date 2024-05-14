@@ -34,6 +34,7 @@ func LeaderboardGet(leaderboard *Leaderboard) error {
 		if err != nil {
 			return err
 		}
+		leaderboard.Playercount++
 	}
 
 	return nil

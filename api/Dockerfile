@@ -16,6 +16,7 @@ WORKDIR /
 COPY --from=build /hdstmevents-api /hdstmevents-api
 COPY ./leaderboard /leaderboard
 COPY ./player /player
+COPY ./player.overrides /player.overrides
 COPY ./match /match
 COPY ./weekly /weekly
 

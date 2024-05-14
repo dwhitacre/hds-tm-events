@@ -31,11 +31,11 @@ type PlayerDataZone struct {
 	Parent *PlayerDataZone `json:"parent"`
 }
 
-func ToPlayer(playerData *PlayerData, player *Player) error {
+func toPlayer(playerData *PlayerData, player *Player) error {
 	player.AccountId = playerData.AccountId
 	player.Name = playerData.DisplayName
 
-	if (player.Image == "") {
+	if player.Image == "" {
 		flag := playerData.Trophies.Zone.Flag
 		if len(flag) > 3 {
 			flag = playerData.Trophies.Zone.Parent.Flag
@@ -45,6 +45,28 @@ func ToPlayer(playerData *PlayerData, player *Player) error {
 		}
 		
 		player.Image = "assets/images/" + flag + ".jpg"
+	}
+
+	return nil
+}
+
+func applyPlayerOverrides(player *Player) error {
+	file, err := os.Open("player.overrides/" + player.AccountId)
+
+	if err != nil {
+		return nil
+	}
+	defer file.Close()
+
+	var playerOverrides Player
+
+	jsonParser := json.NewDecoder(file)
+	if err = jsonParser.Decode(&playerOverrides); err != nil {
+		return err
+	}
+
+	if playerOverrides.Image != "" {
+		player.Image = playerOverrides.Image
 	}
 
 	return nil
@@ -69,7 +91,11 @@ func PlayerGet(player *Player) error {
 		return err
 	}
 
-	if err = ToPlayer(&playerData, player); err != nil {
+	if err = toPlayer(&playerData, player); err != nil {
+		return err
+	}
+
+	if err = applyPlayerOverrides(player); err != nil {
 		return err
 	}
 

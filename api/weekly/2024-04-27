@@ -1,0 +1,51 @@
+{
+  "weeklyId": "2024-04-27",
+  "matches": [{
+    "match": { "matchId": "2024-04-27-finals" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-firstround-a" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-firstround-b" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-firstround-c" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-firstround-d" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-firstround-e" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-firstround-f" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-firstround-g" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-firstround-h" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-qualifying" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-querterfinal-i" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-querterfinal-j" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-querterfinal-k" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-querterfinal-l" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-semifinal-m" }
+  },
+  {
+    "match": { "matchId": "2024-04-27-semifinal-n" }
+  }]
+}

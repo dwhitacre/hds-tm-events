@@ -1,0 +1,49 @@
+{
+  "matchId": "2024-04-27-qualifying",
+  "results": [{
+    "player": { "accountId": "09747490-4eeb-410c-aa49-58ee38481760" },
+    "score": 314
+  },
+  {
+    "player": { "accountId": "c7818ba0-5e85-408e-a852-f658e8b90eec" },
+    "score": 311
+  },
+  {
+    "player": { "accountId": "f5e37115-d85a-4f3e-bc5a-969d6e29fede" },
+    "score": 292
+  },
+  {
+    "player": { "accountId": "794a286c-44d9-4276-83ce-431cba7bab74" },
+    "score": 282
+  },
+  {
+    "player": { "accountId": "dae72d20-d7d1-4908-ac8b-9ae1994cb3b4" },
+    "score": 230
+  },
+  {
+    "player": { "accountId": "6b9a48bf-a0b4-452a-9151-1e3b53133faf" },
+    "score": 230
+  },
+  {
+    "player": { "accountId": "89894a9a-957c-4c88-8d88-3149283ca2bd" },
+    "score": 230
+  },
+  {
+    "player": { "accountId": "fcad7ce0-49ac-4c56-ac19-ecfca890a451" },
+    "score": 179
+  },
+  {
+    "player": { "accountId": "83b5f677-3296-4d2a-ad6b-5a100565de22" },
+    "score": 169
+  },
+  {
+    "player": { "accountId": "a1accb5b-a4f1-43a7-ada7-119a890b12f1" },
+    "score": 144
+  },
+  {
+    "player": { "accountId": "6e3bf3f9-7dcb-47d4-bdae-037ab66628f2" },
+    "score": 124
+  }],
+  "playersAwarded": 16,
+  "pointsAwarded": 1
+}

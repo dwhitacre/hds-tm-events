@@ -1,0 +1,13 @@
+{
+  "matchId": "2024-04-27-firstround-b",
+  "results": [{
+    "player": { "accountId": "fcad7ce0-49ac-4c56-ac19-ecfca890a451" },
+    "score": 0
+  },
+  {
+    "player": { "accountId": "83b5f677-3296-4d2a-ad6b-5a100565de22" },
+    "score": 1
+  }],
+  "playersAwarded": 1,
+  "pointsAwarded": 4
+}

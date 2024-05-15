@@ -1,0 +1,27 @@
+{
+  "weeklyId": "2024-05-11",
+  "matches": [{
+    "match": { "matchId": "2024-05-11-finals" }
+  },
+  {
+    "match": { "matchId": "2024-05-11-qualifying" }
+  },
+  {
+    "match": { "matchId": "2024-05-11-quarterfinal-a" }
+  },
+  {
+    "match": { "matchId": "2024-05-11-quarterfinal-b" }
+  },
+  {
+    "match": { "matchId": "2024-05-11-quarterfinal-c" }
+  },
+  {
+    "match": { "matchId": "2024-05-11-quarterfinal-d" }
+  },
+  {
+    "match": { "matchId": "2024-05-11-semifinal-a" }
+  },
+  {
+    "match": { "matchId": "2024-05-11-semifinal-b" }
+  }]
+}

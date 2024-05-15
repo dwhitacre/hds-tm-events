@@ -1,0 +1,13 @@
+{
+  "matchId": "2024-05-04-semifinal-b",
+  "results": [{
+    "player": { "accountId": "c7818ba0-5e85-408e-a852-f658e8b90eec" },
+    "score": 0
+  },
+  {
+    "player": { "accountId": "09747490-4eeb-410c-aa49-58ee38481760" },
+    "score": 1
+  }],
+  "playersAwarded": 1,
+  "pointsAwarded": 5
+}

@@ -1,0 +1,13 @@
+{
+  "matchId": "2024-05-04-quarterfinal-a",
+  "results": [{
+    "player": { "accountId": "794a286c-44d9-4276-83ce-431cba7bab74" },
+    "score": 1
+  },
+  {
+    "player": { "accountId": "b8c5c3a0-4cac-4eba-abd4-2f55afab04e2" },
+    "score": 0
+  }],
+  "playersAwarded": 1,
+  "pointsAwarded": 4
+}

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"os"
+	"slices"
 )
 
 type Match struct {
@@ -11,6 +12,7 @@ type Match struct {
 	Results   			[]*MatchResult 	`json:"results"`
 	PlayersAwarded 	int 						`json:"playersAwarded"`
 	PointsAwarded 	int 						`json:"pointsAwarded"`
+	PointsResults		[]*MatchResult	`json:"pointsResults"`
 }
 
 type MatchResult struct {
@@ -35,11 +37,22 @@ func MatchGet(match *Match) error {
 		return err
 	}
 
+	slices.SortFunc(match.Results, func (matchResultA *MatchResult, matchResultB *MatchResult) int {
+		return matchResultB.Score - matchResultA.Score
+	})
+	
 	for i := 0; i < len(match.Results); i++ {
 		err = PlayerGet(match.Results[i].Player)
 		if err != nil {
 			return err
 		}
+
+		matchResult := &MatchResult{}
+		matchResult.Player = match.Results[i].Player
+		if i < match.PlayersAwarded {
+			matchResult.Score = match.PointsAwarded
+		}
+		match.PointsResults = append(match.PointsResults, matchResult)
 	}
 
 	return nil

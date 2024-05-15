@@ -8,7 +8,7 @@ import { PositionPipe } from '../../pipes/position.pipe'
   selector: 'standings',
   template: `
     <layout>
-      <div *ngIf="standingsStore.loading$ | async; else standings">
+      <div class="loading" *ngIf="standingsStore.loading$ | async; else standings">
         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
       </div>
       <ng-template #standings>
@@ -56,12 +56,17 @@ import { PositionPipe } from '../../pipes/position.pipe'
   `,
   styles: [
     `
-      .standings-top {
+      .loading {
         display: flex;
         justify-content: center;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 24px 36px;
+      }
+
+      .standings-top {
+        display: grid;
+        justify-content: center;
+        grid-template-columns: repeat(4, 268px);
+        grid-column-gap: 24px;
+        grid-row-gap: 24px;
       }
 
       .standings-bottom {
@@ -75,9 +80,21 @@ import { PositionPipe } from '../../pipes/position.pipe'
         min-width: 48rem;
       }
 
+      @media (max-width: 1268px) {
+        .standings-top {
+          grid-template-columns: repeat(2, 268px);
+        }
+      }
+
       @media (max-width: 768px) {
         :host::ng-deep table.p-datatable-table {
           min-width: 24rem;
+        }
+      }
+
+      @media (max-width: 624px) {
+        .standings-top {
+          grid-template-columns: repeat(1, 268px);
         }
       }
     `,

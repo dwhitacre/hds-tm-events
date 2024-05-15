@@ -66,8 +66,7 @@ import { PositionPipe } from '../../pipes/position.pipe'
 
       .standings-bottom {
         margin-top: 48px;
-        width: 100%;
-        height: 24px;
+        margin-bottom: 24px;
         display: flex;
         justify-content: center;
       }

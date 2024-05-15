@@ -12,6 +12,8 @@ import { Component } from '@angular/core'
         <p-button
           icon="pi pi-discord"
           [text]="true"
+          label="Join"
+          iconPos="right"
           (onClick)="openDiscord()"
         ></p-button>
       </div>

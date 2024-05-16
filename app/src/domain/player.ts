@@ -1,11 +1,8 @@
-import { PlayerMeta } from './playermeta'
-import { Zone } from './zone'
-
 export interface Player {
+  id: number
+  accountId: string
   name: string
-  tag?: string
-  id: string
-  zone: Zone
-  meta?: PlayerMeta
-  image?: string
+  image: string
+  twitch: string
+  discord: string
 }

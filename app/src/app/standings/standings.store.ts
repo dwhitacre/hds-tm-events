@@ -26,8 +26,8 @@ export class StandingsStore extends ComponentStore<Standings> {
     this.toplimit$,
     (leaderboard, toplimit) => {
       return {
-        top: leaderboard.tops?.filter((_, index) => index < toplimit),
-        bottom: leaderboard.tops?.filter((_, index) => index >= toplimit),
+        top: leaderboard.tops.filter((_, index) => index < toplimit),
+        bottom: leaderboard.tops.filter((_, index) => index >= toplimit),
         playercount: leaderboard.playercount,
       }
     },
@@ -39,8 +39,10 @@ export class StandingsStore extends ComponentStore<Standings> {
   ) {
     super({
       leaderboard: {
-        tops: null,
+        leaderboardId: '',
+        tops: [],
         playercount: 0,
+        weeklies: [],
       },
       loading: true,
       toplimit: 8,

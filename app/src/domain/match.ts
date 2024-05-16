@@ -1,6 +1,14 @@
 import { Player } from './player'
 
 export interface Match {
-  name: string
-  players: Array<Player>
+  matchId: string
+  results: Array<MatchResult>
+  playersAwarded: number
+  pointsAwarded: number
+  pointsResults: Array<MatchResult>
+}
+
+export interface MatchResult {
+  player: Player
+  score: number
 }

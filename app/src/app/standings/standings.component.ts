@@ -18,7 +18,7 @@ import { PositionPipe } from '../../pipes/position.pipe'
               <player-card
                 [player]="top.player"
                 [position]="top.position"
-                [score]="top.score || top.time || 0"
+                [score]="top.score || 0"
               ></player-card>
             </ng-container>
           </div>
@@ -40,7 +40,7 @@ import { PositionPipe } from '../../pipes/position.pipe'
                     />
                   </td>
                   <td>{{ bottom.player.name }}</td>
-                  <td>{{ bottom.score || bottom.time || 0 }}</td>
+                  <td>{{ bottom.score || 0 }}</td>
                 </tr>
               </ng-template>
               <ng-template pTemplate="summary">

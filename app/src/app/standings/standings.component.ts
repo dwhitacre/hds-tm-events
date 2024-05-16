@@ -44,8 +44,9 @@ import { PositionPipe } from '../../pipes/position.pipe'
                 </tr>
               </ng-template>
               <ng-template pTemplate="summary">
-                <div class="flex align-items-center justify-content-between">
-                  Total player count: {{ vm.playercount }}
+                <div class="summary">
+                  <span>Total player count: {{ vm.playercount }}</span>
+                  <span>Last Updated: {{ vm.lastModified }}</span>
                 </div>
               </ng-template>
             </p-table>
@@ -78,6 +79,11 @@ import { PositionPipe } from '../../pipes/position.pipe'
 
       :host::ng-deep table.p-datatable-table {
         min-width: 48rem;
+      }
+
+      .summary {
+        display: flex;
+        justify-content: space-between;
       }
 
       @media (max-width: 1268px) {

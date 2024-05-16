@@ -29,6 +29,7 @@ export class StandingsStore extends ComponentStore<Standings> {
         top: leaderboard.tops.filter((_, index) => index < toplimit),
         bottom: leaderboard.tops.filter((_, index) => index >= toplimit),
         playercount: leaderboard.playercount,
+        lastModified: leaderboard.lastModified.toLocaleDateString() + ' ' + leaderboard.lastModified.toLocaleTimeString(),
       }
     },
   )
@@ -43,6 +44,7 @@ export class StandingsStore extends ComponentStore<Standings> {
         tops: [],
         playercount: 0,
         weeklies: [],
+        lastModified: new Date(0)
       },
       loading: true,
       toplimit: 8,
@@ -61,6 +63,7 @@ export class StandingsStore extends ComponentStore<Standings> {
                 return this.logService.error(
                   new Error('Leaderboard does not exist.'),
                 )
+              if (typeof leaderboard.lastModified === 'string') leaderboard.lastModified = new Date(leaderboard.lastModified)
               this.patchState({ leaderboard })
             },
             error: (error: HttpErrorResponse) => this.logService.error(error),

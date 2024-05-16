@@ -6,6 +6,7 @@ export interface Leaderboard {
   tops: Array<Top>
   playercount: number
   weeklies: Array<LeaderboardWeekly>
+  lastModified: Date
 }
 
 export interface LeaderboardWeekly {

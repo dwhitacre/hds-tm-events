@@ -13,6 +13,7 @@ type Leaderboard struct {
 	Tops        	[]*Top 		`json:"tops"`
 	Playercount 	int   		`json:"playercount"`
 	Weeklies			[]*LeaderboardWeekly `json:"weeklies"`
+	LastModified  string 		`json:"lastModified"`
 }
 
 type LeaderboardWeekly struct {

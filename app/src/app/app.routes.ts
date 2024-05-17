@@ -1,5 +1,5 @@
 import { Route } from '@angular/router'
-import { StandingsComponent } from './standings/standings.component'
+import { StandingsComponent } from './standings.component'
 
 export const appRoutes: Route[] = [
   {

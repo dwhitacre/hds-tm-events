@@ -1,12 +1,13 @@
-import { Component } from '@angular/core'
+import { Component, Input, ViewChild } from '@angular/core'
+import { StorageService } from 'src/services/storage.service'
 
 @Component({
   selector: 'topbar',
   template: `
     <div class="layout-topbar">
-      <a class="layout-topbar-logo" routerLink="">
+      <a class="layout-topbar-logo">
         <img src="assets/images/hds-events-nobg.png" alt="logo" height="32" />
-        <span>HD Weekly League</span>
+        <span class="layout-topbar-title">HD Weekly League</span>
       </a>
       <div class="layout-topbar-menu">
         <p-button
@@ -16,9 +17,26 @@ import { Component } from '@angular/core'
           iconPos="right"
           (onClick)="openDiscord()"
         ></p-button>
+        <p-menu #menu [model]="settings" [popup]="true" [appendTo]="menubutton"/>
+        <p-button #menubutton (click)="menu.toggle($event)" icon="pi pi-cog" [text]="true"/>
       </div>
     </div>
-  `,
+    <p-dialog
+      header="Enter Admin Key" 
+      [modal]="true"
+      [(visible)]="adminkeyVisible"
+      position="topright"
+      [draggable]="false"
+      [style]="{ width: '25rem' }">
+      <div class="layout-dialog-input">
+        <input pInputText #adminkey type="password" autocomplete="off" />
+      </div>
+      <div class="layout-dialog-actions">
+        <p-button label="Cancel" severity="secondary" (click)="adminkeyVisible = false" />
+        <p-button label="Save" (click)="saveAdminKey(adminkey.value)" />
+      </div>
+    </p-dialog>
+`,
   styles: [
     `
       .layout-topbar {
@@ -51,7 +69,7 @@ import { Component } from '@angular/core'
         padding: 0;
         list-style: none;
         display: flex;
-        gap: 4px;
+        gap: 2px;
       }
 
       .layout-topbar .layout-topbar-menu .layout-topbar-button {
@@ -71,20 +89,65 @@ import { Component } from '@angular/core'
         transition: background-color 0.2s;
       }
 
-      span {
+      .layout-topbar-title {
         margin-left: 12px;
       }
 
       a {
         text-decoration: none;
       }
+
+      .layout-dialog-input {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .layout-dialog-input input {
+        width: 100%;
+      }
+
+      .layout-dialog-actions {
+        display: flex;
+        justify-content: end;
+        gap: 12px;
+      }
+
+      :host::ng-deep .p-menu {
+        top: 52px !important;
+      }
     `,
   ],
 })
 export class TopBarComponent {
+  adminkeyVisible = false
+  @ViewChild('#adminkey') adminkeyInput!: Input
+
+  settings = [
+    {
+      label: 'Github',
+      icon: 'pi pi-github',
+      command: this.openGithub
+    },
+    {
+      label: 'Enter Admin Key',
+      icon: 'pi pi-lock',
+      command: () => this.adminkeyVisible = true
+    }
+  ]
+
+  constructor(private storageService: StorageService) {}
+
   openGithub() {
     window.open('https://github.com/dwhitacre/hds-tm-events')
   }
+
+  saveAdminKey(value: string) {
+    this.storageService.saveAdminKey(value)
+    this.adminkeyVisible = false
+  }
+
   openDiscord() {
     window.open('https://discord.gg/yR5EtqAWW7')
   }

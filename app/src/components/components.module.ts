@@ -7,6 +7,9 @@ import { PlayerCardComponent } from './player-card.component'
 import { ProgressSpinnerModule } from 'primeng/progressspinner'
 import { TableModule } from 'primeng/table'
 import { PositionPipe } from 'src/pipes/position.pipe'
+import { MenuModule } from 'primeng/menu'
+import { DialogModule } from 'primeng/dialog'
+import { InputTextModule } from 'primeng/inputtext'
 
 @NgModule({
   imports: [
@@ -15,6 +18,9 @@ import { PositionPipe } from 'src/pipes/position.pipe'
     ProgressSpinnerModule,
     TableModule,
     PositionPipe,
+    MenuModule,
+    DialogModule,
+    InputTextModule,
   ],
   declarations: [LayoutComponent, TopBarComponent, PlayerCardComponent],
   exports: [
@@ -22,7 +28,7 @@ import { PositionPipe } from 'src/pipes/position.pipe'
     TopBarComponent,
     PlayerCardComponent,
     ProgressSpinnerModule,
-    TableModule,
+    TableModule
   ],
 })
 export class ComponentsModule {}

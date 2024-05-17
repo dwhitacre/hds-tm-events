@@ -146,6 +146,7 @@ export class TopBarComponent {
   saveAdminKey(value: string) {
     this.storageService.saveAdminKey(value)
     this.adminkeyVisible = false
+    window.location.reload()
   }
 
   openDiscord() {

@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/api'
 import { PositionPipe } from 'src/pipes/position.pipe'
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
 import { HttpInterceptorFn } from '@angular/common/http';
+import { AdminService } from 'src/services/admin.service'
 
 export const adminkeyInterceptor: HttpInterceptorFn = (req, next) => {
   const storageService = inject(StorageService)
@@ -29,6 +30,7 @@ export const appConfig: ApplicationConfig = {
     LeaderboardService,
     LogService,
     MessageService,
+    AdminService,
     PositionPipe,
   ],
 }

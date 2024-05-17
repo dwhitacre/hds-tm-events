@@ -4,6 +4,7 @@ import { ComponentStore } from '@ngrx/component-store'
 import { tapResponse } from '@ngrx/operators'
 import { switchMap } from 'rxjs'
 import { Leaderboard } from 'src/domain/leaderboard'
+import { AdminService } from 'src/services/admin.service'
 import { LeaderboardService } from 'src/services/leaderboard.service'
 import { LogService } from 'src/services/log.service'
 
@@ -11,6 +12,7 @@ export interface Standings {
   leaderboard: Leaderboard
   loading: boolean
   toplimit: number
+  isAdmin: boolean
 }
 
 @Injectable()
@@ -37,6 +39,7 @@ export class StandingsStore extends ComponentStore<Standings> {
   constructor(
     private leaderboardService: LeaderboardService,
     private logService: LogService,
+    private adminService: AdminService
   ) {
     super({
       leaderboard: {
@@ -48,9 +51,11 @@ export class StandingsStore extends ComponentStore<Standings> {
       },
       loading: true,
       toplimit: 8,
+      isAdmin: false
     })
 
     this.fetchLeaderboard()
+    this.fetchAdmin()
   }
 
   readonly fetchLeaderboard = this.effect<void>((trigger$) => {
@@ -68,6 +73,19 @@ export class StandingsStore extends ComponentStore<Standings> {
             },
             error: (error: HttpErrorResponse) => this.logService.error(error),
             finalize: () => this.patchState({ loading: false }),
+          }),
+        ),
+      ),
+    )
+  })
+
+  readonly fetchAdmin = this.effect<void>((trigger$) => {
+    return trigger$.pipe(
+      switchMap(() =>
+        this.adminService.isAdmin().pipe(
+          tapResponse({
+            next: () => this.patchState({ isAdmin: true }),
+            error: () => this.patchState({ isAdmin: false })
           }),
         ),
       ),

@@ -17,6 +17,7 @@ func main() {
 	http.HandleFunc("/api/player/{id}", api.PlayerHandler)
 	http.HandleFunc("/api/match/{id}", api.MatchHandler)
 	http.HandleFunc("/api/weekly/{id}", api.WeeklyHandler)
+	http.HandleFunc("/api/admin", api.AdminMiddleware(api.AdminHandler))
 
 	logger.Info("Server started")
 	logger.Error("Server exited", http.ListenAndServe(os.Getenv("HOST") + ":8081", nil))

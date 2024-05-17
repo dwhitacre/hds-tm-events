@@ -12,8 +12,8 @@ import { PositionPipe } from 'src/pipes/position.pipe'
         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
       </div>
       <ng-template #weekly>
-        <ng-container *ngIf="storeService.weeklyVm$ | async as vm">
-          test test test
+        <ng-container *ngIf="storeService.players$ | async as vm">
+          Coming soon..
         </ng-container>
       </ng-template>
     </layout>

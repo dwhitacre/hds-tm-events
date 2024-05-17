@@ -23,6 +23,7 @@ export class StoreService extends ComponentStore<StoreState> {
   readonly loading$ = this.select((state) => state.loading)
   readonly toplimit$ = this.select((state) => state.toplimit)
   readonly isAdmin$ = this.select((state) => state.isAdmin)
+  readonly players$ = this.select((state) => state.leaderboard.tops.map(top => top.player))
 
   readonly standingsVm$ = this.select(
     this.leaderboard$,
@@ -35,12 +36,6 @@ export class StoreService extends ComponentStore<StoreState> {
         lastModified: leaderboard.lastModified.toLocaleDateString() + ' ' + leaderboard.lastModified.toLocaleTimeString(),
       }
     },
-  )
-
-  readonly weeklyVm$ = this.select(
-    this.leaderboard$,
-    this.isAdmin$,
-    (leaderboard, isAdmin) => ({ leaderboard, isAdmin })
   )
 
   constructor(

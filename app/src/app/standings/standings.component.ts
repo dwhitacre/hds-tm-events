@@ -1,18 +1,18 @@
 import { Component, NgModule } from '@angular/core'
 import { ComponentsModule } from 'src/components/components.module'
-import { StandingsStore } from './standings.store'
+import { StoreService } from 'src/services/store.service'
 import { CommonModule } from '@angular/common'
-import { PositionPipe } from '../../pipes/position.pipe'
+import { PositionPipe } from 'src/pipes/position.pipe'
 
 @Component({
   selector: 'standings',
   template: `
     <layout>
-      <div class="loading" *ngIf="standingsStore.loading$ | async; else standings">
+      <div class="loading" *ngIf="storeService.loading$ | async; else standings">
         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
       </div>
       <ng-template #standings>
-        <ng-container *ngIf="standingsStore.vm$ | async as vm">
+        <ng-container *ngIf="storeService.vm$ | async as vm">
           <div class="standings-top">
             <ng-container *ngFor="let top of vm.top">
               <player-card
@@ -104,11 +104,10 @@ import { PositionPipe } from '../../pipes/position.pipe'
         }
       }
     `,
-  ],
-  providers: [StandingsStore],
+  ]
 })
 export class StandingsComponent {
-  constructor(public standingsStore: StandingsStore) {}
+  constructor(public storeService: StoreService) {}
 }
 
 @NgModule({

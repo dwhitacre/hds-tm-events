@@ -8,15 +8,15 @@ import { AdminService } from 'src/services/admin.service'
 import { LeaderboardService } from 'src/services/leaderboard.service'
 import { LogService } from 'src/services/log.service'
 
-export interface Standings {
+export interface StoreState {
   leaderboard: Leaderboard
   loading: boolean
   toplimit: number
   isAdmin: boolean
 }
 
-@Injectable()
-export class StandingsStore extends ComponentStore<Standings> {
+@Injectable({ providedIn: 'root' })
+export class StoreService extends ComponentStore<StoreState> {
   #leaderboardUid = 'standings'
 
   readonly leaderboard$ = this.select((state) => state.leaderboard)

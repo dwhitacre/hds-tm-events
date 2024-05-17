@@ -10,6 +10,7 @@ import { PositionPipe } from 'src/pipes/position.pipe'
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
 import { HttpInterceptorFn } from '@angular/common/http';
 import { AdminService } from 'src/services/admin.service'
+import { StoreService } from 'src/services/store.service'
 
 export const adminkeyInterceptor: HttpInterceptorFn = (req, next) => {
   const storageService = inject(StorageService)
@@ -31,6 +32,7 @@ export const appConfig: ApplicationConfig = {
     LogService,
     MessageService,
     AdminService,
+    StoreService,
     PositionPipe,
   ],
 }

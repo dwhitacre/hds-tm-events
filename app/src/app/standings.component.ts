@@ -12,7 +12,7 @@ import { PositionPipe } from 'src/pipes/position.pipe'
         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
       </div>
       <ng-template #standings>
-        <ng-container *ngIf="storeService.vm$ | async as vm">
+        <ng-container *ngIf="storeService.standingsVm$ | async as vm">
           <div class="standings-top">
             <ng-container *ngFor="let top of vm.top">
               <player-card

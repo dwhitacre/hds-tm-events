@@ -1,5 +1,8 @@
-import { Component, Input, ViewChild } from '@angular/core'
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { MenuItem } from 'primeng/api'
+import { Subscription } from 'rxjs'
 import { StorageService } from 'src/services/storage.service'
+import { StoreService } from 'src/services/store.service'
 
 @Component({
   selector: 'topbar',
@@ -120,24 +123,50 @@ import { StorageService } from 'src/services/storage.service'
     `,
   ],
 })
-export class TopBarComponent {
+export class TopBarComponent implements OnInit, OnDestroy {
   adminkeyVisible = false
   @ViewChild('#adminkey') adminkeyInput!: Input
 
-  settings = [
-    {
-      label: 'Github',
-      icon: 'pi pi-github',
-      command: this.openGithub
-    },
-    {
-      label: 'Enter Admin Key',
-      icon: 'pi pi-lock',
-      command: () => this.adminkeyVisible = true
-    }
-  ]
+  githubSetting = {
+    label: 'Github',
+    icon: 'pi pi-github',
+    command: this.openGithub
+  }
+  adminkeySetting = {
+    label: 'Enter Admin Key',
+    icon: 'pi pi-lock',
+    command: () => this.adminkeyVisible = true
+  }
+  standingsSetting = {
+    label: 'Standings',
+    icon: 'pi pi-crown',
+    routerLink: '/standings'
+  }
+  createWeeklySetting = {
+    label: 'Create Weekly',
+    icon: 'pi pi-calendar-plus',
+    routerLink: '/weekly/create'
+  }
 
-  constructor(private storageService: StorageService) {}
+  settings: Array<MenuItem> = []
+
+  subscriptions: Array<Subscription> = []
+
+  constructor(private storageService: StorageService, private storeService: StoreService) {}
+
+  ngOnInit() {
+    this.settings = [ this.githubSetting, this.adminkeySetting ]
+    this.subscriptions = [
+      this.storeService.isAdmin$.subscribe(isAdmin => {
+        if (isAdmin) this.settings = [ this.githubSetting, this.adminkeySetting, this.standingsSetting, this.createWeeklySetting ]
+        else this.settings = [ this.githubSetting, this.adminkeySetting ]
+      })
+    ]
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe())
+  }
 
   openGithub() {
     window.open('https://github.com/dwhitacre/hds-tm-events')

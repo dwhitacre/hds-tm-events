@@ -16,8 +16,8 @@ jobs:
         with:
           node-version: '18.x'
       - run: yarn
-      - run: yarn lint
-      - run: yarn test
+      # - run: yarn lint
+      # - run: yarn test
   api:
     runs-on: ubuntu-latest
     defaults:

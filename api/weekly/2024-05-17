@@ -1,0 +1,18 @@
+{
+  "weeklyId": "2024-05-17",
+  "matches": [{
+    "match": { "matchId": "2024-05-17-qualifying" }
+  },
+  {
+    "match": { "matchId": "2024-05-17-quarterfinal-a" }
+  },
+  {
+    "match": { "matchId": "2024-05-17-quarterfinal-b" }
+  },
+  {
+    "match": { "matchId": "2024-05-17-quarterfinal-c" }
+  },
+  {
+    "match": { "matchId": "2024-05-17-quarterfinal-d" }
+  }]
+}

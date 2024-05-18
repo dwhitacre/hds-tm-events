@@ -1,13 +1,15 @@
 package domain
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"os"
+
+	"github.com/jackc/pgx/v5"
 )
 
 type Player struct {
-	Id        int    `json:"id"`
 	AccountId string `json:"accountId"`
 	Name      string `json:"name"`
 	Image     string `json:"image"`
@@ -50,23 +52,43 @@ func toPlayer(playerData *PlayerData, player *Player) error {
 	return nil
 }
 
-func applyPlayerOverrides(player *Player) error {
-	file, err := os.Open("player.overrides/" + player.AccountId)
+func getPlayerOverride(accountId string) (Player, error) {
+	var player Player
 
+	rows, err := db.Query(
+		context.Background(),
+		`select AccountId, Name, Image, Twitch, Discord from PlayerOverrides where AccountId=$1`,
+		accountId,
+	)
 	if err != nil {
-		return nil
+		return player, err
 	}
-	defer file.Close()
 
-	var playerOverrides Player
+	player, err = pgx.CollectOneRow(rows, pgx.RowToStructByName[Player])
+	if err != pgx.ErrNoRows && err != nil {
+		return player, err
+	}
 
-	jsonParser := json.NewDecoder(file)
-	if err = jsonParser.Decode(&playerOverrides); err != nil {
+	return player, nil
+}
+
+func applyPlayerOverrides(player *Player) error {
+	playerOverrides, err := getPlayerOverride(player.AccountId);
+	if err != nil {
 		return err
 	}
 
+	if playerOverrides.Name != "" {
+		player.Name = playerOverrides.Name
+	}
 	if playerOverrides.Image != "" {
 		player.Image = playerOverrides.Image
+	}
+	if playerOverrides.Twitch != "" {
+		player.Twitch = playerOverrides.Twitch
+	}
+	if playerOverrides.Discord != "" {
+		player.Discord = playerOverrides.Discord
 	}
 
 	return nil

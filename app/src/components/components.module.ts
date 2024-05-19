@@ -10,6 +10,7 @@ import { PositionPipe } from 'src/pipes/position.pipe'
 import { MenuModule } from 'primeng/menu'
 import { DialogModule } from 'primeng/dialog'
 import { InputTextModule } from 'primeng/inputtext'
+import { CommonModule } from '@angular/common'
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { InputTextModule } from 'primeng/inputtext'
     MenuModule,
     DialogModule,
     InputTextModule,
+    CommonModule
   ],
   declarations: [LayoutComponent, TopBarComponent, PlayerCardComponent],
   exports: [

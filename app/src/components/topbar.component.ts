@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component } from '@angular/core'
 import { MenuItem } from 'primeng/api'
-import { Subscription } from 'rxjs'
+import { map } from 'rxjs'
 import { StorageService } from 'src/services/storage.service'
 import { StoreService } from 'src/services/store.service'
 
@@ -13,14 +13,16 @@ import { StoreService } from 'src/services/store.service'
         <span class="layout-topbar-title">HD Weekly League</span>
       </a>
       <div class="layout-topbar-menu">
-        <p-button
-          icon="pi pi-discord"
-          [text]="true"
-          label="Join"
-          iconPos="right"
-          (onClick)="openDiscord()"
-        ></p-button>
-        <p-menu #menu [model]="settings" [popup]="true" [appendTo]="menubutton"/>
+        <div class="layout-topbar-menu-standalone">
+          <p-button
+            [icon]="discordItem.icon"
+            [text]="true"
+            [label]="discordItem.label"
+            iconPos="right"
+            (onClick)="discordItem.command!({})"
+          ></p-button>
+        </div>
+        <p-menu #menu [model]="(menuItems$ | async) ?? undefined" [popup]="true" [appendTo]="menubutton"/>
         <p-button #menubutton (click)="menu.toggle($event)" icon="pi pi-cog" [text]="true"/>
       </div>
     </div>
@@ -119,66 +121,83 @@ import { StoreService } from 'src/services/store.service'
 
       :host::ng-deep .p-menu {
         top: 52px !important;
+        left: calc(100% - 240px) !important;
+      }
+
+      @media (max-width: 624px) {
+        .layout-topbar .layout-topbar-menu .layout-topbar-menu-standalone {
+          display: none;
+        }
+      }
+
+      @media (min-width: 624px) {
+        :host::ng-deep .layout-topbar-menu-menuitem-discord {
+          display: none;
+        }
       }
     `,
   ],
 })
-export class TopBarComponent implements OnInit, OnDestroy {
+export class TopBarComponent {
   adminkeyVisible = false
-  @ViewChild('#adminkey') adminkeyInput!: Input
 
-  githubSetting = {
+  discordItem: MenuItem = {
+    label: 'Join',
+    icon: 'pi pi-discord',
+    command: () => window.open('https://discord.gg/yR5EtqAWW7'),
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-discord'
+  }
+  githubItem: MenuItem = {
     label: 'Github',
     icon: 'pi pi-github',
-    command: this.openGithub
+    command: () => window.open('https://github.com/dwhitacre/hds-tm-events'),
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-github'
   }
-  adminkeySetting = {
+  adminkeyItem: MenuItem = {
     label: 'Enter Admin Key',
     icon: 'pi pi-lock',
-    command: () => this.adminkeyVisible = true
+    command: () => this.adminkeyVisible = true,
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-adminkey'
   }
-  standingsSetting = {
+  standingsItem: MenuItem = {
     label: 'Standings',
     icon: 'pi pi-crown',
-    routerLink: '/standings'
+    routerLink: '/standings',
+    visible: false,
+    styleClass: 'layout-topbar-menu-menuitem-standings'
   }
-  createWeeklySetting = {
-    label: 'Create Weekly',
-    icon: 'pi pi-calendar-plus',
-    routerLink: '/weekly/create'
+  weeklyItem: MenuItem = {
+    label: 'Weeklies',
+    icon: 'pi pi-calendar',
+    routerLink: '/weekly',
+    visible: false,
+    styleClass: 'layout-topbar-menu-menuitem-weekly'
   }
 
-  settings: Array<MenuItem> = []
+  menuItems$ = this.storeService.isAdmin$.pipe(
+    map((isAdmin) => {
+      if (isAdmin) {
+        this.standingsItem.visible = true
+        this.weeklyItem.visible = true
+      }
 
-  subscriptions: Array<Subscription> = []
+      return [
+        this.discordItem,
+        this.githubItem,
+        this.adminkeyItem,
+        this.standingsItem,
+        this.weeklyItem,
+      ]
+    }))
 
   constructor(private storageService: StorageService, private storeService: StoreService) {}
-
-  ngOnInit() {
-    this.settings = [ this.githubSetting, this.adminkeySetting ]
-    this.subscriptions = [
-      this.storeService.isAdmin$.subscribe(isAdmin => {
-        if (isAdmin) this.settings = [ this.githubSetting, this.adminkeySetting, this.standingsSetting, this.createWeeklySetting ]
-        else this.settings = [ this.githubSetting, this.adminkeySetting ]
-      })
-    ]
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe())
-  }
-
-  openGithub() {
-    window.open('https://github.com/dwhitacre/hds-tm-events')
-  }
 
   saveAdminKey(value: string) {
     this.storageService.saveAdminKey(value)
     this.adminkeyVisible = false
     window.location.reload()
-  }
-
-  openDiscord() {
-    window.open('https://discord.gg/yR5EtqAWW7')
   }
 }

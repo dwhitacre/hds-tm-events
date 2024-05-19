@@ -8,7 +8,7 @@ export const appRoutes: Route[] = [
     component: StandingsComponent,
   },
   {
-    path: 'weekly/create',
+    path: 'weekly',
     component: WeeklyComponent,
   },
   {

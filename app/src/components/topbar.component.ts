@@ -21,6 +21,7 @@ import { StoreService } from 'src/services/store.service'
               [label]="menuItem.label"
               iconPos="right"
               (onClick)="menuItem.command!({})"
+              [routerLink]="menuItem.routerLink"
             ></p-button>
           </div>
         </ng-container>

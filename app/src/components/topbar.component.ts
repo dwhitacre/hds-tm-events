@@ -13,17 +13,21 @@ import { StoreService } from 'src/services/store.service'
         <span class="layout-topbar-title">HD Weekly League</span>
       </a>
       <div class="layout-topbar-menu">
-        <div class="layout-topbar-menu-standalone">
-          <p-button
-            [icon]="discordItem.icon"
-            [text]="true"
-            [label]="discordItem.label"
-            iconPos="right"
-            (onClick)="discordItem.command!({})"
-          ></p-button>
+        <ng-container *ngFor="let menuItem of (menuItems$ | async)">
+          <div *ngIf="menuItem.visible" class="layout-topbar-menu-standalone" [ngClass]="menuItem.styleClass">
+            <p-button
+              [icon]="menuItem.icon"
+              [text]="true"
+              [label]="menuItem.label"
+              iconPos="right"
+              (onClick)="menuItem.command!({})"
+            ></p-button>
+          </div>
+        </ng-container>
+        <div class="layout-topbar-menu-menuitem">
+          <p-menu #menu [model]="(menuItems$ | async) ?? undefined" [popup]="true" [appendTo]="menubutton"/>
+          <p-button #menubutton (click)="menu.toggle($event)" icon="pi pi-cog" [text]="true"/>
         </div>
-        <p-menu #menu [model]="(menuItems$ | async) ?? undefined" [popup]="true" [appendTo]="menubutton"/>
-        <p-button #menubutton (click)="menu.toggle($event)" icon="pi pi-cog" [text]="true"/>
       </div>
     </div>
     <p-dialog
@@ -124,14 +128,33 @@ import { StoreService } from 'src/services/store.service'
         left: calc(100% - 240px) !important;
       }
 
-      @media (max-width: 624px) {
-        .layout-topbar .layout-topbar-menu .layout-topbar-menu-standalone {
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-adminkey,
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-github {
+        display: none;
+      }
+
+      @media (max-width: 724px) {
+        .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-standings,
+        .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-weekly {
           display: none;
         }
       }
 
-      @media (min-width: 624px) {
-        :host::ng-deep .layout-topbar-menu-menuitem-discord {
+      @media (min-width: 724px) {
+        :host::ng-deep .layout-topbar-menu-menuitem .layout-topbar-menu-menuitem-standings,
+        :host::ng-deep .layout-topbar-menu-menuitem .layout-topbar-menu-menuitem-weekly {
+          display: none;
+        }
+      }
+
+      @media (max-width: 512px) {
+        .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-discord {
+          display: none;
+        }
+      }
+
+      @media (min-width: 512px) {
+        :host::ng-deep .layout-topbar-menu-menuitem .layout-topbar-menu-menuitem-discord {
           display: none;
         }
       }
@@ -141,6 +164,20 @@ import { StoreService } from 'src/services/store.service'
 export class TopBarComponent {
   adminkeyVisible = false
 
+  standingsItem: MenuItem = {
+    label: 'Standings',
+    icon: 'pi pi-crown',
+    routerLink: '/standings',
+    visible: false,
+    styleClass: 'layout-topbar-menu-menuitem-standings'
+  }
+  weeklyItem: MenuItem = {
+    label: 'Weeklies',
+    icon: 'pi pi-calendar',
+    routerLink: '/weekly',
+    visible: false,
+    styleClass: 'layout-topbar-menu-menuitem-weekly'
+  }
   discordItem: MenuItem = {
     label: 'Join',
     icon: 'pi pi-discord',
@@ -162,20 +199,6 @@ export class TopBarComponent {
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-adminkey'
   }
-  standingsItem: MenuItem = {
-    label: 'Standings',
-    icon: 'pi pi-crown',
-    routerLink: '/standings',
-    visible: false,
-    styleClass: 'layout-topbar-menu-menuitem-standings'
-  }
-  weeklyItem: MenuItem = {
-    label: 'Weeklies',
-    icon: 'pi pi-calendar',
-    routerLink: '/weekly',
-    visible: false,
-    styleClass: 'layout-topbar-menu-menuitem-weekly'
-  }
 
   menuItems$ = this.storeService.isAdmin$.pipe(
     map((isAdmin) => {
@@ -185,11 +208,11 @@ export class TopBarComponent {
       }
 
       return [
+        this.standingsItem,
+        this.weeklyItem,
         this.discordItem,
         this.githubItem,
         this.adminkeyItem,
-        this.standingsItem,
-        this.weeklyItem,
       ]
     }))
 

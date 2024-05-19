@@ -1,11 +1,12 @@
 package domain
 
 import (
-	"encoding/json"
+	"context"
 	"errors"
-	"os"
 	"slices"
 	"strings"
+
+	"github.com/jackc/pgx/v5"
 )
 
 type Leaderboard struct {
@@ -26,41 +27,85 @@ type Top struct {
 	Position int     `json:"position"`
 }
 
-func LeaderboardGet(leaderboard *Leaderboard) error {
-	if leaderboard.LeaderboardId == "" {
-		return errors.New("LeaderboardGet: missing leaderboardId, nothing to gets")
-	}
+type LeaderboardData struct {
+	LeaderboardId string
+	LastModified string
+	WeeklyId string
+}
 
-	file, err := os.Open("leaderboard/" + leaderboard.LeaderboardId)
+func getLeaderboardData(leaderboardId string) ([]LeaderboardData, error) {
+	var leaderboardData []LeaderboardData
 
+	rows, err := db.Query(
+		context.Background(),
+		`select l.LeaderboardId, l.LastModified, lw.WeeklyId
+			from Leaderboard l
+			join LeaderboardWeekly lw on l.leaderboardId = lw.LeaderboardId
+			where l.LeaderboardId=$1`,
+		leaderboardId,
+	)
 	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	jsonParser := json.NewDecoder(file)
-	if err = jsonParser.Decode(leaderboard); err != nil {
-		return err
+		return leaderboardData, err
 	}
 
-	for i := 0; i < len(leaderboard.Weeklies); i++ {
-		err = WeeklyGet(leaderboard.Weeklies[i].Weekly)
+	leaderboardData, err = pgx.CollectRows(rows, pgx.RowToStructByName[LeaderboardData])
+	if err != nil {
+		return leaderboardData, err
+	}
+
+	return leaderboardData, nil
+}
+
+func toLeaderboard(leaderboardData []LeaderboardData, leaderboard *Leaderboard) error {
+	if len(leaderboardData) < 1 {
+		return errors.New("LeaderboardGet: no leaderboardData to create leaderboard from")
+	}
+
+	leaderboard.LeaderboardId = leaderboardData[0].LeaderboardId
+	leaderboard.LastModified = leaderboardData[0].LastModified
+
+	for i := 0; i < len(leaderboardData); i++ {
+		var weekly Weekly
+		weekly.WeeklyId = leaderboardData[i].WeeklyId
+		err := WeeklyGet(&weekly)
 		if err != nil {
 			return err
 		}
+
+		var leaderboardWeekly LeaderboardWeekly
+		leaderboardWeekly.Weekly = &weekly
+		leaderboard.Weeklies = append(leaderboard.Weeklies, &leaderboardWeekly)
 
 		for j := 0; j < len(leaderboard.Weeklies[i].Weekly.Results); j++ {
 			idx := slices.IndexFunc(leaderboard.Tops, func (top *Top) bool {
 				return top.Player.AccountId == leaderboard.Weeklies[i].Weekly.Results[j].Player.AccountId
 			})
 			if idx == -1 {
-				top := &Top{}
+				var top Top
 				top.Player = leaderboard.Weeklies[i].Weekly.Results[j].Player
 				idx = len(leaderboard.Tops)
-				leaderboard.Tops = append(leaderboard.Tops, top)
+				leaderboard.Tops = append(leaderboard.Tops, &top)
 			}
 			leaderboard.Tops[idx].Score += leaderboard.Weeklies[i].Weekly.Results[j].Score
 		}
+	}
+
+	return nil
+}
+
+func LeaderboardGet(leaderboard *Leaderboard) error {
+	if leaderboard.LeaderboardId == "" {
+		return errors.New("LeaderboardGet: missing leaderboardId, nothing to gets")
+	}
+
+	leaderboardData, err := getLeaderboardData(leaderboard.LeaderboardId)
+	if err != nil {
+		return err
+	}
+
+	err = toLeaderboard(leaderboardData, leaderboard)
+	if err != nil {
+		return err
 	}
 
 	slices.SortFunc(leaderboard.Tops, func (topA *Top, topB *Top) int {

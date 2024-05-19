@@ -3,7 +3,6 @@
 
 !leaderboard
 !player
-!weekly
 !go.mod
 !go.sum
 !*.go

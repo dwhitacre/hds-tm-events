@@ -1,10 +1,11 @@
 package domain
 
 import (
-	"encoding/json"
+	"context"
 	"errors"
-	"os"
 	"slices"
+
+	"github.com/jackc/pgx/v5"
 )
 
 type Weekly struct {
@@ -22,41 +23,83 @@ type WeeklyResult struct {
 	Score 	int 		`json:"score"`
 }
 
-func WeeklyGet(weekly *Weekly) error {
-	if weekly.WeeklyId == "" {
-		return errors.New("WeeklyGet: missing weekly id, nothing to gets")
-	}
+type WeeklyData struct {
+	WeeklyId string
+	MatchId string
+}
 
-	file, err := os.Open("weekly/" + weekly.WeeklyId)
-	
+func getWeeklyData(weeklyId string) ([]WeeklyData, error) {
+	var weeklyData []WeeklyData
+
+	rows, err := db.Query(
+		context.Background(),
+		`select w.WeeklyId, wm.MatchId
+			from Weekly w
+			join WeeklyMatch wm on w.WeeklyId = wm.WeeklyId
+			where w.WeeklyId=$1`,
+		weeklyId,
+	)
 	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	jsonParser := json.NewDecoder(file)
-	if err = jsonParser.Decode(weekly); err != nil {
-		return err
+		return weeklyData, err
 	}
 
-	for i := 0; i < len(weekly.Matches); i++ {
-		err = MatchGet(weekly.Matches[i].Match)
+	weeklyData, err = pgx.CollectRows(rows, pgx.RowToStructByName[WeeklyData])
+	if err != nil {
+		return weeklyData, err
+	}
+
+	return weeklyData, nil
+}
+
+func toWeekly(weeklyData []WeeklyData, weekly *Weekly) error {
+	if len(weeklyData) < 1 {
+		return errors.New("WeeklyGet: no weeklyData to create weekly from")
+	}
+
+	weekly.WeeklyId = weeklyData[0].WeeklyId
+
+	for i := 0; i < len(weeklyData); i++ {
+		var match Match
+		match.MatchId = weeklyData[i].MatchId
+		err := MatchGet(&match)
 		if err != nil {
 			return err
 		}
+
+		var weeklyMatch WeeklyMatch
+		weeklyMatch.Match = &match
+		weekly.Matches = append(weekly.Matches, &weeklyMatch)
 
 		for j := 0; j < len(weekly.Matches[i].Match.PointsResults); j++ {
 			idx := slices.IndexFunc(weekly.Results, func (weeklyResult *WeeklyResult) bool {
 				return weeklyResult.Player.AccountId == weekly.Matches[i].Match.PointsResults[j].Player.AccountId
 			})
 			if idx == -1 {
-				weeklyResult := &WeeklyResult{}
+				var weeklyResult WeeklyResult
 				weeklyResult.Player = weekly.Matches[i].Match.PointsResults[j].Player
 				idx = len(weekly.Results)
-				weekly.Results = append(weekly.Results, weeklyResult)
+				weekly.Results = append(weekly.Results, &weeklyResult)
 			}
 			weekly.Results[idx].Score += weekly.Matches[i].Match.PointsResults[j].Score
 		}
+	}
+
+	return nil
+}
+
+func WeeklyGet(weekly *Weekly) error {
+	if weekly.WeeklyId == "" {
+		return errors.New("WeeklyGet: missing weekly id, nothing to gets")
+	}
+
+	weeklyData, err := getWeeklyData(weekly.WeeklyId)
+	if err != nil {
+		return err
+	}
+
+	err = toWeekly(weeklyData, weekly)
+	if err != nil {
+		return err
 	}
 
 	slices.SortFunc(weekly.Results, func (weeklyResultA *WeeklyResult, weeklyResultB *WeeklyResult) int {

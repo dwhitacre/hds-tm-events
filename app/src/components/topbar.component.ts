@@ -174,7 +174,7 @@ export class TopBarComponent {
     styleClass: 'layout-topbar-menu-menuitem-standings'
   }
   weeklyItem: MenuItem = {
-    label: 'Weeklies',
+    label: 'Weekly',
     icon: 'pi pi-calendar',
     routerLink: '/weekly',
     visible: false,

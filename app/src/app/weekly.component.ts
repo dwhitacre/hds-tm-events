@@ -12,15 +12,27 @@ import { PositionPipe } from 'src/pipes/position.pipe'
         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
       </div>
       <ng-template #weekly>
-        <ng-container *ngIf="storeService.players$ | async as vm">
-          Coming soon..
+        <ng-container *ngIf="storeService.weeklyVm$ | async as vm">
+          <ng-container *ngIf="vm.found; else weeklynotfound">
+            <tops-grid [tops]="vm.top!"></tops-grid>
+            <tops-table
+              [tops]="vm.bottom!"
+              [playercount]="vm.playercount!"
+              [lastModified]="vm.lastModified"
+            ></tops-table>
+          </ng-container>
+          <ng-template #weeklynotfound>
+            <div class="weekly-not-found">
+              No weekly found for id: {{ vm | json }}
+            </div>
+          </ng-template>
         </ng-container>
       </ng-template>
     </layout>
   `,
   styles: [
     `
-      .loading {
+      .loading, .weekly-not-found {
         display: flex;
         justify-content: center;
       }

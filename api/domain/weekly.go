@@ -19,8 +19,9 @@ type WeeklyMatch struct {
 }
 
 type WeeklyResult struct {
-	Player 	*Player `json:"player"`
-	Score 	int 		`json:"score"`
+	Player 		*Player `json:"player"`
+	Score 		int 		`json:"score"`
+	Position 	int			`json:"position"`
 }
 
 type WeeklyData struct {
@@ -105,6 +106,14 @@ func WeeklyGet(weekly *Weekly) error {
 	slices.SortFunc(weekly.Results, func (weeklyResultA *WeeklyResult, weeklyResultB *WeeklyResult) int {
 		return weeklyResultB.Score - weeklyResultA.Score
 	})
+
+	for i := 0; i < len(weekly.Results); i++ {
+		if i > 0 && weekly.Results[i].Score == weekly.Results[i-1].Score {
+			weekly.Results[i].Position = weekly.Results[i-1].Position
+		} else {
+			weekly.Results[i].Position = i + 1
+		}
+	}
 
 	return nil
 }

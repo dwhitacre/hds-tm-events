@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Top } from 'src/domain/leaderboard'
+import { WeeklyResult } from 'src/domain/weekly'
 
 @Component({
   selector: 'tops-table',
@@ -28,7 +29,7 @@ import { Top } from 'src/domain/leaderboard'
         <ng-template pTemplate="summary">
           <div class="summary">
             <span>Total player count: {{ playercount }}</span>
-            <span>Last Updated: {{ lastModified }}</span>
+            <span *ngIf="lastModified">Last Updated: {{ lastModified }}</span>
           </div>
         </ng-template>
       </p-table>
@@ -61,7 +62,7 @@ import { Top } from 'src/domain/leaderboard'
   ],
 })
 export class TopsTableComponent {
-  @Input() tops!: Array<Top>
+  @Input() tops!: Array<Top | WeeklyResult>
   @Input() playercount!: number
-  @Input() lastModified!: string
+  @Input() lastModified?: string
 }

@@ -14,4 +14,5 @@ export interface WeeklyMatch {
 export interface WeeklyResult {
   player: Player
   score: number
+  position: number
 }

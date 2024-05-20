@@ -143,7 +143,8 @@ import { StoreService } from 'src/services/store.service'
 
       @media (min-width: 724px) {
         :host::ng-deep .layout-topbar-menu-menuitem .layout-topbar-menu-menuitem-standings,
-        :host::ng-deep .layout-topbar-menu-menuitem .layout-topbar-menu-menuitem-weekly {
+        :host::ng-deep .layout-topbar-menu-menuitem .layout-topbar-menu-menuitem-weekly,
+        :host::ng-deep .layout-topbar-menu-menuitem [role='separator'] {
           display: none;
         }
       }
@@ -212,6 +213,7 @@ export class TopBarComponent {
       return [
         this.standingsItem,
         this.weeklyItem,
+        { separator: true },
         this.discordItem,
         this.githubItem,
         this.adminkeyItem,

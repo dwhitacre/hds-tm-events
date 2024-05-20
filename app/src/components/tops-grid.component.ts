@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Top } from 'src/domain/leaderboard'
+import { WeeklyResult } from 'src/domain/weekly'
 
 @Component({
   selector: 'tops-grid',
@@ -39,5 +40,5 @@ import { Top } from 'src/domain/leaderboard'
   ],
 })
 export class TopsGridComponent {
-  @Input() tops!: Array<Top>
+  @Input() tops!: Array<Top | WeeklyResult>
 }

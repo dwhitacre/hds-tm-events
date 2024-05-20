@@ -50,6 +50,7 @@ export class StoreService extends ComponentStore<StoreState> {
       return {
         found: true,
         selectedWeekly,
+        weeklyIds: leaderboard.weeklies.map(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId).reverse(),
         top: weekly.results.filter((_, index) => index < toplimit),
         bottom: weekly.results.filter((_, index) => index >= toplimit),
         playercount: weekly.results.length,

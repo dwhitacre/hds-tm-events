@@ -171,14 +171,14 @@ export class TopBarComponent {
     label: 'Standings',
     icon: 'pi pi-crown',
     routerLink: '/standings',
-    visible: false,
+    visible: true,
     styleClass: 'layout-topbar-menu-menuitem-standings'
   }
   weeklyItem: MenuItem = {
     label: 'Weekly',
     icon: 'pi pi-calendar',
     routerLink: '/weekly',
-    visible: false,
+    visible: true,
     styleClass: 'layout-topbar-menu-menuitem-weekly'
   }
   discordItem: MenuItem = {
@@ -204,12 +204,7 @@ export class TopBarComponent {
   }
 
   menuItems$ = this.storeService.isAdmin$.pipe(
-    map((isAdmin) => {
-      if (isAdmin) {
-        this.standingsItem.visible = true
-        this.weeklyItem.visible = true
-      }
-
+    map(() => {
       return [
         this.standingsItem,
         this.weeklyItem,

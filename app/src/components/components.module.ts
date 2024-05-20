@@ -11,6 +11,7 @@ import { MenuModule } from 'primeng/menu'
 import { DialogModule } from 'primeng/dialog'
 import { InputTextModule } from 'primeng/inputtext'
 import { CommonModule } from '@angular/common'
+import { TopsTableComponent } from './tops-table.component'
 
 @NgModule({
   imports: [
@@ -24,13 +25,13 @@ import { CommonModule } from '@angular/common'
     InputTextModule,
     CommonModule
   ],
-  declarations: [LayoutComponent, TopBarComponent, PlayerCardComponent],
+  declarations: [LayoutComponent, TopBarComponent, PlayerCardComponent, TopsTableComponent],
   exports: [
     LayoutComponent,
     TopBarComponent,
     PlayerCardComponent,
     ProgressSpinnerModule,
-    TableModule
+    TopsTableComponent
   ],
 })
 export class ComponentsModule {}

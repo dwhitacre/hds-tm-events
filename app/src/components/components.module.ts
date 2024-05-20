@@ -12,6 +12,7 @@ import { DialogModule } from 'primeng/dialog'
 import { InputTextModule } from 'primeng/inputtext'
 import { CommonModule } from '@angular/common'
 import { TopsTableComponent } from './tops-table.component'
+import { TopsGridComponent } from './tops-grid.component'
 
 @NgModule({
   imports: [
@@ -25,13 +26,14 @@ import { TopsTableComponent } from './tops-table.component'
     InputTextModule,
     CommonModule
   ],
-  declarations: [LayoutComponent, TopBarComponent, PlayerCardComponent, TopsTableComponent],
+  declarations: [LayoutComponent, TopBarComponent, PlayerCardComponent, TopsTableComponent, TopsGridComponent],
   exports: [
     LayoutComponent,
     TopBarComponent,
     PlayerCardComponent,
     ProgressSpinnerModule,
-    TopsTableComponent
+    TopsTableComponent,
+    TopsGridComponent
   ],
 })
 export class ComponentsModule {}

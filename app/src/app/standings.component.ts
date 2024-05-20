@@ -13,22 +13,12 @@ import { PositionPipe } from 'src/pipes/position.pipe'
       </div>
       <ng-template #standings>
         <ng-container *ngIf="storeService.standingsVm$ | async as vm">
-          <div class="standings-top">
-            <ng-container *ngFor="let top of vm.top">
-              <player-card
-                [player]="top.player"
-                [position]="top.position"
-                [score]="top.score || 0"
-              ></player-card>
-            </ng-container>
-          </div>
-          <div class="standings-bottom" *ngIf="vm.bottom">
-            <tops-table
-              [tops]="vm.bottom"
-              [playercount]="vm.playercount"
-              [lastModified]="vm.lastModified"
-            ></tops-table>
-          </div>
+          <tops-grid [tops]="vm.top"></tops-grid>
+          <tops-table
+            [tops]="vm.bottom"
+            [playercount]="vm.playercount"
+            [lastModified]="vm.lastModified"
+          ></tops-table>
         </ng-container>
       </ng-template>
     </layout>
@@ -36,33 +26,6 @@ import { PositionPipe } from 'src/pipes/position.pipe'
   styles: [
     `
       .loading {
-        display: flex;
-        justify-content: center;
-      }
-
-      .standings-top {
-        display: grid;
-        justify-content: center;
-        grid-template-columns: repeat(4, 268px);
-        grid-column-gap: 24px;
-        grid-row-gap: 24px;
-      }
-      
-      @media (max-width: 1268px) {
-        .standings-top {
-          grid-template-columns: repeat(2, 268px);
-        }
-      }
-      
-      @media (max-width: 624px) {
-        .standings-top {
-          grid-template-columns: repeat(1, 268px);
-        }
-      }
-
-      .standings-bottom {
-        margin-top: 48px;
-        margin-bottom: 24px;
         display: flex;
         justify-content: center;
       }

@@ -20,7 +20,7 @@ import { StoreService } from 'src/services/store.service'
               [text]="true"
               [label]="menuItem.label"
               iconPos="right"
-              (onClick)="menuItem.command!({})"
+              (onClick)="(menuItem.command || noop)({})"
               [routerLink]="menuItem.routerLink"
             ></p-button>
           </div>
@@ -164,6 +164,7 @@ import { StoreService } from 'src/services/store.service'
 })
 export class TopBarComponent {
   adminkeyVisible = false
+  noop = () => { /*noop*/ }
 
   standingsItem: MenuItem = {
     label: 'Standings',

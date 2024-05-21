@@ -17,6 +17,9 @@ export interface StoreState {
   selectedWeekly: Weekly['weeklyId']
 }
 
+export type MatchType = 'finals' | 'semifinal' | 'quarterfinal' | 'firstround' | 'qualifying'
+export const matchTypeOrder: Array<MatchType> = ['qualifying', 'firstround', 'quarterfinal', 'semifinal', 'finals']
+
 @Injectable({ providedIn: 'root' })
 export class StoreService extends ComponentStore<StoreState> {
   #leaderboardUid = 'standings'
@@ -25,8 +28,9 @@ export class StoreService extends ComponentStore<StoreState> {
   readonly loading$ = this.select((state) => state.loading)
   readonly toplimit$ = this.select((state) => state.toplimit)
   readonly isAdmin$ = this.select((state) => state.isAdmin)
-  readonly players$ = this.select((state) => state.leaderboard.tops.map(top => top.player))
   readonly selectedWeekly$ = this.select((state) => state.selectedWeekly)
+
+  readonly players$ = this.select((state) => state.leaderboard.tops.map(top => top.player))
 
   readonly standingsVm$ = this.select(
     this.leaderboard$,
@@ -54,7 +58,22 @@ export class StoreService extends ComponentStore<StoreState> {
         top: weekly.results.filter((_, index) => index < toplimit),
         bottom: weekly.results.filter((_, index) => index >= toplimit),
         playercount: weekly.results.length,
-        lastModified: undefined
+        lastModified: undefined,
+        matches: weekly.matches.map((weeklyMatch) => {
+          const match = weeklyMatch.match
+          const matchParts = match.matchId.replace(weekly.weeklyId + '-', '').split('-')
+          const type = matchParts[0] as MatchType
+
+          return {
+            ...match,
+            type,
+            order: matchTypeOrder.indexOf(type),
+            instance: matchParts.length > 1 ? matchParts[1] : ''
+          }
+        }).sort((matchA, matchB) => {
+          if (matchA.order == matchB.order) return matchA.instance.localeCompare(matchB.instance)
+          return matchB.order - matchA.order
+        })
       }
     }
   )

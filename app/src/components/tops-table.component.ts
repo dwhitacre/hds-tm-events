@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Top } from 'src/domain/leaderboard'
+import { MatchResult } from 'src/domain/match'
 import { WeeklyResult } from 'src/domain/weekly'
 
 @Component({
@@ -62,7 +63,7 @@ import { WeeklyResult } from 'src/domain/weekly'
   ],
 })
 export class TopsTableComponent {
-  @Input() tops!: Array<Top | WeeklyResult>
+  @Input() tops!: Array<Top | WeeklyResult | MatchResult>
   @Input() playercount!: number
   @Input() lastModified?: string
 }

@@ -57,6 +57,12 @@ import { SelectButtonModule } from 'primeng/selectbutton';
                   ></player-card>
                 </ng-container>
               </div>
+              <tops-table
+                label="{{ vm.qualifying!.type | titlecase }} {{ vm.qualifying!.instance | uppercase }}"
+                [tops]="vm.qualifying!.results"
+                [playercount]="vm.qualifying!.results.length"
+                [lastModified]="vm.lastModified"
+              ></tops-table>
             </ng-template>
           </ng-container>
           <ng-template #weeklynotfound>

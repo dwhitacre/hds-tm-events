@@ -51,6 +51,22 @@ export class StoreService extends ComponentStore<StoreState> {
       const weekly = leaderboard.weeklies.find(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId == selectedWeekly)?.weekly
       if (!weekly) return { found: false, selectedWeekly }
 
+      const matches = weekly.matches.map((weeklyMatch) => {
+        const match = weeklyMatch.match
+        const matchParts = match.matchId.replace(weekly.weeklyId + '-', '').split('-')
+        const type = matchParts[0] as MatchType
+
+        return {
+          ...match,
+          type,
+          order: matchTypeOrder.indexOf(type),
+          instance: matchParts.length > 1 ? matchParts[1] : ''
+        }
+      }).sort((matchA, matchB) => {
+        if (matchA.order == matchB.order) return matchA.instance.localeCompare(matchB.instance)
+        return matchB.order - matchA.order
+      })
+
       return {
         found: true,
         selectedWeekly,
@@ -59,21 +75,8 @@ export class StoreService extends ComponentStore<StoreState> {
         bottom: weekly.results.filter((_, index) => index >= toplimit),
         playercount: weekly.results.length,
         lastModified: undefined,
-        matches: weekly.matches.map((weeklyMatch) => {
-          const match = weeklyMatch.match
-          const matchParts = match.matchId.replace(weekly.weeklyId + '-', '').split('-')
-          const type = matchParts[0] as MatchType
-
-          return {
-            ...match,
-            type,
-            order: matchTypeOrder.indexOf(type),
-            instance: matchParts.length > 1 ? matchParts[1] : ''
-          }
-        }).sort((matchA, matchB) => {
-          if (matchA.order == matchB.order) return matchA.instance.localeCompare(matchB.instance)
-          return matchB.order - matchA.order
-        })
+        matches: matches.slice(0, -1),
+        qualifying: matches[matches.length - 1]
       }
     }
   )

@@ -8,9 +8,12 @@ import { WeeklyResult } from 'src/domain/weekly'
   template: `
     <div class="tops-table" *ngIf="tops">
       <p-table [value]="tops">
-        <ng-template pTemplate="body" let-top>
+        <ng-template pTemplate="header">
+          <div *ngIf="label" class="label">{{ label }}</div>
+        </ng-template>
+        <ng-template pTemplate="body" let-top let-rowIndex="rowIndex">
           <tr>
-            <td>{{ top.position | position }}</td>
+            <td>{{ top.position || (rowIndex + 1) | position }}</td>
             <td>
               <img
                 [alt]="top.player.name"
@@ -38,6 +41,11 @@ import { WeeklyResult } from 'src/domain/weekly'
   `,
   styles: [
     `
+      .label {
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+      }
+
       .tops-table {
         margin-top: 48px;
         margin-bottom: 24px;
@@ -63,6 +71,7 @@ import { WeeklyResult } from 'src/domain/weekly'
   ],
 })
 export class TopsTableComponent {
+  @Input() label?: string
   @Input() tops!: Array<Top | WeeklyResult | MatchResult>
   @Input() playercount!: number
   @Input() lastModified?: string

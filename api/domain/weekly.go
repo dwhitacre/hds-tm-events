@@ -117,3 +117,20 @@ func WeeklyGet(weekly *Weekly) error {
 
 	return nil
 }
+
+func WeeklyAdd(weekly *Weekly) error {
+	if weekly.WeeklyId == "" {
+		return errors.New("WeeklyGet: missing weekly id, nothing to create")
+	}
+
+	_, err := db.Exec(
+		context.Background(),
+		`insert into weekly (WeeklyId) values ($1)`,
+		weekly.WeeklyId,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

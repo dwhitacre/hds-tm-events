@@ -7,11 +7,9 @@ import { WeeklyResult } from 'src/domain/weekly'
   template: `
     <div class="tops-grid" *ngIf="tops">
       <ng-container *ngFor="let top of tops">
-        <player-card
-          [player]="top.player"
-          [position]="top.position"
-          [score]="top.score || 0"
-        ></player-card>
+        <top-card
+          [tops]="[ top ]"
+        ></top-card>
       </ng-container>
     </div>
   `,

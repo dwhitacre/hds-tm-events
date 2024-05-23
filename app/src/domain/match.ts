@@ -11,4 +11,5 @@ export interface Match {
 export interface MatchResult {
   player: Player
   score: number
+  position: undefined
 }

@@ -3,7 +3,6 @@ import { ButtonModule } from 'primeng/button'
 import { CardModule } from 'primeng/card'
 import { LayoutComponent } from './layout.component'
 import { TopBarComponent } from './topbar.component'
-import { PlayerCardComponent } from './player-card.component'
 import { ProgressSpinnerModule } from 'primeng/progressspinner'
 import { TableModule } from 'primeng/table'
 import { PositionPipe } from 'src/pipes/position.pipe'
@@ -13,6 +12,7 @@ import { InputTextModule } from 'primeng/inputtext'
 import { CommonModule } from '@angular/common'
 import { TopsTableComponent } from './tops-table.component'
 import { TopsGridComponent } from './tops-grid.component'
+import { TopCardComponent } from './top-card.component'
 
 @NgModule({
   imports: [
@@ -26,14 +26,14 @@ import { TopsGridComponent } from './tops-grid.component'
     InputTextModule,
     CommonModule
   ],
-  declarations: [LayoutComponent, TopBarComponent, PlayerCardComponent, TopsTableComponent, TopsGridComponent],
+  declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent],
   exports: [
     LayoutComponent,
     TopBarComponent,
-    PlayerCardComponent,
     ProgressSpinnerModule,
     TopsTableComponent,
-    TopsGridComponent
+    TopsGridComponent,
+    TopCardComponent
   ],
 })
 export class ComponentsModule {}

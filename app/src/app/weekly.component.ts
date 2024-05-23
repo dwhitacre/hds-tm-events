@@ -45,16 +45,11 @@ import { SelectButtonModule } from 'primeng/selectbutton';
             <ng-template #matches>
               <div class="weekly-matches">
                 <ng-container *ngFor="let match of vm.matches">
-                  <player-card
+                  <top-card
                     label="{{ match.type | titlecase }} {{ match.instance | uppercase }}"
-                    [player]="match.results[0].player"
-                    [position]="1"
-                    [score]="match.results[0].score"
-                    [player2Enabled]="true"
-                    [player2]="match.results.length > 1 ? match.results[1].player : undefined"
-                    [position2]="2"
-                    [score2]="match.results.length > 1 ? match.results[1].score : undefined"
-                  ></player-card>
+                    [tops]="match.results"
+                    [showMorePlayers]="true"
+                  ></top-card>
                 </ng-container>
               </div>
               <tops-table

@@ -26,6 +26,7 @@ func main() {
 	api.Setup(logger, pool)
 	http.HandleFunc("/ready", api.ReadyHandler)
 	http.HandleFunc("/api/leaderboard/{id}", api.LeaderboardHandler)
+	http.HandleFunc("/api/leaderboard", api.AdminMiddleware(api.PatchLeaderboardHandler))
 	http.HandleFunc("/api/player/{id}", api.PlayerHandler)
 	http.HandleFunc("/api/match/{id}", api.MatchHandler)
 	http.HandleFunc("/api/weekly/{id}", api.WeeklyHandler)

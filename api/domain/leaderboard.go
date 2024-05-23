@@ -126,3 +126,17 @@ func LeaderboardGet(leaderboard *Leaderboard) error {
 
 	return nil
 }
+
+func LeaderboardWeeklyAdd(leaderboardId string, weeklyId string) error {
+	_, err := db.Exec(
+		context.Background(),
+		`insert into leaderboardweekly (LeaderboardId, WeeklyId) values ($1, $2)`,
+		leaderboardId,
+		weeklyId,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

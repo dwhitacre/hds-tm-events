@@ -56,6 +56,28 @@ func getLeaderboardData(leaderboardId string) ([]LeaderboardData, error) {
 	return leaderboardData, nil
 }
 
+func getUnpublishedLeaderboardData() ([]LeaderboardData, error) {
+	leaderboardData := []LeaderboardData{}
+
+	rows, err := db.Query(
+		context.Background(),
+		`select '' as LeaderboardId, '' as LastModified, w.WeeklyId
+			from Weekly w
+			left join LeaderboardWeekly lw on lw.weeklyid = w.weeklyid
+			where leaderboardweeklyid is null`,
+	)
+	if err != nil {
+		return leaderboardData, err
+	}
+
+	leaderboardData, err = pgx.CollectRows(rows, pgx.RowToStructByName[LeaderboardData])
+	if err != nil {
+		return leaderboardData, err
+	}
+
+	return leaderboardData, nil
+}
+
 func toLeaderboard(leaderboardData []LeaderboardData, leaderboard *Leaderboard) error {
 	if len(leaderboardData) < 1 {
 		return errors.New("LeaderboardGet: no leaderboardData to create leaderboard from")
@@ -93,7 +115,7 @@ func toLeaderboard(leaderboardData []LeaderboardData, leaderboard *Leaderboard) 
 	return nil
 }
 
-func LeaderboardGet(leaderboard *Leaderboard) error {
+func LeaderboardGet(leaderboard *Leaderboard, published bool) error {
 	if leaderboard.LeaderboardId == "" {
 		return errors.New("LeaderboardGet: missing leaderboardId, nothing to gets")
 	}
@@ -101,6 +123,15 @@ func LeaderboardGet(leaderboard *Leaderboard) error {
 	leaderboardData, err := getLeaderboardData(leaderboard.LeaderboardId)
 	if err != nil {
 		return err
+	}
+
+	if !published {
+		unpublishedLeaderboardData, err := getUnpublishedLeaderboardData()
+		if err != nil {
+			return err
+		}
+
+		leaderboardData = append(leaderboardData, unpublishedLeaderboardData...)
 	}
 
 	err = toLeaderboard(leaderboardData, leaderboard)

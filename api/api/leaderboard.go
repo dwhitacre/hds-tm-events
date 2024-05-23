@@ -8,10 +8,11 @@ import (
 
 func LeaderboardHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
+	published := r.URL.Query().Get("published")
 
 	var leaderboard domain.Leaderboard
 	leaderboard.LeaderboardId = id
-	err := domain.LeaderboardGet(&leaderboard)
+	err := domain.LeaderboardGet(&leaderboard, published != "false")
 	if err != nil {
 		logger.Warn("No leaderboard found with id", "id", id, "err", err)
 		w.WriteHeader(http.StatusNoContent)

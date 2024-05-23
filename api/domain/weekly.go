@@ -58,6 +58,7 @@ func toWeekly(weeklyData []WeeklyData, weekly *Weekly) error {
 	}
 
 	weekly.WeeklyId = weeklyData[0].WeeklyId
+	weekly.Results = []*WeeklyResult{}
 
 	for i := 0; i < len(weeklyData); i++ {
 		var match Match
@@ -118,15 +119,84 @@ func WeeklyGet(weekly *Weekly) error {
 	return nil
 }
 
+func getWeeklyMatches(weeklyId string) []Match {
+	return []Match{
+		{
+			MatchId: weeklyId + "-finals",
+			PointsAwarded: 5,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-semifinal-a",
+			PointsAwarded: 5,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-semifinal-b",
+			PointsAwarded: 5,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-quarterfinal-a",
+			PointsAwarded: 4,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-quarterfinal-b",
+			PointsAwarded: 4,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-quarterfinal-c",
+			PointsAwarded: 4,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-quarterfinal-d",
+			PointsAwarded: 4,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-qualifying",
+			PointsAwarded: 1,
+			PlayersAwarded: 8,
+		},
+	}
+}
+
 func WeeklyAdd(weekly *Weekly) error {
 	if weekly.WeeklyId == "" {
-		return errors.New("WeeklyGet: missing weekly id, nothing to create")
+		return errors.New("WeeklyAdd: missing weekly id, nothing to create")
 	}
 
 	_, err := db.Exec(
 		context.Background(),
 		`insert into weekly (WeeklyId) values ($1)`,
 		weekly.WeeklyId,
+	)
+	if err != nil {
+		return err
+	}
+
+	weeklyMatches := getWeeklyMatches(weekly.WeeklyId)
+	for i := 0; i < len(weeklyMatches); i++ {
+		if err := MatchAdd(&weeklyMatches[i]); err != nil {
+			return err
+		}
+		if err := WeeklyMatchAdd(weekly.WeeklyId, weeklyMatches[i].MatchId); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func WeeklyMatchAdd(weeklyId string, matchId string) error {
+	_, err := db.Exec(
+		context.Background(),
+		`insert into weeklymatch (WeeklyId, MatchId) values ($1, $2)`,
+		weeklyId,
+		matchId,
 	)
 	if err != nil {
 		return err

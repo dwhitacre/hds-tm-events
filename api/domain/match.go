@@ -24,8 +24,8 @@ type MatchData struct {
 	MatchId string
 	PlayersAwarded int
 	PointsAwarded int
-	AccountId string
-	Score int
+	AccountId *string
+	Score *int
 }
 
 func getMatchData(matchId string) ([]MatchData, error) {
@@ -35,7 +35,7 @@ func getMatchData(matchId string) ([]MatchData, error) {
 		context.Background(),
 		`select m.MatchId, m.PlayersAwarded, m.PointsAwarded, mr.AccountId, mr.Score
 			from Match m
-			join MatchResult mr on m.MatchId = mr.MatchId
+			left join MatchResult mr on m.MatchId = mr.MatchId
 			where m.MatchId=$1
 			order by mr.Score desc`,
 		matchId,
@@ -44,7 +44,7 @@ func getMatchData(matchId string) ([]MatchData, error) {
 		return matchData, err
 	}
 
-	matchData, err = pgx.CollectRows(rows, pgx.RowToStructByName[MatchData])
+	matchData, err = pgx.CollectRows(rows, pgx.RowToStructByNameLax[MatchData])
 	if err != nil {
 		return matchData, err
 	}
@@ -60,28 +60,34 @@ func toMatch(matchData []MatchData, match *Match) error {
 	match.MatchId = matchData[0].MatchId
 	match.PlayersAwarded = matchData[0].PlayersAwarded
 	match.PointsAwarded = matchData[0].PointsAwarded
+	match.Results = []*MatchResult{}
+	match.PointsResults = []*MatchResult{}
 
 	for i := 0; i < len(matchData); i++ {
-		var player Player
-		player.AccountId = matchData[i].AccountId
-		err := PlayerGet(&player)
-		if err != nil {
-			return err
+		if matchData[i].AccountId != nil {
+			var player Player
+			player.AccountId = *matchData[i].AccountId
+			err := PlayerGet(&player)
+			if err != nil {
+				return err
+			}
+	
+			var matchResult MatchResult
+			matchResult.Player = &player	
+			if matchData[i].Score != nil {
+				matchResult.Score = *matchData[i].Score
+			}
+	
+			match.Results = append(match.Results, &matchResult)
+	
+			var pointResult MatchResult
+			pointResult.Player = &player
+			if i < match.PlayersAwarded {
+				pointResult.Score = match.PointsAwarded
+			}
+	
+			match.PointsResults = append(match.PointsResults, &pointResult)
 		}
-
-		var matchResult MatchResult
-		matchResult.Player = &player	
-		matchResult.Score = matchData[i].Score
-
-		match.Results = append(match.Results, &matchResult)
-
-		var pointResult MatchResult
-		pointResult.Player = &player
-		if i < match.PlayersAwarded {
-			pointResult.Score = match.PointsAwarded
-		}
-
-		match.PointsResults = append(match.PointsResults, &pointResult)
 	}
 
 	return nil
@@ -98,6 +104,25 @@ func MatchGet(match *Match) error {
 	}
 
 	err = toMatch(matchData, match)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func MatchAdd(match *Match) error {
+	if match.MatchId == "" {
+		return errors.New("MatchAdd: missing match id, nothing to create")
+	}
+
+	_, err := db.Exec(
+		context.Background(),
+		`insert into match (MatchId, PlayersAwarded, PointsAwarded) values ($1, $2, $3)`,
+		match.MatchId,
+		match.PlayersAwarded,
+		match.PointsAwarded,
+	)
 	if err != nil {
 		return err
 	}

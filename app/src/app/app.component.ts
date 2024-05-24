@@ -8,7 +8,7 @@ import { ToastModule } from 'primeng/toast'
   selector: 'app-root',
   template: `
     <router-outlet></router-outlet>
-    <p-toast></p-toast>
+    <p-toast key="log"></p-toast>
   `,
   styles: [],
 })

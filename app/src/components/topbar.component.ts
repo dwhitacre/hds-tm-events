@@ -46,6 +46,25 @@ import { StoreService } from 'src/services/store.service'
         <p-button label="Save" (click)="saveAdminKey(adminkey.value)" />
       </div>
     </p-dialog>
+    <p-dialog
+      header="Enter Weekly Date" 
+      [modal]="true"
+      [(visible)]="createWeeklyVisible"
+      position="topright"
+      [draggable]="false"
+      [style]="{ width: '25rem' }">
+      <div class="layout-dialog-input">
+        <p-inputMask 
+          [(ngModel)]="createWeeklyDate" 
+          mask="9999-99-99" 
+          [placeholder]="createWeeklyDate" 
+          slotChar="yyyy-mm-dd" />
+      </div>
+      <div class="layout-dialog-actions">
+        <p-button label="Cancel" severity="secondary" (click)="createWeeklyVisible = false" />
+        <p-button label="Save" (click)="createWeekly(createWeeklyDate)" />
+      </div>
+    </p-dialog>
 `,
   styles: [
     `
@@ -131,7 +150,8 @@ import { StoreService } from 'src/services/store.service'
 
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-adminkey,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-github,
-      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-published {
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-published,
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-createweekly {
         display: none;
       }
 
@@ -166,6 +186,10 @@ import { StoreService } from 'src/services/store.service'
 })
 export class TopBarComponent {
   adminkeyVisible = false
+  
+  createWeeklyVisible = false
+  createWeeklyDate = new Date().toISOString().split('T')[0]
+
   noop = () => { /*noop*/ }
 
   standingsItem: MenuItem = {
@@ -203,7 +227,7 @@ export class TopBarComponent {
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-adminkey'
   }
-  togglePublished: MenuItem = {
+  togglePublishedItem: MenuItem = {
     label: 'Toggle Published',
     icon: 'pi pi-pencil',
     command: () => {
@@ -213,11 +237,19 @@ export class TopBarComponent {
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-published'
   }
+  createWeeklyItem: MenuItem = {
+    label: 'Create Weekly',
+    icon: 'pi pi-calendar-plus',
+    command: () => this.createWeeklyVisible = true,
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-createweekly'
+  }
 
   menuItems$ = this.storeService.isAdmin$.pipe(
     map((isAdmin) => {
       const adminMenuItems = isAdmin ? [
-        this.togglePublished,
+        this.togglePublishedItem,
+        this.createWeeklyItem,
       ] : []
 
       return [
@@ -237,5 +269,10 @@ export class TopBarComponent {
     this.storageService.saveAdminKey(value)
     this.adminkeyVisible = false
     window.location.reload()
+  }
+
+  createWeekly(value: string) {
+    this.storeService.createWeekly(value)
+    this.createWeeklyVisible = false
   }
 }

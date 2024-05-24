@@ -6,6 +6,15 @@ import { MessageService } from 'primeng/api'
 export class LogService {
   constructor(private messageService: MessageService) {}
 
+  success(summary: string, detail: string) {
+    this.messageService.add({
+      severity: 'success',
+      summary,
+      detail,
+      key: 'log'
+    })
+  }
+
   error(error: HttpErrorResponse | Error) {
     console.error(error)
     this.messageService.add({
@@ -13,6 +22,7 @@ export class LogService {
       summary: error.name,
       detail: error.message,
       sticky: true,
+      key: 'log'
     })
   }
 }

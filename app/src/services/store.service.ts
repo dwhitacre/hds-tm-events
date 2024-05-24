@@ -8,6 +8,7 @@ import { Weekly } from 'src/domain/weekly'
 import { AdminService } from 'src/services/admin.service'
 import { LeaderboardService } from 'src/services/leaderboard.service'
 import { LogService } from 'src/services/log.service'
+import { WeeklyService } from './weekly.service'
 
 export interface StoreState {
   leaderboard: Leaderboard
@@ -86,7 +87,8 @@ export class StoreService extends ComponentStore<StoreState> {
   constructor(
     private leaderboardService: LeaderboardService,
     private logService: LogService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private weeklyService: WeeklyService,
   ) {
     super({
       leaderboard: {
@@ -151,6 +153,20 @@ export class StoreService extends ComponentStore<StoreState> {
           }),
         ),
       ),
+    )
+  })
+
+  readonly createWeekly = this.effect<string>((weeklyId$) => {
+    return weeklyId$.pipe(
+      switchMap((weeklyId) => this.weeklyService.createWeekly(weeklyId).pipe(
+        tapResponse({
+          next: () => {
+            this.logService.success('Success', `Created new weekly: ${weeklyId}`)
+          },
+          error: (error: HttpErrorResponse) => this.logService.error(error),
+          finalize: () => this.fetchLeaderboard()
+        })
+      ))
     )
   })
 }

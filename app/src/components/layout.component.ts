@@ -8,7 +8,7 @@ import { StoreService } from 'src/services/store.service';
     <div class="layout-wrapper">
       <topbar></topbar>
       <ng-container *ngIf="messages$ | async as messages">
-        <p-messages [value]="messages" [closable]="false" />
+        <p-messages key="published" [value]="messages" [closable]="false" />
       </ng-container>  
       <div class="layout-main-container">
         <div class="layout-main">
@@ -49,7 +49,12 @@ import { StoreService } from 'src/services/store.service';
 })
 export class LayoutComponent {
   messages$ = this.storeService.leaderboardPublished$.pipe(
-    map((leaderboardPublished) => leaderboardPublished ? [] : [{ severity: 'warn', summary: 'Unpublished', detail: 'You are viewing unpublished results. This is not the current public results that everyone else can see. Toggle published view in the settings in the top right to see the public view.' }])
+    map((leaderboardPublished) => leaderboardPublished ? [] : [{
+      severity: 'warn',
+      key: 'published',
+      summary: 'Unpublished',
+      detail: 'You are viewing unpublished results. This is not the current public results that everyone else can see. Toggle published view in the settings in the top right to see the public view.'
+    }])
   )
 
   constructor(private storeService: StoreService) {}

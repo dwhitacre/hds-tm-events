@@ -14,6 +14,8 @@ import { TopsTableComponent } from './tops-table.component'
 import { TopsGridComponent } from './tops-grid.component'
 import { TopCardComponent } from './top-card.component'
 import { MessagesModule } from 'primeng/messages'
+import { InputMaskModule } from 'primeng/inputmask'
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import { MessagesModule } from 'primeng/messages'
     InputTextModule,
     CommonModule,
     MessagesModule,
+    InputMaskModule,
+    FormsModule,
   ],
   declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent],
   exports: [

@@ -130,7 +130,8 @@ import { StoreService } from 'src/services/store.service'
       }
 
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-adminkey,
-      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-github {
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-github,
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-published {
         display: none;
       }
 
@@ -202,9 +203,23 @@ export class TopBarComponent {
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-adminkey'
   }
+  togglePublished: MenuItem = {
+    label: 'Toggle Published',
+    icon: 'pi pi-pencil',
+    command: () => {
+      this.storeService.toggleLeaderboardPublished()
+      this.storeService.fetchLeaderboard()
+    },
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-published'
+  }
 
   menuItems$ = this.storeService.isAdmin$.pipe(
-    map(() => {
+    map((isAdmin) => {
+      const adminMenuItems = isAdmin ? [
+        this.togglePublished,
+      ] : []
+
       return [
         this.standingsItem,
         this.weeklyItem,
@@ -212,6 +227,7 @@ export class TopBarComponent {
         this.discordItem,
         this.githubItem,
         this.adminkeyItem,
+        ...adminMenuItems,
       ]
     }))
 

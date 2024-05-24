@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ComponentStore } from '@ngrx/component-store'
-import { tapResponse } from '@ngrx/operators'
+import { concatLatestFrom, tapResponse } from '@ngrx/operators'
 import { switchMap } from 'rxjs'
 import { Leaderboard } from 'src/domain/leaderboard'
 import { Weekly } from 'src/domain/weekly'
@@ -11,6 +11,8 @@ import { LogService } from 'src/services/log.service'
 
 export interface StoreState {
   leaderboard: Leaderboard
+  leaderboardUid: string
+  leaderboardPublished: boolean
   loading: boolean
   toplimit: number
   isAdmin: boolean
@@ -22,9 +24,9 @@ export const matchTypeOrder: Array<MatchType> = ['qualifying', 'firstround', 'qu
 
 @Injectable({ providedIn: 'root' })
 export class StoreService extends ComponentStore<StoreState> {
-  #leaderboardUid = 'standings'
-
   readonly leaderboard$ = this.select((state) => state.leaderboard)
+  readonly leaderboardUid$ = this.select((state) => state.leaderboardUid)
+  readonly leaderboardPublished$ = this.select((state) => state.leaderboardPublished)
   readonly loading$ = this.select((state) => state.loading)
   readonly toplimit$ = this.select((state) => state.toplimit)
   readonly isAdmin$ = this.select((state) => state.isAdmin)
@@ -94,10 +96,12 @@ export class StoreService extends ComponentStore<StoreState> {
         weeklies: [],
         lastModified: new Date(0)
       },
+      leaderboardUid: 'standings',
+      leaderboardPublished: true,
       loading: true,
       toplimit: 8,
       isAdmin: false,
-      selectedWeekly: ''
+      selectedWeekly: '',
     })
 
     this.fetchLeaderboard()
@@ -109,10 +113,16 @@ export class StoreService extends ComponentStore<StoreState> {
     selectedWeekly: selectedWeekly ? selectedWeekly : state.leaderboard.weeklies[state.leaderboard.weeklies.length - 1].weekly.weeklyId
   }))
 
+  readonly toggleLeaderboardPublished = this.updater((state) => ({
+    ...state,
+    leaderboardPublished: !state.leaderboardPublished
+  }))
+
   readonly fetchLeaderboard = this.effect<void>((trigger$) => {
     return trigger$.pipe(
-      switchMap(() =>
-        this.leaderboardService.getLeaderboard(this.#leaderboardUid).pipe(
+      concatLatestFrom(() => [this.leaderboardUid$, this.leaderboardPublished$]),
+      switchMap(([_, leaderboardUid, leaderboardPublished]) =>
+        this.leaderboardService.getLeaderboard(leaderboardUid, leaderboardPublished).pipe(
           tapResponse({
             next: (leaderboard) => {
               if (!leaderboard)

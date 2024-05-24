@@ -8,7 +8,7 @@ export class LeaderboardService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getLeaderboard(uid: string) {
-    return this.httpClient.get<Leaderboard>(`${this.#baseUrl}/${uid}`)
+  getLeaderboard(uid: string, published = true) {
+    return this.httpClient.get<Leaderboard>(`${this.#baseUrl}/${uid}?published=${published}`)
   }
 }

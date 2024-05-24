@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common'
 import { TopsTableComponent } from './tops-table.component'
 import { TopsGridComponent } from './tops-grid.component'
 import { TopCardComponent } from './top-card.component'
+import { MessagesModule } from 'primeng/messages'
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { TopCardComponent } from './top-card.component'
     MenuModule,
     DialogModule,
     InputTextModule,
-    CommonModule
+    CommonModule,
+    MessagesModule,
   ],
   declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent],
   exports: [

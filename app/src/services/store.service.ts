@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ComponentStore } from '@ngrx/component-store'
 import { concatLatestFrom, tapResponse } from '@ngrx/operators'
-import { switchMap } from 'rxjs'
+import { Observable, switchMap } from 'rxjs'
 import { Leaderboard } from 'src/domain/leaderboard'
 import { Weekly } from 'src/domain/weekly'
 import { AdminService } from 'src/services/admin.service'
@@ -34,6 +34,7 @@ export class StoreService extends ComponentStore<StoreState> {
   readonly selectedWeekly$ = this.select((state) => state.selectedWeekly)
 
   readonly players$ = this.select((state) => state.leaderboard.tops.map(top => top.player))
+  readonly weeklyIds$: Observable<Array<string>> = this.select((state) => state.leaderboard.weeklies.map(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId).reverse())
 
   readonly standingsVm$ = this.select(
     this.leaderboard$,
@@ -50,9 +51,10 @@ export class StoreService extends ComponentStore<StoreState> {
     this.leaderboard$,
     this.selectedWeekly$,
     this.toplimit$,
-    (leaderboard, selectedWeekly, toplimit) => {
+    this.weeklyIds$,
+    (leaderboard, selectedWeekly, toplimit, weeklyIds) => {
       const weekly = leaderboard.weeklies.find(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId == selectedWeekly)?.weekly
-      if (!weekly) return { found: false, selectedWeekly }
+      if (!weekly) return { found: false, selectedWeekly, weeklyIds }
 
       const matches = weekly.matches.map((weeklyMatch) => {
         const match = weeklyMatch.match
@@ -73,7 +75,7 @@ export class StoreService extends ComponentStore<StoreState> {
       return {
         found: true,
         selectedWeekly,
-        weeklyIds: leaderboard.weeklies.map(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId).reverse(),
+        weeklyIds,
         top: weekly.results.filter((_, index) => index < toplimit),
         bottom: weekly.results.filter((_, index) => index >= toplimit),
         playercount: weekly.results.length,
@@ -112,7 +114,7 @@ export class StoreService extends ComponentStore<StoreState> {
 
   readonly updateSelectedWeekly = this.updater((state, selectedWeekly?: string) => ({
     ...state,
-    selectedWeekly: selectedWeekly ? selectedWeekly : state.leaderboard.weeklies[state.leaderboard.weeklies.length - 1].weekly.weeklyId
+    selectedWeekly: selectedWeekly ? selectedWeekly : state.selectedWeekly || state.leaderboard.weeklies[state.leaderboard.weeklies.length - 1].weekly.weeklyId
   }))
 
   readonly toggleLeaderboardPublished = this.updater((state) => ({
@@ -160,9 +162,20 @@ export class StoreService extends ComponentStore<StoreState> {
     return weeklyId$.pipe(
       switchMap((weeklyId) => this.weeklyService.createWeekly(weeklyId).pipe(
         tapResponse({
-          next: () => {
-            this.logService.success('Success', `Created new weekly: ${weeklyId}`)
-          },
+          next: () => this.logService.success('Success', `Created new weekly: ${weeklyId}`),
+          error: (error: HttpErrorResponse) => this.logService.error(error),
+          finalize: () => this.fetchLeaderboard()
+        })
+      ))
+    )
+  })
+
+  readonly publishWeekly = this.effect<string>((weeklyId$) => {
+    return weeklyId$.pipe(
+      concatLatestFrom(() => [this.leaderboardUid$]),
+      switchMap(([weeklyId, leaderboardUid]) => this.leaderboardService.addWeeklyToLeaderboard(leaderboardUid, weeklyId).pipe(
+        tapResponse({
+          next: () => this.logService.success('Success', `Published weekly: ${weeklyId}`),
           error: (error: HttpErrorResponse) => this.logService.error(error),
           finalize: () => this.fetchLeaderboard()
         })

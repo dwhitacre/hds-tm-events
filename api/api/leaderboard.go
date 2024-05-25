@@ -59,9 +59,11 @@ func PatchLeaderboardHandler(w http.ResponseWriter, r *http.Request) {
 		err := domain.LeaderboardWeeklyAdd(leaderboard.LeaderboardId, leaderboard.Weeklies[i].Weekly.WeeklyId)
 		if err != nil {
 			logger.Warn("Failed to add weeklyId in leaderboard.weeklies, skipping", "i", i, "err", err, "weeklyId", leaderboard.Weeklies[i].Weekly.WeeklyId)
-		} else {
-			logger.Info("Adding weekly to leaderboard", "i", i, "leaderboardId", leaderboard.LeaderboardId, "weeklyId", leaderboard.Weeklies[i].Weekly.WeeklyId)
+			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
+
+		logger.Info("Adding weekly to leaderboard", "i", i, "leaderboardId", leaderboard.LeaderboardId, "weeklyId", leaderboard.Weeklies[i].Weekly.WeeklyId)
 	}
 
 	w.WriteHeader(http.StatusCreated)

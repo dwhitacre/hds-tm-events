@@ -11,4 +11,13 @@ export class LeaderboardService {
   getLeaderboard(uid: string, published = true) {
     return this.httpClient.get<Leaderboard>(`${this.#baseUrl}/${uid}?published=${published}`)
   }
+
+  addWeeklyToLeaderboard(uid: string, weeklyId: string) {
+    return this.httpClient.patch(`${this.#baseUrl}`, {
+      leaderboardId: uid,
+      weeklies: [{
+        weekly: { weeklyId }
+      }]
+    })
+  }
 }

@@ -43,7 +43,7 @@ import { StoreService } from 'src/services/store.service'
       </div>
       <div class="layout-dialog-actions">
         <p-button label="Cancel" severity="secondary" (click)="adminkeyVisible = false" />
-        <p-button label="Save" (click)="saveAdminKey(adminkey.value)" />
+        <p-button label="Enter" (click)="saveAdminKey(adminkey.value)" />
       </div>
     </p-dialog>
     <p-dialog
@@ -62,8 +62,29 @@ import { StoreService } from 'src/services/store.service'
       </div>
       <div class="layout-dialog-actions">
         <p-button label="Cancel" severity="secondary" (click)="createWeeklyVisible = false" />
-        <p-button label="Save" (click)="createWeekly(createWeeklyDate)" />
+        <p-button label="Create" (click)="createWeekly(createWeeklyDate)" />
       </div>
+    </p-dialog>
+    <p-dialog
+      header="Publish Weekly" 
+      [modal]="true"
+      [(visible)]="publishWeeklyVisible"
+      position="topright"
+      [draggable]="false"
+      [style]="{ width: '25rem' }">
+      <ng-container *ngIf="storeService.selectedWeekly$ | async as selectedWeekly">
+        <div class="layout-dialog-input">
+          <span>
+            Publish the currently selected weekly?
+            <br/>
+            {{ selectedWeekly }}
+          </span>
+        </div>
+        <div class="layout-dialog-actions">
+          <p-button label="Cancel" severity="secondary" (click)="publishWeeklyVisible = false" />
+          <p-button label="Publish" (click)="publishWeekly(selectedWeekly)" />
+        </div>
+      </ng-container>
     </p-dialog>
 `,
   styles: [
@@ -151,7 +172,8 @@ import { StoreService } from 'src/services/store.service'
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-adminkey,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-github,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-published,
-      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-createweekly {
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-createweekly,
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-publishweekly {
         display: none;
       }
 
@@ -189,6 +211,9 @@ export class TopBarComponent {
   
   createWeeklyVisible = false
   createWeeklyDate = new Date().toISOString().split('T')[0]
+
+  publishWeeklyVisible = false
+  publishSelectedWeekly = ''
 
   noop = () => { /*noop*/ }
 
@@ -244,12 +269,20 @@ export class TopBarComponent {
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-createweekly'
   }
-
+  publishWeeklyItem: MenuItem = {
+    label: 'Publish Weekly',
+    icon: 'pi pi-cloud-upload',
+    command: () => this.publishWeeklyVisible = true,
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-publishweekly'
+  }
+  
   menuItems$ = this.storeService.isAdmin$.pipe(
     map((isAdmin) => {
       const adminMenuItems = isAdmin ? [
         this.togglePublishedItem,
         this.createWeeklyItem,
+        this.publishWeeklyItem,
       ] : []
 
       return [
@@ -263,7 +296,7 @@ export class TopBarComponent {
       ]
     }))
 
-  constructor(private storageService: StorageService, private storeService: StoreService) {}
+  constructor(private storageService: StorageService, public storeService: StoreService) {}
 
   saveAdminKey(value: string) {
     this.storageService.saveAdminKey(value)
@@ -274,5 +307,10 @@ export class TopBarComponent {
   createWeekly(value: string) {
     this.storeService.createWeekly(value)
     this.createWeeklyVisible = false
+  }
+
+  publishWeekly(value: string) {
+    this.storeService.publishWeekly(value)
+    this.publishWeeklyVisible = false
   }
 }

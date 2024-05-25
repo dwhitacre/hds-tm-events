@@ -28,6 +28,11 @@ type MatchData struct {
 	Score *int
 }
 
+type MatchResultData struct {
+	AccountId string
+	Score int
+}
+
 func getMatchData(matchId string) ([]MatchData, error) {
 	var matchData []MatchData
 
@@ -129,3 +134,48 @@ func MatchAdd(match *Match) error {
 
 	return nil
 }
+
+func MatchResultAdd(matchId string, accountId string, score int) error {
+	_, err := db.Exec(
+		context.Background(),
+		`insert into matchresult (MatchId, AccountId, Score) values ($1, $2, $3)`,
+		matchId,
+		accountId,
+		score,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func MatchResultUpdate(matchId string, accountId string, score int) error {
+	_, err := db.Exec(
+		context.Background(),
+		`update matchresult set Score = $3 where MatchId = $1 and AccountId = $2`,
+		matchId,
+		accountId,
+		score,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func MatchResultDelete(matchId string, accountId string) error {
+		_, err := db.Exec(
+		context.Background(),
+		`delete from matchresult where MatchId = $1 and AccountId = $2`,
+		matchId,
+		accountId,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+

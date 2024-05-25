@@ -29,6 +29,7 @@ func main() {
 	http.HandleFunc("/api/leaderboard", api.AdminMiddleware(api.PatchLeaderboardHandler))
 	http.HandleFunc("/api/player/{id}", api.PlayerHandler)
 	http.HandleFunc("/api/match/{id}", api.MatchHandler)
+	http.HandleFunc("/api/match/{matchId}/matchresult", api.AdminMiddleware(api.MatchResultHandler))
 	http.HandleFunc("/api/weekly/{id}", api.WeeklyHandler)
 	http.HandleFunc("/api/weekly", api.AdminMiddleware(api.CreateWeeklyHandler))
 	http.HandleFunc("/api/admin", api.AdminMiddleware(api.AdminHandler))

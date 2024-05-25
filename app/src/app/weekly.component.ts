@@ -7,6 +7,7 @@ import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
 import { SelectButtonModule } from 'primeng/selectbutton'
 import { TagModule } from 'primeng/tag'
+import { InputSwitchModule } from 'primeng/inputswitch'
 
 @Component({
   selector: 'weekly',
@@ -29,6 +30,7 @@ import { TagModule } from 'primeng/tag'
             <div class="weekly-header-buffer"></div>
             <div class="weekly-header-buffer"></div>
             <div class="weekly-header-rightside">
+              <p-inputSwitch *ngIf="vm.isAdmin" [(ngModel)]="editMode" />
               <p-selectButton
                 [options]="viewOptions" 
                 [(ngModel)]="currentView" 
@@ -53,6 +55,8 @@ import { TagModule } from 'primeng/tag'
                     label="{{ match.type | titlecase }} {{ match.instance | uppercase }}"
                     [tops]="match.results"
                     [showMorePlayers]="true"
+                    [editable]="editMode"
+                    [players]="vm.players || []"
                   ></top-card>
                 </ng-container>
               </div>
@@ -98,6 +102,8 @@ import { TagModule } from 'primeng/tag'
       .weekly-header-rightside {
         display: flex;
         justify-content: flex-end;
+        gap: 8px;
+        align-items: center;
       }
       
       .weekly-header {
@@ -131,12 +137,14 @@ export class WeeklyComponent {
   viewOptions = [{ label: 'Results', value: 'results' }, { label: 'Matches', value: 'matches' }]
   currentView = 'results'
 
+  editMode = false
+
   constructor(public storeService: StoreService) {}
 }
 
 @NgModule({
   exports: [WeeklyComponent],
   declarations: [WeeklyComponent],
-  imports: [CommonModule, ComponentsModule, PositionPipe, DropdownModule, FormsModule, SelectButtonModule, TagModule],
+  imports: [CommonModule, ComponentsModule, PositionPipe, DropdownModule, FormsModule, SelectButtonModule, TagModule, InputSwitchModule],
 })
 export class StandingsModule {}

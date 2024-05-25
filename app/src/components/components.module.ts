@@ -17,6 +17,7 @@ import { MessagesModule } from 'primeng/messages'
 import { InputMaskModule } from 'primeng/inputmask'
 import { FormsModule } from '@angular/forms'
 import { DropdownModule } from 'primeng/dropdown'
+import { InplaceModule } from 'primeng/inplace'
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { DropdownModule } from 'primeng/dropdown'
     InputMaskModule,
     FormsModule,
     DropdownModule,
+    InplaceModule,
   ],
   declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent],
   exports: [

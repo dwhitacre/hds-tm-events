@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { Top } from 'src/domain/leaderboard'
 import { MatchResult } from 'src/domain/match'
+import { Player } from 'src/domain/player'
 import { WeeklyResult } from 'src/domain/weekly'
 
 @Component({
@@ -41,8 +42,24 @@ import { WeeklyResult } from 'src/domain/weekly'
 
     <ng-template #bye>
       <div class="player-content bye">
-        bye
+        <ng-container *ngIf="!editable; else byeedit">
+          <span>bye</span>
+        </ng-container>
       </div>
+    </ng-template>
+
+    <ng-template #byeedit>
+      <p-inplace closable="closable" (onDeactivate)="updateMatchResult($event)">
+        <ng-template pTemplate="display">
+          <span>bye</span>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p-dropdown
+            [options]="players" 
+            optionLabel="name"
+          />
+        </ng-template>
+      </p-inplace>
     </ng-template>
   `,
   styles: [
@@ -91,4 +108,10 @@ export class TopCardComponent {
   @Input() label?: string
   @Input() showMorePlayers = false
   @Input() tops!: Array<Top | WeeklyResult | MatchResult>
+  @Input() editable = false
+  @Input() players: Array<Player> = []
+
+  updateMatchResult(event: Event) {
+    console.log(event)
+  }
 }

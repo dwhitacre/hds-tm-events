@@ -9,6 +9,7 @@ import { AdminService } from 'src/services/admin.service'
 import { LeaderboardService } from 'src/services/leaderboard.service'
 import { LogService } from 'src/services/log.service'
 import { WeeklyService } from './weekly.service'
+import { MatchService } from './match.service'
 
 export interface StoreState {
   leaderboard: Leaderboard
@@ -52,7 +53,9 @@ export class StoreService extends ComponentStore<StoreState> {
     this.selectedWeekly$,
     this.toplimit$,
     this.weeklyIds$,
-    (leaderboard, selectedWeekly, toplimit, weeklyIds) => {
+    this.players$,
+    this.isAdmin$,
+    (leaderboard, selectedWeekly, toplimit, weeklyIds, players, isAdmin) => {
       const leaderboardWeekly = leaderboard.weeklies.find(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId == selectedWeekly)
       const weekly = leaderboardWeekly?.weekly
       if (!weekly) return { found: false, selectedWeekly, weeklyIds }
@@ -83,7 +86,9 @@ export class StoreService extends ComponentStore<StoreState> {
         playercount: weekly.results.length,
         lastModified: undefined,
         matches: matches.slice(0, -1),
-        qualifying: matches[matches.length - 1]
+        qualifying: matches[matches.length - 1],
+        players,
+        isAdmin,
       }
     }
   )
@@ -93,6 +98,7 @@ export class StoreService extends ComponentStore<StoreState> {
     private logService: LogService,
     private adminService: AdminService,
     private weeklyService: WeeklyService,
+    private matchService: MatchService,
   ) {
     super({
       leaderboard: {
@@ -178,6 +184,42 @@ export class StoreService extends ComponentStore<StoreState> {
       switchMap(([weeklyId, leaderboardUid]) => this.leaderboardService.addWeeklyToLeaderboard(leaderboardUid, weeklyId).pipe(
         tapResponse({
           next: () => this.logService.success('Success', `Published weekly: ${weeklyId}`),
+          error: (error: HttpErrorResponse) => this.logService.error(error),
+          finalize: () => this.fetchLeaderboard()
+        })
+      ))
+    )
+  })
+
+  readonly addMatchResult = this.effect<[string, string]>((trigger$) => {
+    return trigger$.pipe(
+      switchMap(([matchId, accountId]) => this.matchService.addMatchResult(matchId, accountId).pipe(
+        tapResponse({
+          next: () => this.logService.success('Success', `Added match result: ${matchId}, ${accountId}`, false),
+          error: (error: HttpErrorResponse) => this.logService.error(error),
+          finalize: () => this.fetchLeaderboard()
+        })
+      ))
+    )
+  })
+
+  readonly updateMatchResult = this.effect<[string, string, number]>((trigger$) => {
+    return trigger$.pipe(
+      switchMap(([matchId, accountId, score]) => this.matchService.updateMatchResult(matchId, accountId, score).pipe(
+        tapResponse({
+          next: () => this.logService.success('Success', `Updated match result: ${matchId}, ${accountId}, ${score}`, false),
+          error: (error: HttpErrorResponse) => this.logService.error(error),
+          finalize: () => this.fetchLeaderboard()
+        })
+      ))
+    )
+  })
+
+  readonly deleteMatchResult = this.effect<[string, string]>((trigger$) => {
+    return trigger$.pipe(
+      switchMap(([matchId, accountId]) => this.matchService.deleteMatchResult(matchId, accountId).pipe(
+        tapResponse({
+          next: () => this.logService.success('Success', `Deleted match result: ${matchId}, ${accountId}`, false),
           error: (error: HttpErrorResponse) => this.logService.error(error),
           finalize: () => this.fetchLeaderboard()
         })

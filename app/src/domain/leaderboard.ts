@@ -11,6 +11,7 @@ export interface Leaderboard {
 
 export interface LeaderboardWeekly {
   weekly: Weekly
+  published: boolean
 }
 
 export interface Top {

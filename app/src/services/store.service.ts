@@ -53,7 +53,8 @@ export class StoreService extends ComponentStore<StoreState> {
     this.toplimit$,
     this.weeklyIds$,
     (leaderboard, selectedWeekly, toplimit, weeklyIds) => {
-      const weekly = leaderboard.weeklies.find(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId == selectedWeekly)?.weekly
+      const leaderboardWeekly = leaderboard.weeklies.find(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId == selectedWeekly)
+      const weekly = leaderboardWeekly?.weekly
       if (!weekly) return { found: false, selectedWeekly, weeklyIds }
 
       const matches = weekly.matches.map((weeklyMatch) => {
@@ -74,6 +75,7 @@ export class StoreService extends ComponentStore<StoreState> {
 
       return {
         found: true,
+        published: leaderboardWeekly?.published,
         selectedWeekly,
         weeklyIds,
         top: weekly.results.filter((_, index) => index < toplimit),

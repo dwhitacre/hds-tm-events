@@ -3,9 +3,10 @@ import { ComponentsModule } from 'src/components/components.module'
 import { StoreService } from 'src/services/store.service'
 import { CommonModule } from '@angular/common'
 import { PositionPipe } from 'src/pipes/position.pipe'
-import { DropdownModule } from 'primeng/dropdown';
+import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
-import { SelectButtonModule } from 'primeng/selectbutton';
+import { SelectButtonModule } from 'primeng/selectbutton'
+import { TagModule } from 'primeng/tag'
 
 @Component({
   selector: 'weekly',
@@ -17,11 +18,14 @@ import { SelectButtonModule } from 'primeng/selectbutton';
       <ng-template #weekly>
         <ng-container *ngIf="storeService.weeklyVm$ | async as vm">
           <div class="weekly-header">
-            <p-dropdown 
-              [options]="vm.weeklyIds" 
-              [ngModel]="vm.selectedWeekly"
-              (onChange)="storeService.updateSelectedWeekly($event.value)"
-            />
+            <div class="weekly-header-leftside">
+              <p-dropdown 
+                [options]="vm.weeklyIds" 
+                [ngModel]="vm.selectedWeekly"
+                (onChange)="storeService.updateSelectedWeekly($event.value)"
+              />
+              <p-tag *ngIf="!vm.published" severity="primary" value="Unpublished"/>
+            </div>
             <div class="weekly-header-buffer"></div>
             <div class="weekly-header-buffer"></div>
             <div class="weekly-header-rightside">
@@ -83,6 +87,13 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         grid-column-gap: 24px;
         grid-row-gap: 24px;
       }
+
+      .weekly-header-leftside {
+        display: flex;
+        justify-content: flex-start;
+        gap: 8px;
+        align-items: center;
+      }
       
       .weekly-header-rightside {
         display: flex;
@@ -126,6 +137,6 @@ export class WeeklyComponent {
 @NgModule({
   exports: [WeeklyComponent],
   declarations: [WeeklyComponent],
-  imports: [CommonModule, ComponentsModule, PositionPipe, DropdownModule, FormsModule, SelectButtonModule],
+  imports: [CommonModule, ComponentsModule, PositionPipe, DropdownModule, FormsModule, SelectButtonModule, TagModule],
 })
 export class StandingsModule {}

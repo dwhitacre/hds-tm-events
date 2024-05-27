@@ -17,19 +17,25 @@ import { WeeklyResult } from 'src/domain/weekly'
         />
       </ng-template>
       <ng-template pTemplate="content">
-        <div *ngIf="tops.length > 0; else bye" class="player-content">
-          <span class="position"> {{ tops[0].position || 1 | position }}</span>
-          <span class="name">{{ tops[0].player.name }}</span>
-          <span class="score">{{ tops[0].score || 0 }}</span>
-        </div>
+        <top-card-player
+          [isBye]="tops.length < 1"
+          [top]="tops[0]"
+          [defaultPosition]="1"
+          [players]="players"
+          [editable]="editable"
+          (selected)="updateMatchResult($event)"
+        ></top-card-player>
       </ng-template>
     </p-card>
     <div class="footer" *ngIf="showMorePlayers">
-      <div *ngIf="tops.length > 1; else bye" class="player-content player2">
-        <span class="position"> {{ tops[1].position || 2 | position }}</span>
-        <span class="name">{{ tops[1].player.name }}</span>
-        <span class="score">{{ tops[1].score || 0 }}</span>
-      </div>
+      <top-card-player
+        [isBye]="tops.length <= 1"
+        [top]="tops[1]"
+        [defaultPosition]="2"
+        [players]="players"
+        [editable]="editable"
+        (selected)="updateMatchResult($event)"
+      ></top-card-player>
     </div>
     
     <ng-template #noPlayerImg>
@@ -38,28 +44,6 @@ import { WeeklyResult } from 'src/domain/weekly'
         src="assets/images/hds-events-nobg.png"
         height="192"
       />
-    </ng-template>
-
-    <ng-template #bye>
-      <div class="player-content bye">
-        <ng-container *ngIf="!editable; else byeedit">
-          <span>bye</span>
-        </ng-container>
-      </div>
-    </ng-template>
-
-    <ng-template #byeedit>
-      <p-inplace closable="closable" (onDeactivate)="updateMatchResult($event)">
-        <ng-template pTemplate="display">
-          <span>bye</span>
-        </ng-template>
-        <ng-template pTemplate="content">
-          <p-dropdown
-            [options]="players" 
-            optionLabel="name"
-          />
-        </ng-template>
-      </p-inplace>
     </ng-template>
   `,
   styles: [
@@ -81,12 +65,6 @@ import { WeeklyResult } from 'src/domain/weekly'
         font-weight: 700;
       }
 
-      .player-content {
-        display: flex;
-        gap: 2px;
-        justify-content: space-between;
-      }
-
       .footer {
         display: flex;
         flex-direction: column;
@@ -94,11 +72,6 @@ import { WeeklyResult } from 'src/domain/weekly'
         border: 2px var(--surface-border) solid;
         border-top: 1px;
         border-radius: 0px 0px 4px 4px;
-      }
-      
-      .bye {
-        font-style: italic;
-        justify-content: center;
       }
     `,
   ],
@@ -111,7 +84,7 @@ export class TopCardComponent {
   @Input() editable = false
   @Input() players: Array<Player> = []
 
-  updateMatchResult(event: Event) {
-    console.log(event)
+  updateMatchResult(player?: Player) {
+    console.log(player)
   }
 }

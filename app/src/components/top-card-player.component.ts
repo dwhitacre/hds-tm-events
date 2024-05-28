@@ -22,7 +22,7 @@ import { WeeklyResult } from 'src/domain/weekly'
     </ng-template>
 
     <ng-template #byeedit>
-      <p-inplace closable="closable" (onDeactivate)="selected.emit(selectedPlayer)">
+      <p-inplace closeIcon="pi pi-check" closable="closable" (onDeactivate)="selected.emit(selectedPlayer)">
         <ng-template pTemplate="display">
           <span>bye</span>
         </ng-template>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, Output, EventEmitter} from '@angular/core'
 import { Top } from 'src/domain/leaderboard'
 import { MatchResult } from 'src/domain/match'
 import { Player } from 'src/domain/player'
@@ -23,7 +23,7 @@ import { WeeklyResult } from 'src/domain/weekly'
           [defaultPosition]="1"
           [players]="players"
           [editable]="editable"
-          (selected)="updateMatchResult($event)"
+          (selected)="addedMatchResult.emit($event)"
         ></top-card-player>
       </ng-template>
     </p-card>
@@ -34,7 +34,7 @@ import { WeeklyResult } from 'src/domain/weekly'
         [defaultPosition]="2"
         [players]="players"
         [editable]="editable"
-        (selected)="updateMatchResult($event)"
+        (selected)="addedMatchResult.emit($event)"
       ></top-card-player>
     </div>
     
@@ -84,7 +84,5 @@ export class TopCardComponent {
   @Input() editable = false
   @Input() players: Array<Player> = []
 
-  updateMatchResult(player?: Player) {
-    console.log(player)
-  }
+  @Output() addedMatchResult = new EventEmitter<Player>()
 }

@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms'
 import { SelectButtonModule } from 'primeng/selectbutton'
 import { TagModule } from 'primeng/tag'
 import { InputSwitchModule } from 'primeng/inputswitch'
+import { Player } from 'src/domain/player'
+import { Match } from 'src/domain/match'
 
 @Component({
   selector: 'weekly',
@@ -57,6 +59,7 @@ import { InputSwitchModule } from 'primeng/inputswitch'
                     [showMorePlayers]="true"
                     [editable]="editMode"
                     [players]="vm.players || []"
+                    (addedMatchResult)="addMatchResult(match, $event)"
                   ></top-card>
                 </ng-container>
               </div>
@@ -140,6 +143,11 @@ export class WeeklyComponent {
   editMode = false
 
   constructor(public storeService: StoreService) {}
+
+  addMatchResult(match: Match, player?: Player) {
+    if (!player) return
+    this.storeService.addMatchResult([match.matchId, player.accountId])
+  }
 }
 
 @NgModule({

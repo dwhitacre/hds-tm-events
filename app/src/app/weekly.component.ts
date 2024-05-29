@@ -70,6 +70,11 @@ import { Match } from 'src/domain/match'
                 [tops]="vm.qualifying!.results"
                 [playercount]="vm.qualifying!.results.length"
                 [lastModified]="vm.lastModified"
+                [editable]="editMode"
+                [players]="vm.players || []"
+                (addedMatchResult)="addMatchResult(vm.qualifying!, $event)"
+                (updatedMatchResult)="updateMatchResult(vm.qualifying!, $event)"
+                (deleteMatchResult)="deleteMatchResult(vm.qualifying!, $event)"
               ></tops-table>
             </ng-template>
           </ng-container>

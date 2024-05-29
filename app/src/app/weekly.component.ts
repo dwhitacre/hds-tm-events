@@ -7,6 +7,9 @@ import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
 import { SelectButtonModule } from 'primeng/selectbutton'
 import { TagModule } from 'primeng/tag'
+import { InputSwitchModule } from 'primeng/inputswitch'
+import { Player } from 'src/domain/player'
+import { Match } from 'src/domain/match'
 
 @Component({
   selector: 'weekly',
@@ -29,6 +32,7 @@ import { TagModule } from 'primeng/tag'
             <div class="weekly-header-buffer"></div>
             <div class="weekly-header-buffer"></div>
             <div class="weekly-header-rightside">
+              <p-inputSwitch *ngIf="vm.isAdmin" [(ngModel)]="editMode" />
               <p-selectButton
                 [options]="viewOptions" 
                 [(ngModel)]="currentView" 
@@ -53,6 +57,11 @@ import { TagModule } from 'primeng/tag'
                     label="{{ match.type | titlecase }} {{ match.instance | uppercase }}"
                     [tops]="match.results"
                     [showMorePlayers]="true"
+                    [editable]="editMode"
+                    [players]="vm.players || []"
+                    (addedMatchResult)="addMatchResult(match, $event)"
+                    (updatedMatchResult)="updateMatchResult(match, $event)"
+                    (deleteMatchResult)="deleteMatchResult(match, $event)"
                   ></top-card>
                 </ng-container>
               </div>
@@ -98,6 +107,8 @@ import { TagModule } from 'primeng/tag'
       .weekly-header-rightside {
         display: flex;
         justify-content: flex-end;
+        gap: 8px;
+        align-items: center;
       }
       
       .weekly-header {
@@ -131,12 +142,27 @@ export class WeeklyComponent {
   viewOptions = [{ label: 'Results', value: 'results' }, { label: 'Matches', value: 'matches' }]
   currentView = 'results'
 
+  editMode = false
+
   constructor(public storeService: StoreService) {}
+
+  addMatchResult(match: Match, player?: Player) {
+    if (!player) return
+    this.storeService.addMatchResult([match.matchId, player.accountId])
+  }
+
+  updateMatchResult(match: Match, { player, score }: { player: Player, score: number }) {
+    this.storeService.updateMatchResult([match.matchId, player.accountId, score])
+  }
+
+  deleteMatchResult(match: Match, player: Player) {
+    this.storeService.deleteMatchResult([match.matchId, player.accountId])
+  }
 }
 
 @NgModule({
   exports: [WeeklyComponent],
   declarations: [WeeklyComponent],
-  imports: [CommonModule, ComponentsModule, PositionPipe, DropdownModule, FormsModule, SelectButtonModule, TagModule],
+  imports: [CommonModule, ComponentsModule, PositionPipe, DropdownModule, FormsModule, SelectButtonModule, TagModule, InputSwitchModule],
 })
 export class StandingsModule {}

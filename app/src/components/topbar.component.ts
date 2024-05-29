@@ -31,13 +31,15 @@ import { StoreService } from 'src/services/store.service'
         </div>
       </div>
     </div>
+
     <p-dialog
       header="Enter Admin Key" 
       [modal]="true"
       [(visible)]="adminkeyVisible"
       position="topright"
       [draggable]="false"
-      [style]="{ width: '25rem' }">
+      [style]="{ width: '25rem' }"
+    >
       <div class="layout-dialog-input">
         <input pInputText #adminkey type="password" autocomplete="off" />
       </div>
@@ -46,13 +48,15 @@ import { StoreService } from 'src/services/store.service'
         <p-button label="Enter" (click)="saveAdminKey(adminkey.value)" />
       </div>
     </p-dialog>
+
     <p-dialog
       header="Enter Weekly Date" 
       [modal]="true"
       [(visible)]="createWeeklyVisible"
       position="topright"
       [draggable]="false"
-      [style]="{ width: '25rem' }">
+      [style]="{ width: '25rem' }"
+    >
       <div class="layout-dialog-input">
         <p-inputMask 
           [(ngModel)]="createWeeklyDate" 
@@ -65,13 +69,15 @@ import { StoreService } from 'src/services/store.service'
         <p-button label="Create" (click)="createWeekly(createWeeklyDate)" />
       </div>
     </p-dialog>
+
     <p-dialog
       header="Publish Weekly" 
       [modal]="true"
       [(visible)]="publishWeeklyVisible"
       position="topright"
       [draggable]="false"
-      [style]="{ width: '25rem' }">
+      [style]="{ width: '25rem' }"
+    >
       <ng-container *ngIf="storeService.selectedWeekly$ | async as selectedWeekly">
         <div class="layout-dialog-input">
           <span>

@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, Output, EventEmitter} from '@angular/core'
 import { Top } from 'src/domain/leaderboard'
 import { MatchResult } from 'src/domain/match'
+import { Player } from 'src/domain/player'
 import { WeeklyResult } from 'src/domain/weekly'
 
 @Component({
@@ -16,19 +17,29 @@ import { WeeklyResult } from 'src/domain/weekly'
         />
       </ng-template>
       <ng-template pTemplate="content">
-        <div *ngIf="tops.length > 0; else bye" class="player-content">
-          <span class="position"> {{ tops[0].position || 1 | position }}</span>
-          <span class="name">{{ tops[0].player.name }}</span>
-          <span class="score">{{ tops[0].score || 0 }}</span>
-        </div>
+        <top-card-player
+          [isBye]="tops.length < 1"
+          [top]="tops[0]"
+          [defaultPosition]="1"
+          [players]="players"
+          [editable]="editable"
+          (selected)="addedMatchResult.emit($event)"
+          (updated)="updatedMatchResult.emit($event)"
+          (deleted)="deleteMatchResult.emit($event)"
+        ></top-card-player>
       </ng-template>
     </p-card>
     <div class="footer" *ngIf="showMorePlayers">
-      <div *ngIf="tops.length > 1; else bye" class="player-content player2">
-        <span class="position"> {{ tops[1].position || 2 | position }}</span>
-        <span class="name">{{ tops[1].player.name }}</span>
-        <span class="score">{{ tops[1].score || 0 }}</span>
-      </div>
+      <top-card-player
+        [isBye]="tops.length <= 1"
+        [top]="tops[1]"
+        [defaultPosition]="2"
+        [players]="players"
+        [editable]="editable"
+        (selected)="addedMatchResult.emit($event)"
+        (updated)="updatedMatchResult.emit($event)"
+        (deleted)="deleteMatchResult.emit($event)"
+      ></top-card-player>
     </div>
     
     <ng-template #noPlayerImg>
@@ -37,12 +48,6 @@ import { WeeklyResult } from 'src/domain/weekly'
         src="assets/images/hds-events-nobg.png"
         height="192"
       />
-    </ng-template>
-
-    <ng-template #bye>
-      <div class="player-content bye">
-        bye
-      </div>
     </ng-template>
   `,
   styles: [
@@ -64,12 +69,6 @@ import { WeeklyResult } from 'src/domain/weekly'
         font-weight: 700;
       }
 
-      .player-content {
-        display: flex;
-        gap: 2px;
-        justify-content: space-between;
-      }
-
       .footer {
         display: flex;
         flex-direction: column;
@@ -77,11 +76,6 @@ import { WeeklyResult } from 'src/domain/weekly'
         border: 2px var(--surface-border) solid;
         border-top: 1px;
         border-radius: 0px 0px 4px 4px;
-      }
-      
-      .bye {
-        font-style: italic;
-        justify-content: center;
       }
     `,
   ],
@@ -91,4 +85,10 @@ export class TopCardComponent {
   @Input() label?: string
   @Input() showMorePlayers = false
   @Input() tops!: Array<Top | WeeklyResult | MatchResult>
+  @Input() editable = false
+  @Input() players: Array<Player> = []
+
+  @Output() addedMatchResult = new EventEmitter<Player>()
+  @Output() updatedMatchResult = new EventEmitter<{ player: Player, score: number }>()
+  @Output() deleteMatchResult = new EventEmitter<Player>()
 }

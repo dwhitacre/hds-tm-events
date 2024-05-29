@@ -12,6 +12,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { AdminService } from 'src/services/admin.service'
 import { StoreService } from 'src/services/store.service'
 import { WeeklyService } from 'src/services/weekly.service'
+import { MatchService } from 'src/services/match.service'
 
 export const adminkeyInterceptor: HttpInterceptorFn = (req, next) => {
   const storageService = inject(StorageService)
@@ -36,5 +37,6 @@ export const appConfig: ApplicationConfig = {
     StoreService,
     PositionPipe,
     WeeklyService,
+    MatchService,
   ],
 }

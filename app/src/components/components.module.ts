@@ -17,6 +17,10 @@ import { MessagesModule } from 'primeng/messages'
 import { InputMaskModule } from 'primeng/inputmask'
 import { FormsModule } from '@angular/forms'
 import { DropdownModule } from 'primeng/dropdown'
+import { InplaceModule } from 'primeng/inplace'
+import { TopCardPlayerComponent } from './top-card-player.component'
+import { ContextMenuModule } from 'primeng/contextmenu'
+import { InputNumberModule } from 'primeng/inputnumber'
 
 @NgModule({
   imports: [
@@ -33,8 +37,11 @@ import { DropdownModule } from 'primeng/dropdown'
     InputMaskModule,
     FormsModule,
     DropdownModule,
+    InplaceModule,
+    ContextMenuModule,
+    InputNumberModule,
   ],
-  declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent],
+  declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent, TopCardPlayerComponent],
   exports: [
     LayoutComponent,
     TopBarComponent,

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core'
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core'
 import { MenuItem } from 'primeng/api'
 import { Top } from 'src/domain/leaderboard'
 import { MatchResult } from 'src/domain/match'
@@ -12,10 +12,26 @@ import { WeeklyResult } from 'src/domain/weekly'
       <div class="player-content">
         <span class="position"> {{ top.position || defaultPosition | position }}</span>
         <span class="name">{{ top.player.name }}</span>
-        <span class="score">{{ top.score || 0 }}</span>
+        <span *ngIf="!editable; else scoreedit" class="score">{{ top.score || 0 }}</span>
       </div>
       <p-contextMenu *ngIf="editable" [target]="playercontent" [model]="playerContentItems" />
     </div>
+
+    <ng-template #scoreedit>
+      <p-inplace *ngIf="!isBye" closeIcon="pi pi-check" closable="closable" (onDeactivate)="updated.emit({ player: top.player, score: updatedScore })">
+        <ng-template pTemplate="display">
+          <span class="score">{{ top.score || 0 }}</span>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p-inputNumber
+            [min]="0"
+            [allowEmpty]="false"
+            [(ngModel)]="updatedScore"
+            [size]="1"
+          />
+        </ng-template>
+      </p-inplace>
+    </ng-template>
 
     <ng-template #bye>
       <div class="player-content bye">
@@ -89,7 +105,7 @@ import { WeeklyResult } from 'src/domain/weekly'
     `,
   ],
 })
-export class TopCardPlayerComponent {
+export class TopCardPlayerComponent implements OnChanges {
   @Input() isBye = false
   @Input() top!: Top | WeeklyResult | MatchResult
   @Input() defaultPosition = 0
@@ -104,6 +120,9 @@ export class TopCardPlayerComponent {
 
   selectedPlayer?: Player
   @Output() selected = new EventEmitter<Player | undefined>()
+
+  updatedScore = 0
+  @Output() updated = new EventEmitter<{ player: Player, score: number }>()
   
   deletePlayerVisible = false
   @Output() deleted = new EventEmitter<Player>()
@@ -111,5 +130,9 @@ export class TopCardPlayerComponent {
   onDelete() {
     this.deleted.emit(this.top.player)
     this.deletePlayerVisible = false
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['top'] && changes['top'].currentValue) this.updatedScore = changes['top'].currentValue.score
   }
 }

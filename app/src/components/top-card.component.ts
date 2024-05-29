@@ -24,6 +24,7 @@ import { WeeklyResult } from 'src/domain/weekly'
           [players]="players"
           [editable]="editable"
           (selected)="addedMatchResult.emit($event)"
+          (updated)="updatedMatchResult.emit($event)"
           (deleted)="deleteMatchResult.emit($event)"
         ></top-card-player>
       </ng-template>
@@ -36,6 +37,7 @@ import { WeeklyResult } from 'src/domain/weekly'
         [players]="players"
         [editable]="editable"
         (selected)="addedMatchResult.emit($event)"
+        (updated)="updatedMatchResult.emit($event)"
         (deleted)="deleteMatchResult.emit($event)"
       ></top-card-player>
     </div>
@@ -87,5 +89,6 @@ export class TopCardComponent {
   @Input() players: Array<Player> = []
 
   @Output() addedMatchResult = new EventEmitter<Player>()
+  @Output() updatedMatchResult = new EventEmitter<{ player: Player, score: number }>()
   @Output() deleteMatchResult = new EventEmitter<Player>()
 }

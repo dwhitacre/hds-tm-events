@@ -20,6 +20,7 @@ import { DropdownModule } from 'primeng/dropdown'
 import { InplaceModule } from 'primeng/inplace'
 import { TopCardPlayerComponent } from './top-card-player.component'
 import { ContextMenuModule } from 'primeng/contextmenu'
+import { InputNumberModule } from 'primeng/inputnumber'
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { ContextMenuModule } from 'primeng/contextmenu'
     DropdownModule,
     InplaceModule,
     ContextMenuModule,
+    InputNumberModule,
   ],
   declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent, TopCardPlayerComponent],
   exports: [

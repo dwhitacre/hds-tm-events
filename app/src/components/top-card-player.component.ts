@@ -25,7 +25,6 @@ import { WeeklyResult } from 'src/domain/weekly'
         <ng-template pTemplate="content">
           <p-inputNumber
             [min]="0"
-            [allowEmpty]="false"
             [(ngModel)]="updatedScore"
             [size]="1"
           />

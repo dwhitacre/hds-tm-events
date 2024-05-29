@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core'
+import { MenuItem } from 'primeng/api'
 import { Top } from 'src/domain/leaderboard'
 import { MatchResult } from 'src/domain/match'
 import { Player } from 'src/domain/player'
@@ -7,10 +8,13 @@ import { WeeklyResult } from 'src/domain/weekly'
 @Component({
   selector: 'top-card-player',
   template: `
-    <div *ngIf="!isBye; else bye" class="player-content">
-      <span class="position"> {{ top.position || defaultPosition | position }}</span>
-      <span class="name">{{ top.player.name }}</span>
-      <span class="score">{{ top.score || 0 }}</span>
+    <div *ngIf="!isBye; else bye" #playercontent>
+      <div class="player-content">
+        <span class="position"> {{ top.position || defaultPosition | position }}</span>
+        <span class="name">{{ top.player.name }}</span>
+        <span class="score">{{ top.score || 0 }}</span>
+      </div>
+      <p-contextMenu *ngIf="editable" [target]="playercontent" [model]="playerContentItems" />
     </div>
 
     <ng-template #bye>
@@ -35,6 +39,26 @@ import { WeeklyResult } from 'src/domain/weekly'
         </ng-template>
       </p-inplace>
     </ng-template>
+
+    <p-dialog
+      *ngIf="!isBye"
+      header="Remove Player from Match?" 
+      [modal]="true"
+      [(visible)]="deletePlayerVisible"
+      position="top"
+      [draggable]="false"
+      [style]="{ width: '25rem' }"
+    >
+      <div class="layout-dialog-input">
+        <span>Are you sure you want to remove the following player from the match results?</span>
+        <br />
+        {{ top.player.name }}
+      </div>
+      <div class="layout-dialog-actions">
+        <p-button label="Cancel" severity="secondary" (click)="deletePlayerVisible = false" />
+        <p-button label="Remove" severity="danger" (click)="onDelete()" />
+      </div>
+    </p-dialog>
   `,
   styles: [
     `
@@ -48,6 +72,20 @@ import { WeeklyResult } from 'src/domain/weekly'
         font-style: italic;
         justify-content: center;
       }
+
+      .layout-dialog-input {
+        display: flex;
+        align-items: left;
+        gap: 4px;
+        margin-bottom: 1rem;
+        flex-direction: column;
+      }
+
+      .layout-dialog-actions {
+        display: flex;
+        justify-content: end;
+        gap: 12px;
+      }
     `,
   ],
 })
@@ -58,7 +96,20 @@ export class TopCardPlayerComponent {
   @Input() players: Array<Player> = []
   @Input() editable = false
 
-  selectedPlayer?: Player
+  playerContentItems: Array<MenuItem> = [{
+    label: 'Remove Player',
+    command: () => this.deletePlayerVisible = true,
+    visible: true
+  }]
 
+  selectedPlayer?: Player
   @Output() selected = new EventEmitter<Player | undefined>()
+  
+  deletePlayerVisible = false
+  @Output() deleted = new EventEmitter<Player>()
+
+  onDelete() {
+    this.deleted.emit(this.top.player)
+    this.deletePlayerVisible = false
+  }
 }

@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms'
 import { DropdownModule } from 'primeng/dropdown'
 import { InplaceModule } from 'primeng/inplace'
 import { TopCardPlayerComponent } from './top-card-player.component'
+import { ContextMenuModule } from 'primeng/contextmenu'
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { TopCardPlayerComponent } from './top-card-player.component'
     FormsModule,
     DropdownModule,
     InplaceModule,
+    ContextMenuModule,
   ],
   declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent, TopCardPlayerComponent],
   exports: [

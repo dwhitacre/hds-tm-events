@@ -60,6 +60,7 @@ import { Match } from 'src/domain/match'
                     [editable]="editMode"
                     [players]="vm.players || []"
                     (addedMatchResult)="addMatchResult(match, $event)"
+                    (deleteMatchResult)="deleteMatchResult(match, $event)"
                   ></top-card>
                 </ng-container>
               </div>
@@ -147,6 +148,10 @@ export class WeeklyComponent {
   addMatchResult(match: Match, player?: Player) {
     if (!player) return
     this.storeService.addMatchResult([match.matchId, player.accountId])
+  }
+
+  deleteMatchResult(match: Match, player: Player) {
+    this.storeService.deleteMatchResult([match.matchId, player.accountId])
   }
 }
 

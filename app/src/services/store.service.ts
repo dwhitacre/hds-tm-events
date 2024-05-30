@@ -10,6 +10,7 @@ import { LeaderboardService } from 'src/services/leaderboard.service'
 import { LogService } from 'src/services/log.service'
 import { WeeklyService } from './weekly.service'
 import { MatchService } from './match.service'
+import { PlayerService } from './player.service'
 
 export interface StoreState {
   leaderboard: Leaderboard
@@ -99,6 +100,7 @@ export class StoreService extends ComponentStore<StoreState> {
     private adminService: AdminService,
     private weeklyService: WeeklyService,
     private matchService: MatchService,
+    private playerService: PlayerService,
   ) {
     super({
       leaderboard: {
@@ -220,6 +222,18 @@ export class StoreService extends ComponentStore<StoreState> {
       switchMap(([matchId, accountId]) => this.matchService.deleteMatchResult(matchId, accountId).pipe(
         tapResponse({
           next: () => this.logService.success('Success', `Deleted match result: ${matchId}, ${accountId}`, false),
+          error: (error: HttpErrorResponse) => this.logService.error(error),
+          finalize: () => this.fetchLeaderboard()
+        })
+      ))
+    )
+  })
+
+  readonly addPlayer = this.effect<string>((accountId$) => {
+    return accountId$.pipe(
+      switchMap((accountId) => this.playerService.addPlayer(accountId).pipe(
+        tapResponse({
+          next: () => this.logService.success('Success', `Added player: ${accountId}`),
           error: (error: HttpErrorResponse) => this.logService.error(error),
           finalize: () => this.fetchLeaderboard()
         })

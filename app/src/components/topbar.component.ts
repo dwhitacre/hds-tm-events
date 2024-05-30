@@ -92,6 +92,27 @@ import { StoreService } from 'src/services/store.service'
         </div>
       </ng-container>
     </p-dialog>
+
+    <p-dialog
+      header="Add Player" 
+      [modal]="true"
+      [(visible)]="addPlayerVisible"
+      position="topright"
+      [draggable]="false"
+      [style]="{ width: '25rem' }"
+    >
+      <div class="layout-dialog-input">
+        <p-inputMask 
+          [(ngModel)]="addPlayerAccountId" 
+          mask="********-****-****-****-************" 
+          [placeholder]="addPlayerAccountId"
+        />
+      </div>
+      <div class="layout-dialog-actions">
+        <p-button label="Cancel" severity="secondary" (click)="addPlayerVisible = false" />
+        <p-button label="Create" (click)="addPlayer(addPlayerAccountId)" />
+      </div>
+    </p-dialog>
 `,
   styles: [
     `
@@ -179,7 +200,8 @@ import { StoreService } from 'src/services/store.service'
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-github,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-published,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-createweekly,
-      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-publishweekly {
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-publishweekly,
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-addplayer {
         display: none;
       }
 
@@ -220,6 +242,9 @@ export class TopBarComponent {
 
   publishWeeklyVisible = false
   publishSelectedWeekly = ''
+
+  addPlayerVisible = false
+  addPlayerAccountId = ''
 
   noop = () => { /*noop*/ }
 
@@ -282,6 +307,13 @@ export class TopBarComponent {
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-publishweekly'
   }
+  addPlayerItem: MenuItem = {
+    label: 'Add Player',
+    icon: 'pi pi-user-plus',
+    command: () => this.addPlayerVisible = true,
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-addplayer'
+  }
   
   menuItems$ = this.storeService.isAdmin$.pipe(
     map((isAdmin) => {
@@ -289,6 +321,7 @@ export class TopBarComponent {
         this.togglePublishedItem,
         this.createWeeklyItem,
         this.publishWeeklyItem,
+        this.addPlayerItem,
       ] : []
 
       return [
@@ -318,5 +351,10 @@ export class TopBarComponent {
   publishWeekly(value: string) {
     this.storeService.publishWeekly(value)
     this.publishWeeklyVisible = false
+  }
+
+  addPlayer(value: string) {
+    this.storeService.addPlayer(value)
+    this.addPlayerVisible = false
   }
 }

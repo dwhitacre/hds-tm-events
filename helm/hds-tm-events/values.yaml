@@ -33,6 +33,8 @@ api:
     port: 8081
   securityContext: {}
 
+tmioUrl: https://trackmania.io
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""

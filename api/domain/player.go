@@ -216,6 +216,14 @@ func PlayerAdd(player *Player) error {
 	if err := json.Unmarshal(tmioRawData, &playerData); err != nil {
 		return err
 	}
+
+	if playerData.AccountId == "" {
+		return errors.New("missing account id")
+	}
+
+	if playerData.DisplayName == "" {
+		return errors.New("missing display name")
+	}
 	
 	tmioData := string(tmioRawData[:])
 	if tmioData == "" {

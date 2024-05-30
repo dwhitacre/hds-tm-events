@@ -62,6 +62,8 @@ spec:
                 secretKeyRef:
                   name: hds-tm-events-api
                   key: ADMIN_KEY
+            - name: TMIO_URL
+              value: {{ .Values.tmioUrl }}
           ports:
             - name: api-http
               containerPort: 8081

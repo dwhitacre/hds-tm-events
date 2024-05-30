@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -22,12 +23,17 @@ func main() {
 	}
 	defer pool.Close()
 
-	domain.Setup(logger, pool)
+	tmio := &http.Client{
+		Timeout: time.Second * 20,
+	}
+
+	domain.Setup(logger, pool, tmio)
 	api.Setup(logger, pool)
 	http.HandleFunc("/ready", api.ReadyHandler)
 	http.HandleFunc("/api/leaderboard/{id}", api.LeaderboardHandler)
 	http.HandleFunc("/api/leaderboard", api.AdminMiddleware(api.PatchLeaderboardHandler))
 	http.HandleFunc("/api/player/{id}", api.PlayerHandler)
+	http.HandleFunc("/api/player", api.AdminMiddleware(api.CreatePlayerHandler))
 	http.HandleFunc("/api/match/{id}", api.MatchHandler)
 	http.HandleFunc("/api/match/{matchId}/matchresult", api.AdminMiddleware(api.MatchResultHandler))
 	http.HandleFunc("/api/weekly/{id}", api.WeeklyHandler)

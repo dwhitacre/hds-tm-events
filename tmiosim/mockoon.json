@@ -1,0 +1,80 @@
+{
+  "uuid": "49e0f346-6f58-4c1c-818b-fddcbd78e9ae",
+  "lastMigration": 32,
+  "name": "TM IO Sim",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 8100,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "83e8197c-c3ca-4910-b0d8-413e6fa761ed",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/player/:accountId",
+      "responses": [
+        {
+          "uuid": "a6a0bdfc-950d-4500-9674-4b89a5f04d7f",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "./player/{{urlParam 'accountId'}}",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": true,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "83e8197c-c3ca-4910-b0d8-413e6fa761ed"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": false,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

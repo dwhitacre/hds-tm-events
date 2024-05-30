@@ -14,7 +14,6 @@ FROM gcr.io/distroless/base-debian12
 
 WORKDIR /
 COPY --from=build /hdstmevents-api /hdstmevents-api
-COPY ./player /player
 
 EXPOSE 8080
 USER nonroot:nonroot

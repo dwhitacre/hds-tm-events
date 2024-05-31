@@ -65,6 +65,10 @@ func PatchLeaderboardHandler(w http.ResponseWriter, r *http.Request) {
 
 		logger.Info("Adding weekly to leaderboard", "i", i, "leaderboardId", leaderboard.LeaderboardId, "weeklyId", leaderboard.Weeklies[i].Weekly.WeeklyId)
 	}
+	
+	if err := domain.LeaderboardUpdate(leaderboard.LeaderboardId); err != nil {
+		logger.Warn("Failed to updated last modified, continuing anyways", "leaderboardId", leaderboard.LeaderboardId, "lastModified", leaderboard.LastModified, "err", err)
+	}
 
 	w.WriteHeader(http.StatusCreated)
 }

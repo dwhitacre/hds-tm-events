@@ -5,6 +5,7 @@ import (
 	"errors"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -156,6 +157,20 @@ func LeaderboardGet(leaderboard *Leaderboard, published bool) error {
 			leaderboard.Tops[i].Position = i + 1
 		}
 		leaderboard.Playercount++
+	}
+
+	return nil
+}
+
+func LeaderboardUpdate(leaderboardId string) error {
+	_, err := db.Exec(
+		context.Background(),
+		`update leaderboard set LastModified = $2 where LeaderboardId = $1`,
+		leaderboardId,
+		time.Now().UTC().Format(time.RFC3339),
+	)
+	if err != nil {
+		return err
 	}
 
 	return nil

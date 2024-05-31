@@ -73,7 +73,10 @@ func MatchResultHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	if err := domain.LeaderboardUpdateFromMatchId(matchId); err != nil {
+		logger.Warn("Failed to update leaderboard last modified, continuing anyways", "matchId", matchId, "err", err)
+	}
 			
 	w.WriteHeader(http.StatusOK)
-	return
 }

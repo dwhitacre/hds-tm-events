@@ -176,6 +176,26 @@ func LeaderboardUpdate(leaderboardId string) error {
 	return nil
 }
 
+func LeaderboardUpdateFromMatchId(matchId string) error {
+	_, err := db.Exec(
+		context.Background(),
+		`update leaderboard l
+			set lastmodified = $2
+			from leaderboardweekly lw
+				join weeklymatch wm on lw.weeklyid = wm.weeklyid
+			where
+				l.leaderboardid = lw.leaderboardid
+				and wm.matchid = $1`,
+		matchId,
+		time.Now().UTC().Format(time.RFC3339),
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func LeaderboardWeeklyAdd(leaderboardId string, weeklyId string) error {
 	_, err := db.Exec(
 		context.Background(),

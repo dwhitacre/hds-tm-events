@@ -67,7 +67,7 @@ func PatchLeaderboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	if err := domain.LeaderboardUpdate(leaderboard.LeaderboardId); err != nil {
-		logger.Warn("Failed to updated last modified, continuing anyways", "leaderboardId", leaderboard.LeaderboardId, "lastModified", leaderboard.LastModified, "err", err)
+		logger.Warn("Failed to updated last modified, continuing anyways", "leaderboardId", leaderboard.LeaderboardId, "err", err)
 	}
 
 	w.WriteHeader(http.StatusCreated)

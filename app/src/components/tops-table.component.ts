@@ -30,6 +30,7 @@ import { WeeklyResult } from 'src/domain/weekly'
                   top.player.image ||
                   'assets/images/hds-events-nobg.png'
                 "
+                (error)="onImgError($event)"
                 width="64"
                 height="37"
                 class="shadow-4"
@@ -180,5 +181,9 @@ export class TopsTableComponent {
     if (!this.deletedPlayer) return
     this.deleteMatchResult.emit(this.deletedPlayer)
     this.deletePlayerVisible = false
+  }
+
+  onImgError(event: Event) {
+    if (event.target) (event.target as HTMLImageElement).src = 'assets/images/hds-events-nobg.png'
   }
 }

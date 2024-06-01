@@ -13,6 +13,7 @@ import { WeeklyResult } from 'src/domain/weekly'
         <img *ngIf="tops.length > 0; else noPlayerImg"
           [alt]="tops[0].player.name"
           [src]="tops[0].player.image || 'assets/images/hds-events-nobg.png'"
+          (error)="onImgError($event)"
           height="192"
         />
       </ng-template>
@@ -91,4 +92,8 @@ export class TopCardComponent {
   @Output() addedMatchResult = new EventEmitter<Player>()
   @Output() updatedMatchResult = new EventEmitter<{ player: Player, score: number }>()
   @Output() deleteMatchResult = new EventEmitter<Player>()
+
+  onImgError(event: Event) {
+    if (event.target) (event.target as HTMLImageElement).src = 'assets/images/hds-events-nobg.png'
+  }
 }

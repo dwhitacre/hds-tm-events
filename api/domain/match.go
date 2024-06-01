@@ -87,7 +87,7 @@ func toMatch(matchData []MatchData, match *Match) error {
 	
 			var pointResult MatchResult
 			pointResult.Player = &player
-			if i < match.PlayersAwarded {
+			if i < match.PlayersAwarded && matchResult.Score > 0 {
 				pointResult.Score = match.PointsAwarded
 			}
 	

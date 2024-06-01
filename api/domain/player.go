@@ -60,6 +60,25 @@ func getPlayerDataFromDb(accountId string) (PlayerDataDb, error) {
 	return player, nil
 }
 
+func getAllPlayerDataFromDb() ([]PlayerDataDb, error) {
+	var players []PlayerDataDb
+
+	rows, err := db.Query(
+		context.Background(),
+		`select AccountId, TmioData from Player`,
+	)
+	if err != nil {
+		return players, err
+	}
+
+	players, err = pgx.CollectRows(rows, pgx.RowToStructByName[PlayerDataDb])
+	if err != nil {
+		return players, err
+	}
+
+	return players, nil
+}
+
 func toPlayerData(playerDataDb *PlayerDataDb, playerData *PlayerData) error {
 	if playerDataDb.TmioData == "" {
 		return errors.New("missing tmioData in db")
@@ -183,6 +202,35 @@ func PlayerGet(player *Player) error {
 	}
 
 	return nil
+}
+
+func PlayerList() ([]*Player, error) {
+	var players []*Player
+	
+	playerDataDb, err := getAllPlayerDataFromDb()
+	if err != nil {
+		return players, err
+	}
+
+	for i := 0; i < len(playerDataDb); i++ {
+		var playerData PlayerData
+		if err = toPlayerData(&playerDataDb[i], &playerData); err != nil {
+			return players, err
+		}
+
+		var player Player
+		if err = toPlayer(&playerData, &player); err != nil {
+			return players, err
+		}
+	
+		if err = applyPlayerOverrides(&player); err != nil {
+			return players, err
+		}
+
+		players = append(players, &player)
+	}
+
+	return players, nil
 }
 
 func PlayerAdd(player *Player) error {

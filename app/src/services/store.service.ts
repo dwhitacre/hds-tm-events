@@ -35,7 +35,7 @@ export class StoreService extends ComponentStore<StoreState> {
   readonly isAdmin$ = this.select((state) => state.isAdmin)
   readonly selectedWeekly$ = this.select((state) => state.selectedWeekly)
 
-  readonly players$ = this.select((state) => state.leaderboard.tops.map(top => top.player))
+  readonly players$ = this.select((state) => state.leaderboard.players.length > 0 ? state.leaderboard.players : state.leaderboard.tops.map(top => top.player))
   readonly weeklyIds$: Observable<Array<string>> = this.select((state) => state.leaderboard.weeklies.map(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId).reverse())
 
   readonly standingsVm$ = this.select(
@@ -108,7 +108,8 @@ export class StoreService extends ComponentStore<StoreState> {
         tops: [],
         playercount: 0,
         weeklies: [],
-        lastModified: new Date(0)
+        lastModified: new Date(0),
+        players: []
       },
       leaderboardUid: 'standings',
       leaderboardPublished: true,

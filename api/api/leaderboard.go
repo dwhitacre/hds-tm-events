@@ -19,6 +19,11 @@ func LeaderboardHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	leaderboard.Players, err = domain.PlayerList()
+	if err != nil {
+		logger.Warn("Failed to get all players, skipping", "id", id, "err", err)
+	}
+
 	logger.Info("Leaderboard found", "id", id)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(leaderboard)

@@ -58,6 +58,7 @@ func MatchResultHandler(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		logger.Info("Added match result", "matchId", matchId, "accountId", matchResult.AccountId, "score", matchResult.Score)
 	} else if r.Method == http.MethodPost {
 		err := domain.MatchResultUpdate(matchId, matchResult.AccountId, matchResult.Score)
 		if err != nil {
@@ -65,6 +66,7 @@ func MatchResultHandler(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		logger.Info("Updated match result", "matchId", matchId, "accountId", matchResult.AccountId, "score", matchResult.Score)
 	} else if r.Method == http.MethodDelete {
 		err := domain.MatchResultDelete(matchId, matchResult.AccountId)
 		if err != nil {
@@ -72,6 +74,7 @@ func MatchResultHandler(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		logger.Info("Deleted match result", "matchId", matchId, "accountId", matchResult.AccountId)
 	}
 
 	if err := domain.LeaderboardUpdateFromMatchId(matchId); err != nil {

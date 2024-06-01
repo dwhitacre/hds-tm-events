@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
-API_DIR=$REPO_ROOT/api
+API_DIR=$REPO_ROOT/tmiosim
 PLAYER_DIR=$API_DIR/player
 
 if ! test -d $PLAYER_DIR; then

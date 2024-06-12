@@ -28,3 +28,9 @@ processes:
     command: docker compose up tmiosim
     shutdown:
       command: docker compose stop tmiosim
+  e2e:
+    working_dir: e2e
+    command: yarn test
+    depends_on:
+      api:
+        condition: process_healthy

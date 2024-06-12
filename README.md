@@ -1,12 +1,14 @@
-## HD's Trackmania Events 
+# HD's Trackmania Events 
 
 Companion software repository for HD's Trackmania Events. For each part of the solution you can run them independently or you run them together using docker, process compose, or helm/k8s.
+
+## Development
 
 ### Process Compose
 
 > Note the `app` runs on 8080 by default and so does process-compose. I've modified the process compose port to be 8999 via an environment variable `PC_PORT_NUM=8999`.
 
-From the root you can kick off the `app`, `api`, `db`, and `tmiosim` all in one go. This does not run the db migrations, you want to run those separately.
+From the root you can kick off the `app`, `api`, `db`, `tmiosim`, `e2e` all in one go. This does not run the db migrations, you want to run those separately.
 ```
 process-compose
 ```
@@ -26,6 +28,8 @@ This is mostly used for actual infrastructure and probably will not work out of 
 - Cert-Manager and Letsencrpyt Cluster Issuers
 
 If you have all that, and get the naming (or value overrides configured), you should be able to deploy the helm charts to your cluster. See the `.github/workflows` for the exact actions.
+
+## Architecture
 
 ### App
 
@@ -87,3 +91,7 @@ This only really should be run directly when composing all the services together
 ### TmioSim
 
 This is a simulator of trackmania.io using mockoon. If you want to make changes to this you will likely want to download the mockoon GUI, though direct changes to the json are technically supported as well. This is used in all local environments by default to avoid hitting trackmania io's api unecessarily for development and testing purposes.
+
+### E2e
+
+This contains the e2e and integration tests for all of the components of the application. Each of the components will have their own unit tests so this is specifically focused on testing from an user contract perspective. That is this will test the different interfaces that users can interact with ie the browser and the api directly.

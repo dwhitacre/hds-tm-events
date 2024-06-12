@@ -16,21 +16,210 @@
       "endpoint": "api/player/:accountId",
       "responses": [
         {
-          "uuid": "a6a0bdfc-950d-4500-9674-4b89a5f04d7f",
-          "body": "{}",
+          "uuid": "27749883-0e0b-4b3c-9204-a5c9da80d566",
+          "body": "{\"error\":\"account not found\"}",
           "latency": 0,
-          "statusCode": 200,
-          "label": "",
+          "statusCode": 500,
+          "label": "Player not found",
           "headers": [],
-          "bodyType": "FILE",
-          "filePath": "./player/{{urlParam 'accountId'}}",
+          "bodyType": "INLINE",
+          "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
           "rules": [],
           "rulesOperator": "OR",
-          "disableTemplating": true,
-          "fallbackTo404": true,
+          "disableTemplating": false,
+          "fallbackTo404": false,
           "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f3ce06e1-fee9-42e9-852e-34dc8f7773b9",
+          "body": "{\n  \"accountid\": \"{{ urlParam 'accountId' }}\",\n  \"displayname\": \"{{ faker 'internet.userName' }}\",\n  \"trophies\": {\n    \"zone\": {\n      \"flag\": \"{{ faker 'location.countryCode' 'alpha-3' }}\",\n      \"parent\": {\n        \"flag\": \"nothing\",\n        \"parent\": {\n          \"flag\": \"nothing\",\n          \"parent\": {\n            \"flag\": \"nothing\"\n          }\n        }\n      }\n    }\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Player found top level flag",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "accountId",
+              "value": "^2000.*",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "645ec725-5b17-44a9-89d4-9ad64810adc9",
+          "body": "{\n  \"accountid\": \"{{ urlParam 'accountId' }}\",\n  \"displayname\": \"{{ faker 'internet.userName' }}\",\n  \"trophies\": {\n    \"zone\": {\n      \"flag\": \"nothing\",\n      \"parent\": {\n        \"flag\": \"{{ faker 'location.countryCode' 'alpha-3' }}\",\n        \"parent\": {\n          \"flag\": \"nothing\",\n          \"parent\": {\n            \"flag\": \"nothing\"\n          }\n        }\n      }\n    }\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Player found second level flag",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "accountId",
+              "value": "^2001.*",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "3976b5cc-fc64-4e35-bbea-2990096d1b2b",
+          "body": "{\n  \"accountid\": \"{{ urlParam 'accountId' }}\",\n  \"displayname\": \"{{ faker 'internet.userName' }}\",\n  \"trophies\": {\n    \"zone\": {\n      \"flag\": \"nothing\",\n      \"parent\": {\n        \"flag\": \"nothing\",\n        \"parent\": {\n          \"flag\": \"{{ faker 'location.countryCode' 'alpha-3' }}\",\n          \"parent\": {\n            \"flag\": \"nothing\"\n          }\n        }\n      }\n    }\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Player found third level flag",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "accountId",
+              "value": "^2002.*",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a09a2fa7-e04d-4314-bbb4-748818d5a0c2",
+          "body": "{\n  \"accountid\": \"{{ urlParam 'accountId' }}\",\n  \"displayname\": \"{{ faker 'internet.userName' }}\",\n  \"trophies\": {\n    \"zone\": {\n      \"flag\": \"nothing\",\n      \"parent\": {\n        \"flag\": \"nothing\",\n        \"parent\": {\n          \"flag\": \"nothing\",\n          \"parent\": {\n            \"flag\": \"{{ faker 'location.countryCode' 'alpha-3' }}\"\n          }\n        }\n      }\n    }\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Player found fourth level flag",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "accountId",
+              "value": "^2003.*",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f412120b-e22c-4459-af18-86a32ac9f14e",
+          "body": "{\n  \"accountid\": \"{{ urlParam 'accountId' }}\",\n  \"displayname\": \"{{ faker 'internet.userName' }}\",\n  \"trophies\": {\n    \"zone\": {\n      \"flag\": \"nothing\",\n      \"parent\": {\n        \"flag\": \"nothing\",\n        \"parent\": {\n          \"flag\": \"nothing\",\n          \"parent\": {\n            \"flag\": \"nothing\"\n          }\n        }\n      }\n    }\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Player found no flags",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "accountId",
+              "value": "^2004.*",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "76f96da6-38aa-446b-a22e-014c5cbb7f82",
+          "body": "{\n  \"displayname\": \"{{ faker 'internet.userName' }}\",\n  \"trophies\": {\n    \"zone\": {\n      \"flag\": \"{{ faker 'location.countryCode' 'alpha-3' }}\",\n      \"parent\": {\n        \"flag\": \"nothing\",\n        \"parent\": {\n          \"flag\": \"nothing\",\n          \"parent\": {\n            \"flag\": \"nothing\"\n          }\n        }\n      }\n    }\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Player found no accountid",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "accountId",
+              "value": "^4000.*",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f5c3227f-703b-4141-9753-4c06c007d2d3",
+          "body": "{\n  \"accountid\": \"{{ urlParam 'accountId' }}\",\n  \"trophies\": {\n    \"zone\": {\n      \"flag\": \"{{ faker 'location.countryCode' 'alpha-3' }}\",\n      \"parent\": {\n        \"flag\": \"nothing\",\n        \"parent\": {\n          \"flag\": \"nothing\",\n          \"parent\": {\n            \"flag\": \"nothing\"\n          }\n        }\n      }\n    }\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Player found no displayname",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "accountId",
+              "value": "^4001.*",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }

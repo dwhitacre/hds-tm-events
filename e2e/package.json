@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "e2e",
   "version": "1.0.0",
   "author": "Dan Whitacre <dan@whitacre.dev>",
   "license": "MIT",
@@ -8,5 +8,8 @@
     "@bahmutov/cy-api": "^2.2.6",
     "@faker-js/faker": "^8.4.1",
     "cypress": "13.11.0"
+  },
+  "scripts": {
+    "test": "yarn cypress open --browser firefox --e2e"
   }
 }

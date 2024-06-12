@@ -1,9 +1,11 @@
 /// <reference types="cypress" />
 
+import { faker } from '@faker-js/faker'
+
 context('/player', () => {
   it('get player dne', () => {
     cy.api({
-      url: '/api/player/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+      url: '/api/player/000'
     }).then(response => {
       expect(response.status).to.eq(204)
     })
@@ -13,7 +15,7 @@ context('/player', () => {
     cy.api({
       url: '/api/player',
       body: {
-        accountId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+        accountId: faker.string.uuid()
       },
       method: 'POST',
       failOnStatusCode: false,
@@ -28,7 +30,7 @@ context('/player', () => {
   it('create player bad body', () => {
     cy.api({
       url: '/api/player',
-      body: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+      body: faker.string.uuid(),
       method: 'PUT',
       failOnStatusCode: false,
       headers: {
@@ -57,7 +59,7 @@ context('/player', () => {
     cy.api({
       url: '/api/player',
       body: {
-        accountId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+        accountId: '404'
       },
       method: 'PUT',
       failOnStatusCode: false,
@@ -73,7 +75,7 @@ context('/player', () => {
     cy.api({
       url: '/api/player',
       body: {
-        accountId: '4000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+        accountId: '4000'
       },
       method: 'PUT',
       failOnStatusCode: false,
@@ -89,7 +91,7 @@ context('/player', () => {
     cy.api({
       url: '/api/player',
       body: {
-        accountId: '4001xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+        accountId: '4001'
       },
       method: 'PUT',
       failOnStatusCode: false,

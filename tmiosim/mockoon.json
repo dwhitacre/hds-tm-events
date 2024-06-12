@@ -26,11 +26,19 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "accountId",
+              "value": "404",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         },
@@ -45,19 +53,11 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "params",
-              "modifier": "accountId",
-              "value": "^2000.*",
-              "invert": false,
-              "operator": "regex"
-            }
-          ],
+          "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": false,
+          "default": true,
           "crudKey": "id",
           "callbacks": []
         },
@@ -76,9 +76,9 @@
             {
               "target": "params",
               "modifier": "accountId",
-              "value": "^2001.*",
+              "value": "2001",
               "invert": false,
-              "operator": "regex"
+              "operator": "equals"
             }
           ],
           "rulesOperator": "OR",
@@ -103,9 +103,9 @@
             {
               "target": "params",
               "modifier": "accountId",
-              "value": "^2002.*",
+              "value": "2002",
               "invert": false,
-              "operator": "regex"
+              "operator": "equals"
             }
           ],
           "rulesOperator": "OR",
@@ -130,9 +130,9 @@
             {
               "target": "params",
               "modifier": "accountId",
-              "value": "^2003.*",
+              "value": "2003",
               "invert": false,
-              "operator": "regex"
+              "operator": "equals"
             }
           ],
           "rulesOperator": "OR",
@@ -157,9 +157,9 @@
             {
               "target": "params",
               "modifier": "accountId",
-              "value": "^2004.*",
+              "value": "2004",
               "invert": false,
-              "operator": "regex"
+              "operator": "equals"
             }
           ],
           "rulesOperator": "OR",
@@ -184,9 +184,9 @@
             {
               "target": "params",
               "modifier": "accountId",
-              "value": "^4000.*",
+              "value": "4000",
               "invert": false,
-              "operator": "regex"
+              "operator": "equals"
             }
           ],
           "rulesOperator": "OR",
@@ -211,9 +211,9 @@
             {
               "target": "params",
               "modifier": "accountId",
-              "value": "^4001.*",
+              "value": "4001",
               "invert": false,
-              "operator": "regex"
+              "operator": "equals"
             }
           ],
           "rulesOperator": "OR",

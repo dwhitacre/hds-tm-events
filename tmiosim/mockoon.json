@@ -76,9 +76,9 @@
             {
               "target": "params",
               "modifier": "accountId",
-              "value": "2001",
+              "value": "^2001.*",
               "invert": false,
-              "operator": "equals"
+              "operator": "regex"
             }
           ],
           "rulesOperator": "OR",
@@ -103,9 +103,9 @@
             {
               "target": "params",
               "modifier": "accountId",
-              "value": "2002",
+              "value": "^2002.*",
               "invert": false,
-              "operator": "equals"
+              "operator": "regex"
             }
           ],
           "rulesOperator": "OR",
@@ -130,9 +130,9 @@
             {
               "target": "params",
               "modifier": "accountId",
-              "value": "2003",
+              "value": "^2003.*",
               "invert": false,
-              "operator": "equals"
+              "operator": "regex"
             }
           ],
           "rulesOperator": "OR",

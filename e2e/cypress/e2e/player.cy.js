@@ -2,104 +2,142 @@
 
 import { faker } from '@faker-js/faker'
 
+const playerGet = (accountId) => {
+  return cy.api({
+    url: `/api/player/${accountId}`
+  })
+}
+
+const playerCreate = ({ accountId = faker.string.uuid(), body, method = 'PUT' } = {}) => {
+  return cy.api({
+    url: '/api/player',
+    body: body ?? { accountId },
+    method,
+    failOnStatusCode: false,
+    headers: {
+      'x-hdstmevents-adminkey': 'developer-test-key'
+    }
+  })
+}
+
 context('/player', () => {
   it('get player dne', () => {
-    cy.api({
-      url: '/api/player/000'
-    }).then(response => {
+    playerGet('000').then(response => {
       expect(response.status).to.eq(204)
     })
   })
 
   it('create player bad method', () => {
-    cy.api({
-      url: '/api/player',
-      body: {
-        accountId: faker.string.uuid()
-      },
-      method: 'POST',
-      failOnStatusCode: false,
-      headers: {
-        'x-hdstmevents-adminkey': 'developer-test-key'
-      }
-    }).then(response => {
+    playerCreate({ method: 'POST' }).then(response => {
       expect(response.status).to.eq(405)
     })
   })
 
   it('create player bad body', () => {
-    cy.api({
-      url: '/api/player',
+    playerCreate({
       body: faker.string.uuid(),
-      method: 'PUT',
-      failOnStatusCode: false,
-      headers: {
-        'x-hdstmevents-adminkey': 'developer-test-key'
-      }
     }).then(response => {
       expect(response.status).to.eq(400)
     })
   })
 
   it('create player no account id', () => {
-    cy.api({
-      url: '/api/player',
+    playerCreate({
       body: {},
-      method: 'PUT',
-      failOnStatusCode: false,
-      headers: {
-        'x-hdstmevents-adminkey': 'developer-test-key'
-      }
     }).then(response => {
       expect(response.status).to.eq(400)
     })
   })
 
   it('create player tmio not found', () => {
-    cy.api({
-      url: '/api/player',
-      body: {
-        accountId: '404'
-      },
-      method: 'PUT',
-      failOnStatusCode: false,
-      headers: {
-        'x-hdstmevents-adminkey': 'developer-test-key'
-      }
+    playerCreate({
+      accountId: '404'
     }).then(response => {
       expect(response.status).to.eq(400)
     })
   })
 
   it('create player tmio found no accountid', () => {
-    cy.api({
-      url: '/api/player',
-      body: {
-        accountId: '4000'
-      },
-      method: 'PUT',
-      failOnStatusCode: false,
-      headers: {
-        'x-hdstmevents-adminkey': 'developer-test-key'
-      }
+    playerCreate({
+      accountId: '4000'
     }).then(response => {
       expect(response.status).to.eq(400)
     })
   })
 
   it('create player tmio found no displayname', () => {
-    cy.api({
-      url: '/api/player',
-      body: {
-        accountId: '4001'
-      },
-      method: 'PUT',
-      failOnStatusCode: false,
-      headers: {
-        'x-hdstmevents-adminkey': 'developer-test-key'
-      }
+    playerCreate({
+      accountId: '4001'
     }).then(response => {
       expect(response.status).to.eq(400)
+    })
+  })
+
+  it('create player top level flag', () => {
+    const accountId = faker.string.uuid().replace(/^.{4}/, '2000')
+    playerCreate({
+      accountId
+    }).then(response => {
+      expect(response.status).to.eq(201)
+      playerGet(accountId).then(response => {
+        expect(response.status).to.eq(200)
+        expect(response.body.accountId).to.eq(accountId)
+        expect(response.body.name).to.have.length.gt(0)
+        expect(response.body.image).to.match(/assets\/images\/.{3}\..{3}/)
+        expect(response.body.twitch).to.have.length(0)
+        expect(response.body.discord).to.have.length(0)
+      })
+    })
+  })
+
+  it('create player second level flag', () => {
+    const accountId = faker.string.uuid().replace(/^.{4}/, '2001')
+    playerCreate({
+      accountId
+    }).then(response => {
+      expect(response.status).to.eq(201)
+      playerGet(accountId).then(response => {
+        expect(response.status).to.eq(200)
+        expect(response.body.accountId).to.eq(accountId)
+        expect(response.body.name).to.have.length.gt(0)
+        expect(response.body.image).to.match(/assets\/images\/.{3}\..{3}/)
+        expect(response.body.twitch).to.have.length(0)
+        expect(response.body.discord).to.have.length(0)
+      })
+    })
+  })
+
+  it('create player third level flag', () => {
+    const accountId = faker.string.uuid().replace(/^.{4}/, '2002')
+    playerCreate({
+      accountId
+    }).then(response => {
+      expect(response.status).to.eq(201)
+      playerGet(accountId).then(response => {
+        expect(response.status).to.eq(200)
+        expect(response.body.accountId).to.eq(accountId)
+        expect(response.body.name).to.have.length.gt(0)
+        expect(response.body.image).to.match(/assets\/images\/.{3}\..{3}/)
+        expect(response.body.twitch).to.have.length(0)
+        expect(response.body.discord).to.have.length(0)
+      })
+    })
+  })
+
+  it('create player fourth level flag', () => {
+    const accountId = faker.string.uuid().replace(/^.{4}/, '2003')
+    playerCreate({
+      accountId
+    }).then(response => {
+      expect(response.status).to.eq(201)
+      playerGet(accountId).then(response => {
+        expect(response.status).to.eq(200)
+        expect(response.body.accountId).to.eq(accountId)
+        expect(response.body.name).to.have.length.gt(0)
+        expect(response.body.image).to.match(/assets\/images\/nothing\..{3}/)
+        expect(response.body.twitch).to.have.length(0)
+        expect(response.body.discord).to.have.length(0)
+      })
     })
   })
 })

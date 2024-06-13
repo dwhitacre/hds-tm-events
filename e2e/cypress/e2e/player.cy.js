@@ -20,6 +20,13 @@ const playerCreate = ({ accountId = faker.string.uuid(), body, method = 'PUT' } 
   })
 }
 
+const playerOverridesCreate = (values) => {
+  return cy.task('db', {
+    query: 'insert into PlayerOverrides (AccountId, Name, Image, Twitch, Discord) values (${accountId}, ${name}, ${image}, ${twitch}, ${discord});',
+    values,
+  })
+}
+
 context('/player', () => {
   it('get player dne', () => {
     playerGet('000').then(response => {
@@ -137,6 +144,65 @@ context('/player', () => {
         expect(response.body.image).to.match(/assets\/images\/nothing\..{3}/)
         expect(response.body.twitch).to.have.length(0)
         expect(response.body.discord).to.have.length(0)
+      })
+    })
+  })
+
+  // todo add this support
+  it.skip('create player repeat is an update', () => {
+    const accountId = faker.string.uuid().replace(/^.{4}/, '2000')
+    playerCreate({
+      accountId
+    }).then(response => {
+      expect(response.status).to.eq(201)
+      playerGet(accountId).then(response => {
+        expect(response.status).to.eq(200)
+        expect(response.body.accountId).to.eq(accountId)
+        expect(response.body.name).to.have.length.gt(0)
+        const firstName = response.body.name
+        playerCreate({
+          accountId
+        }).then(response => {
+          expect(response.status).to.eq(201)
+          playerGet(accountId).then(response => {
+            expect(response.status).to.eq(200)
+            expect(response.body.accountId).to.eq(accountId)
+            expect(response.body.name).to.have.length.gt(0)
+            
+            expect(response.body.name).not.to.eq(firstName)
+          })
+        })
+      })
+    })
+  })
+
+  it('get player with overrides', () => {
+    const accountId = faker.string.uuid().replace(/^.{4}/, '2000')
+    playerCreate({
+      accountId
+    }).then(response => {
+      expect(response.status).to.eq(201)
+
+      const name = faker.internet.userName()
+      const image = 'assets/images/override.jpg'
+      const twitch = 'override.tv'
+      const discord = 'override.discord'
+
+      playerOverridesCreate({
+        accountId,
+        name,
+        image,
+        twitch,
+        discord
+      }).then(() => {
+        playerGet(accountId).then(response => {
+          expect(response.status).to.eq(200)
+          expect(response.body.accountId).to.eq(accountId)
+          expect(response.body.name).to.eq(name)
+          expect(response.body.image).to.eq(image)
+          expect(response.body.twitch).to.eq(twitch)
+          expect(response.body.discord).to.eq(discord)
+        })
       })
     })
   })

@@ -27,7 +27,7 @@ const playerOverridesCreate = (values) => {
   })
 }
 
-context('/player', () => {
+context('/api/player', () => {
   it('get player dne', () => {
     playerGet('000').then(response => {
       expect(response.status).to.eq(204)

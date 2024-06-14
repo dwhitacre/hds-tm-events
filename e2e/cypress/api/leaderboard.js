@@ -35,3 +35,7 @@ export const leaderboardAddWeekly = ({ leaderboardId = faker.string.uuid(), week
 export const leaderboardCreateAndAddWeekly = (leaderboardId, weeklyId) => {
   return weeklyCreate({ weeklyId }).then(() => leaderboardAddWeekly({ leaderboardId, weeklyId }))
 }
+
+export const leaderboardCreateAndCreateAndAddWeekly = (leaderboardId, weeklyId) => {
+  return leaderboardCreate({ leaderboardId }).then(() => leaderboardCreateAndAddWeekly(leaderboardId, weeklyId))
+}

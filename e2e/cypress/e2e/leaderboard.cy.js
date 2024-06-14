@@ -21,6 +21,116 @@ context('/api/leaderboard', () => {
     })
   })
 
+  it('add weekly to leaderboard bad method', () => {
+    const leaderboardId = faker.string.uuid()
+    const weeklyId = fakeWeeklyId()
+
+    leaderboardCreate({ leaderboardId }).then(() => {
+      weeklyCreate({ weeklyId }).then(() => {
+        leaderboardAddWeekly({ leaderboardId, weeklyId, method: 'POST' }).then(response => {
+          expect(response.status).to.eq(405)
+        })
+      })
+    })
+  })
+
+  it('add weekly to leaderboard bad body', () => {
+    const leaderboardId = faker.string.uuid()
+    const weeklyId = fakeWeeklyId()
+
+    leaderboardCreate({ leaderboardId }).then(() => {
+      weeklyCreate({ weeklyId }).then(() => {
+        leaderboardAddWeekly({ body: leaderboardId }).then(response => {
+          expect(response.status).to.eq(400)
+        })
+      })
+    })
+  })
+
+  it('add weekly to leaderboard no leaderboardId', () => {
+    const leaderboardId = faker.string.uuid()
+    const weeklyId = fakeWeeklyId()
+
+    leaderboardCreate({ leaderboardId }).then(() => {
+      weeklyCreate({ weeklyId }).then(() => {
+        leaderboardAddWeekly({ body: {
+          weeklies: [{
+            weekly: { weeklyId }
+          }]
+        }}).then(response => {
+          expect(response.status).to.eq(400)
+        })
+      })
+    })
+  })
+
+  it('add weekly to leaderboard no weeklies', () => {
+    const leaderboardId = faker.string.uuid()
+    const weeklyId = fakeWeeklyId()
+
+    leaderboardCreate({ leaderboardId }).then(() => {
+      weeklyCreate({ weeklyId }).then(() => {
+        leaderboardAddWeekly({ body: {
+          leaderboardId,
+          weeklies: []
+        }}).then(response => {
+          expect(response.status).to.eq(204)
+        })
+      })
+    })
+  })
+
+  it('add weekly to leaderboard skip weekly with no id', () => {
+    const leaderboardId = faker.string.uuid()
+    const weeklyId = fakeWeeklyId()
+
+    leaderboardCreate({ leaderboardId }).then(() => {
+      weeklyCreate({ weeklyId }).then(() => {
+        leaderboardAddWeekly({ body: {
+          leaderboardId,
+          weeklies: [{}]
+        }}).then(response => {
+          expect(response.status).to.eq(201)
+          leaderboardGet(leaderboardId).then(response => {
+            expect(response.status).to.eq(204)
+          })
+        })
+      })
+    })
+  })
+
+  it('add weekly to leaderboard leaderboardId dne', () => {
+    const leaderboardId = faker.string.uuid()
+    const weeklyId = fakeWeeklyId()
+
+    leaderboardCreate({ leaderboardId }).then(() => {
+      weeklyCreate({ weeklyId }).then(() => {
+        leaderboardAddWeekly({ leaderboardId: faker.string.uuid(), weeklyId }).then(response => {
+          expect(response.status).to.eq(400)
+          leaderboardGet(leaderboardId).then(response => {
+            expect(response.status).to.eq(204)
+          })
+        })
+      })
+    })
+  })
+
+  it('add weekly to leaderboard weeklyId dne', () => {
+    const leaderboardId = faker.string.uuid()
+    const weeklyId = fakeWeeklyId()
+
+    leaderboardCreate({ leaderboardId }).then(() => {
+      weeklyCreate({ weeklyId }).then(() => {
+        leaderboardAddWeekly({ leaderboardId, weeklyId: faker.string.uuid() }).then(response => {
+          expect(response.status).to.eq(400)
+          leaderboardGet(leaderboardId).then(response => {
+            expect(response.status).to.eq(204)
+          })
+        })
+      })
+    })
+  })
+
   it('add weekly to leaderboard', () => {
     const leaderboardId = faker.string.uuid()
     const weeklyId = fakeWeeklyId()

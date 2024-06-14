@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { fakeWeeklyId } from './weekly'
+import { fakeWeeklyId, weeklyCreate } from './weekly'
 
 export const leaderboardGet = (leaderboardId) => {
   return cy.api({
@@ -30,4 +30,8 @@ export const leaderboardAddWeekly = ({ leaderboardId = faker.string.uuid(), week
       'x-hdstmevents-adminkey': 'developer-test-key'
     }
   })
+}
+
+export const leaderboardCreateAndAddWeekly = (leaderboardId, weeklyId) => {
+  return weeklyCreate({ weeklyId }).then(() => leaderboardAddWeekly({ leaderboardId, weeklyId }))
 }

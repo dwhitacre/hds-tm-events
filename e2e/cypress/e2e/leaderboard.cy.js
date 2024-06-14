@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { faker } from '@faker-js/faker'
-import { leaderboardAddWeekly, leaderboardCreate, leaderboardGet } from "../api/leaderboard"
+import { leaderboardAddWeekly, leaderboardCreate, leaderboardCreateAndAddWeekly, leaderboardGet } from "../api/leaderboard"
 import { fakeWeeklyId, weeklyCreate } from '../api/weekly'
 
 context('/api/leaderboard', () => {
@@ -223,6 +223,27 @@ context('/api/leaderboard', () => {
           })
         })
       })
+    })
+  })
+
+  it('add weekly to leaderboard multiple', () => {
+    const leaderboardId = faker.string.uuid()
+    const weeklyId1 = fakeWeeklyId()
+    const weeklyId2 = fakeWeeklyId()
+    const weeklyId3 = fakeWeeklyId()
+
+    leaderboardCreate({ leaderboardId }).then(() => {
+      leaderboardCreateAndAddWeekly(leaderboardId, weeklyId1).then(
+        () => leaderboardCreateAndAddWeekly(leaderboardId, weeklyId2).then(
+          () => leaderboardCreateAndAddWeekly(leaderboardId, weeklyId3).then(() => {
+            leaderboardGet(leaderboardId).then(response => {
+              expect(response.status).to.eq(200)
+              expect(response.body.leaderboardId).to.eq(leaderboardId)
+              expect(response.body.weeklies).to.have.length(3)
+            })
+          })
+        )
+      )
     })
   })
 })

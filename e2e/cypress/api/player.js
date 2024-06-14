@@ -18,6 +18,12 @@ export const playerCreate = ({ accountId = faker.string.uuid(), body, method = '
   })
 }
 
+export const playerCreateMany = (accountIds = [], idx = 0) => {
+  return playerCreate({ accountId: accountIds[idx] }).then(() => {
+    return idx < accountIds.length - 1 ? playerCreateMany(accountIds, ++idx) : null 
+  })
+}
+
 export const playerOverridesCreate = (values) => {
   return cy.task('db', {
     query: 'insert into PlayerOverrides (AccountId, Name, Image, Twitch, Discord) values (${accountId}, ${name}, ${image}, ${twitch}, ${discord});',

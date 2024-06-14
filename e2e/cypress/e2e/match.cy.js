@@ -2,7 +2,7 @@
 
 import { faker } from '@faker-js/faker'
 import { playerCreate } from '../api/player'
-import { matchResultAdd, matchResultDelete, matchResultUpdate } from '../api/match'
+import { matchResultAdd, matchResultDelete, matchResultUpdate, matchFinals } from '../api/match'
 import { leaderboardCreateAndCreateAndAddWeekly } from '../api/leaderboard'
 import { fakeWeeklyId } from '../api/weekly'
 
@@ -24,7 +24,7 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, body: accountId }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), body: accountId }).then(response => {
             expect(response.status).to.eq(400)
           })
         })
@@ -38,7 +38,7 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, body: {} }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), body: {} }).then(response => {
             expect(response.status).to.eq(400)
           })
         })
@@ -53,7 +53,7 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId: faker.string.uuid() }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId: faker.string.uuid() }).then(response => {
             expect(response.status).to.eq(400)
           })
         })
@@ -67,7 +67,7 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(response => {
             expect(response.status).to.eq(200)
           })
         })
@@ -83,7 +83,7 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
             matchResultUpdate({ matchId: faker.string.uuid(), accountId }).then(response => {
               expect(response.status).to.eq(400)
             })
@@ -99,8 +99,8 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
-            matchResultUpdate({ matchId: `${weeklyId}-finals`, body: accountId }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
+            matchResultUpdate({ matchId: matchFinals(weeklyId), body: accountId }).then(response => {
               expect(response.status).to.eq(400)
             })
           })
@@ -115,8 +115,8 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
-            matchResultUpdate({ matchId: `${weeklyId}-finals`, body: {} }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
+            matchResultUpdate({ matchId: matchFinals(weeklyId), body: {} }).then(response => {
               expect(response.status).to.eq(400)
             })
           })
@@ -132,8 +132,8 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
-            matchResultUpdate({ matchId: `${weeklyId}-finals`, accountId: faker.string.uuid() }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
+            matchResultUpdate({ matchId: matchFinals(weeklyId), accountId: faker.string.uuid() }).then(response => {
               expect(response.status).to.eq(400)
             })
           })
@@ -148,8 +148,8 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
-            matchResultUpdate({ matchId: `${weeklyId}-finals`, accountId, score: 20 }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
+            matchResultUpdate({ matchId: matchFinals(weeklyId), accountId, score: 20 }).then(response => {
               expect(response.status).to.eq(200)
             })
           })
@@ -166,7 +166,7 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
             matchResultDelete({ matchId: faker.string.uuid(), accountId }).then(response => {
               expect(response.status).to.eq(400)
             })
@@ -182,8 +182,8 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
-            matchResultDelete({ matchId: `${weeklyId}-finals`, body: accountId }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
+            matchResultDelete({ matchId: matchFinals(weeklyId), body: accountId }).then(response => {
               expect(response.status).to.eq(400)
             })
           })
@@ -198,8 +198,8 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
-            matchResultDelete({ matchId: `${weeklyId}-finals`, body: {} }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
+            matchResultDelete({ matchId: matchFinals(weeklyId), body: {} }).then(response => {
               expect(response.status).to.eq(400)
             })
           })
@@ -215,8 +215,8 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
-            matchResultDelete({ matchId: `${weeklyId}-finals`, accountId: faker.string.uuid() }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
+            matchResultDelete({ matchId: matchFinals(weeklyId), accountId: faker.string.uuid() }).then(response => {
               expect(response.status).to.eq(400)
             })
           })
@@ -231,8 +231,8 @@ context('/api/match/{matchId}/matchresult', () => {
 
       leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
         playerCreate({ accountId }).then(() => {
-          matchResultAdd({ matchId: `${weeklyId}-finals`, accountId }).then(() => {
-            matchResultDelete({ matchId: `${weeklyId}-finals`, accountId }).then(response => {
+          matchResultAdd({ matchId: matchFinals(weeklyId), accountId }).then(() => {
+            matchResultDelete({ matchId: matchFinals(weeklyId), accountId }).then(response => {
               expect(response.status).to.eq(200)
             })
           })

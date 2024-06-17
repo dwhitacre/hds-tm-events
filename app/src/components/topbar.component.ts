@@ -265,7 +265,7 @@ export class TopBarComponent {
   discordItem: MenuItem = {
     label: 'Join',
     icon: 'pi pi-discord',
-    command: () => window.open('https://discord.gg/yR5EtqAWW7'),
+    command: () => window.open('https://join.hdweeklyleague.com'),
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-discord'
   }

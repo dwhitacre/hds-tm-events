@@ -62,7 +62,7 @@ ingress:
   tls:
     - hosts:
         - hdweeklyleague.com
-        - www.hdweeklyleague.com
+        - "*.hdweeklyleague.com"
       secretName: hdweeklyleague-tls
 
 nodeSelector: {}

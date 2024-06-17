@@ -37,6 +37,7 @@ func main() {
 	http.HandleFunc("/api/match/{matchId}/matchresult", api.AdminMiddleware(api.MatchResultHandler))
 	http.HandleFunc("/api/weekly", api.AdminMiddleware(api.CreateWeeklyHandler))
 	http.HandleFunc("/api/admin", api.AdminMiddleware(api.AdminHandler))
+	http.HandleFunc("/", api.DirectHandler)
 
 	logger.Info("Server started")
 	logger.Error("Server exited", http.ListenAndServe(os.Getenv("HOST") + ":8081", nil))

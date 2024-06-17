@@ -64,6 +64,8 @@ ingress:
         - hdweeklyleague.com
         - "*.hdweeklyleague.com"
       secretName: hdweeklyleague-tls
+  directs:
+    - host: join.hdweeklyleague.com
 
 nodeSelector: {}
 tolerations: []

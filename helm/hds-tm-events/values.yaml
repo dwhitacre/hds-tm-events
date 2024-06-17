@@ -62,7 +62,8 @@ ingress:
   tls:
     - hosts:
         - hdweeklyleague.com
-        - "*.hdweeklyleague.com"
+        - www.hdweeklyleague.com
+        - join.hdweeklyleague.com
       secretName: hdweeklyleague-tls
   directs:
     - host: join.hdweeklyleague.com

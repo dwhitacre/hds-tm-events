@@ -4,7 +4,21 @@ import { faker } from '@faker-js/faker'
 import { leaderboardAddWeekly, leaderboardCreate, leaderboardCreateAndAddWeekly, leaderboardCreateAndCreateAndAddWeekly, leaderboardGet } from "../api/leaderboard"
 import { fakeWeeklyId, weeklyCreate } from '../api/weekly'
 import { playerCreateMany } from '../api/player'
-import { matchQualifying, matchFinals, matchQuarterFinalA, matchQuarterFinalB, matchQuarterFinalC, matchQuarterFinalD, matchSemifinalA, matchSemifinalB, matchResultAddAndUpdateMany } from '../api/match'
+import {
+  matchQualifying,
+  matchFinals,
+  matchQuarterFinalA,
+  matchQuarterFinalB,
+  matchQuarterFinalC,
+  matchQuarterFinalD,
+  matchQuarterFinalTiebreakA,
+  matchQuarterFinalTiebreakB,
+  matchQuarterFinalTiebreakC,
+  matchSemifinalA,
+  matchSemifinalB,
+  matchSemifinalTiebreak,
+  matchResultAddAndUpdateMany
+} from '../api/match'
 
 context('/api/leaderboard', () => {
   it('get leaderboard dne', () => {
@@ -155,14 +169,14 @@ context('/api/leaderboard', () => {
             expect(response.body.weeklies[0].published).to.be.true
             const weekly = response.body.weeklies[0].weekly
             expect(weekly.weeklyId).to.eq(weeklyId)
-            expect(weekly.matches).to.have.length(8)
+            expect(weekly.matches).to.have.length(12)
             expect(weekly.matches).to.deep.include.members([
               {
                 match: {
                   matchId: matchFinals(weeklyId),
                   results: [],
                   playersAwarded: 1,
-                  pointsAwarded: 5,
+                  pointsAwarded: 4,
                   pointsResults: []
                 },
               }, {
@@ -183,10 +197,18 @@ context('/api/leaderboard', () => {
                 },
               }, {
                 match: {
+                  matchId: matchSemifinalTiebreak(weeklyId),
+                  results: [],
+                  playersAwarded: 1,
+                  pointsAwarded: 2,
+                  pointsResults: []
+                },
+              }, {
+                match: {
                   matchId: matchQuarterFinalA(weeklyId),
                   results: [],
                   playersAwarded: 1,
-                  pointsAwarded: 4,
+                  pointsAwarded: 5,
                   pointsResults: []
                 },
               }, {
@@ -194,7 +216,7 @@ context('/api/leaderboard', () => {
                   matchId: matchQuarterFinalB(weeklyId),
                   results: [],
                   playersAwarded: 1,
-                  pointsAwarded: 4,
+                  pointsAwarded: 5,
                   pointsResults: []
                 },
               }, {
@@ -202,7 +224,7 @@ context('/api/leaderboard', () => {
                   matchId: matchQuarterFinalC(weeklyId),
                   results: [],
                   playersAwarded: 1,
-                  pointsAwarded: 4,
+                  pointsAwarded: 5,
                   pointsResults: []
                 },
               }, {
@@ -210,7 +232,31 @@ context('/api/leaderboard', () => {
                   matchId: matchQuarterFinalD(weeklyId),
                   results: [],
                   playersAwarded: 1,
-                  pointsAwarded: 4,
+                  pointsAwarded: 5,
+                  pointsResults: []
+                },
+              }, {
+                match: {
+                  matchId: matchQuarterFinalTiebreakA(weeklyId),
+                  results: [],
+                  playersAwarded: 1,
+                  pointsAwarded: 3,
+                  pointsResults: []
+                },
+              }, {
+                match: {
+                  matchId: matchQuarterFinalTiebreakB(weeklyId),
+                  results: [],
+                  playersAwarded: 1,
+                  pointsAwarded: 2,
+                  pointsResults: []
+                },
+              }, {
+                match: {
+                  matchId: matchQuarterFinalTiebreakC(weeklyId),
+                  results: [],
+                  playersAwarded: 1,
+                  pointsAwarded: 1,
                   pointsResults: []
                 },
               }, {
@@ -254,49 +300,57 @@ context('/api/leaderboard', () => {
     const leaderboardId = faker.string.uuid()
     const weeklyId = fakeWeeklyId()
     const accountIds = 'p'.repeat(10).split('').map(() => faker.string.uuid())
-    leaderboardCreateAndCreateAndAddWeekly(leaderboardId , weeklyId).then(() => {
+    leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
       playerCreateMany(accountIds).then(() => {
         matchResultAddAndUpdateMany(matchQualifying(weeklyId), accountIds).then(() => {
           matchResultAddAndUpdateMany(matchQuarterFinalA(weeklyId), accountIds.slice(2, 4), 0).then(() => {
             matchResultAddAndUpdateMany(matchQuarterFinalB(weeklyId), accountIds.slice(4, 6), 0).then(() => {
               matchResultAddAndUpdateMany(matchQuarterFinalC(weeklyId), accountIds.slice(6, 8), 0).then(() => {
                 matchResultAddAndUpdateMany(matchQuarterFinalD(weeklyId), accountIds.slice(8, 10), 0).then(() => {
-                  matchResultAddAndUpdateMany(matchSemifinalA(weeklyId), [accountIds[3], accountIds[5]], 0).then(() => {
-                    matchResultAddAndUpdateMany(matchSemifinalB(weeklyId), [accountIds[7], accountIds[9]], 0).then(() => {
-                      matchResultAddAndUpdateMany(matchFinals(weeklyId), [accountIds[5], accountIds[9]], 0).then(() => {
-                        leaderboardGet(leaderboardId).then(response => {
-                          expect(response.status).to.eq(200)
-                          expect(response.body.leaderboardId).to.eq(leaderboardId)
-                          expect(response.body.tops[0].player.accountId).to.eq(accountIds[9])
-                          expect(response.body.tops[0].score).to.eq(15)
-                          expect(response.body.tops[0].position).to.eq(1)
-                          expect(response.body.tops[1].player.accountId).to.eq(accountIds[5])
-                          expect(response.body.tops[1].score).to.eq(10)
-                          expect(response.body.tops[1].position).to.eq(2)
-                          expect(response.body.tops[2].player.accountId).to.be.oneOf([accountIds[3], accountIds[7]])
-                          expect(response.body.tops[2].score).to.eq(5)
-                          expect(response.body.tops[2].position).to.eq(3)
-                          expect(response.body.tops[3].player.accountId).to.be.oneOf([accountIds[3], accountIds[7]])
-                          expect(response.body.tops[3].score).to.eq(5)
-                          expect(response.body.tops[3].position).to.eq(3)
-                          expect(response.body.tops[4].player.accountId).to.be.oneOf([accountIds[2], accountIds[4], accountIds[6], accountIds[8]])
-                          expect(response.body.tops[4].score).to.eq(1)
-                          expect(response.body.tops[4].position).to.eq(5)
-                          expect(response.body.tops[5].player.accountId).to.be.oneOf([accountIds[2], accountIds[4], accountIds[6], accountIds[8]])
-                          expect(response.body.tops[5].score).to.eq(1)
-                          expect(response.body.tops[5].position).to.eq(5)
-                          expect(response.body.tops[6].player.accountId).to.be.oneOf([accountIds[2], accountIds[4], accountIds[6], accountIds[8]])
-                          expect(response.body.tops[6].score).to.eq(1)
-                          expect(response.body.tops[6].position).to.eq(5)
-                          expect(response.body.tops[7].player.accountId).to.be.oneOf([accountIds[2], accountIds[4], accountIds[6], accountIds[8]])
-                          expect(response.body.tops[7].score).to.eq(1)
-                          expect(response.body.tops[7].position).to.eq(5)
-                          expect(response.body.tops[8].player.accountId).to.be.oneOf([accountIds[0], accountIds[1]])
-                          expect(response.body.tops[8].score).to.eq(0)
-                          expect(response.body.tops[8].position).to.eq(9)
-                          expect(response.body.tops[9].player.accountId).to.be.oneOf([accountIds[0], accountIds[1]])
-                          expect(response.body.tops[9].score).to.eq(0)
-                          expect(response.body.tops[9].position).to.eq(9)
+                  matchResultAddAndUpdateMany(matchQuarterFinalTiebreakA(weeklyId), accountIds.slice(8, 9), 1).then(() => {
+                    matchResultAddAndUpdateMany(matchQuarterFinalTiebreakB(weeklyId), accountIds.slice(6, 7), 1).then(() => {
+                      matchResultAddAndUpdateMany(matchQuarterFinalTiebreakC(weeklyId), accountIds.slice(4, 5), 1).then(() => {
+                        matchResultAddAndUpdateMany(matchSemifinalA(weeklyId), [accountIds[3], accountIds[5]], 0).then(() => {
+                          matchResultAddAndUpdateMany(matchSemifinalB(weeklyId), [accountIds[7], accountIds[9]], 0).then(() => {
+                            matchResultAddAndUpdateMany(matchSemifinalTiebreak(weeklyId), [accountIds[7]], 1).then(() => {
+                              matchResultAddAndUpdateMany(matchFinals(weeklyId), [accountIds[5], accountIds[9]], 0).then(() => {
+                                leaderboardGet(leaderboardId).then(response => {
+                                  expect(response.status).to.eq(200)
+                                  expect(response.body.leaderboardId).to.eq(leaderboardId)
+                                  expect(response.body.tops[0].player.accountId).to.eq(accountIds[9])
+                                  expect(response.body.tops[0].score).to.eq(15)
+                                  expect(response.body.tops[0].position).to.eq(1)
+                                  expect(response.body.tops[1].player.accountId).to.eq(accountIds[5])
+                                  expect(response.body.tops[1].score).to.eq(11)
+                                  expect(response.body.tops[1].position).to.eq(2)
+                                  expect(response.body.tops[2].player.accountId).to.eq(accountIds[7])
+                                  expect(response.body.tops[2].score).to.eq(8)
+                                  expect(response.body.tops[2].position).to.eq(3)
+                                  expect(response.body.tops[3].player.accountId).to.eq(accountIds[3])
+                                  expect(response.body.tops[3].score).to.eq(6)
+                                  expect(response.body.tops[3].position).to.eq(4)
+                                  expect(response.body.tops[4].player.accountId).to.eq(accountIds[8])
+                                  expect(response.body.tops[4].score).to.eq(4)
+                                  expect(response.body.tops[4].position).to.eq(5)
+                                  expect(response.body.tops[5].player.accountId).to.eq(accountIds[6])
+                                  expect(response.body.tops[5].score).to.eq(3)
+                                  expect(response.body.tops[5].position).to.eq(6)
+                                  expect(response.body.tops[6].player.accountId).to.eq(accountIds[4])
+                                  expect(response.body.tops[6].score).to.eq(2)
+                                  expect(response.body.tops[6].position).to.eq(7)
+                                  expect(response.body.tops[7].player.accountId).to.eq(accountIds[2])
+                                  expect(response.body.tops[7].score).to.eq(1)
+                                  expect(response.body.tops[7].position).to.eq(8)
+                                  expect(response.body.tops[8].player.accountId).to.be.oneOf([accountIds[0], accountIds[1]])
+                                  expect(response.body.tops[8].score).to.eq(0)
+                                  expect(response.body.tops[8].position).to.eq(9)
+                                  expect(response.body.tops[9].player.accountId).to.be.oneOf([accountIds[0], accountIds[1]])
+                                  expect(response.body.tops[9].score).to.eq(0)
+                                  expect(response.body.tops[9].position).to.eq(9)
+                                })
+                              })
+                            })
+                          })
                         })
                       })
                     })

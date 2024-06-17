@@ -1,10 +1,14 @@
 export const matchFinals = (weeklyId) => `${weeklyId}-finals`
 export const matchSemifinalA = (weeklyId) => `${weeklyId}-semifinal-a`
 export const matchSemifinalB = (weeklyId) => `${weeklyId}-semifinal-b`
+export const matchSemifinalTiebreak = (weeklyId) => `${weeklyId}-semifinal-tiebreak`
 export const matchQuarterFinalA = (weeklyId) => `${weeklyId}-quarterfinal-a`
 export const matchQuarterFinalB = (weeklyId) => `${weeklyId}-quarterfinal-b`
 export const matchQuarterFinalC = (weeklyId) => `${weeklyId}-quarterfinal-c`
 export const matchQuarterFinalD = (weeklyId) => `${weeklyId}-quarterfinal-d`
+export const matchQuarterFinalTiebreakA = (weeklyId) => `${weeklyId}-quarterfinal-tiebreak-a`
+export const matchQuarterFinalTiebreakB = (weeklyId) => `${weeklyId}-quarterfinal-tiebreak-b`
+export const matchQuarterFinalTiebreakC = (weeklyId) => `${weeklyId}-quarterfinal-tiebreak-c`
 export const matchQualifying = (weeklyId) => `${weeklyId}-qualifying`
 
 export const matchResultAdd = ({ matchId, accountId, body, method = 'PUT' } = {}) => {

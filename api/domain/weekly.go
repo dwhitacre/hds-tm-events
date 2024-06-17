@@ -123,7 +123,7 @@ func getWeeklyMatches(weeklyId string) []Match {
 	return []Match{
 		{
 			MatchId: weeklyId + "-finals",
-			PointsAwarded: 5,
+			PointsAwarded: 4,
 			PlayersAwarded: 1,
 		},
 		{
@@ -137,23 +137,43 @@ func getWeeklyMatches(weeklyId string) []Match {
 			PlayersAwarded: 1,
 		},
 		{
+			MatchId: weeklyId + "-semifinal-tiebreak",
+			PointsAwarded: 2,
+			PlayersAwarded: 1,
+		},
+		{
 			MatchId: weeklyId + "-quarterfinal-a",
-			PointsAwarded: 4,
+			PointsAwarded: 5,
 			PlayersAwarded: 1,
 		},
 		{
 			MatchId: weeklyId + "-quarterfinal-b",
-			PointsAwarded: 4,
+			PointsAwarded: 5,
 			PlayersAwarded: 1,
 		},
 		{
 			MatchId: weeklyId + "-quarterfinal-c",
-			PointsAwarded: 4,
+			PointsAwarded: 5,
 			PlayersAwarded: 1,
 		},
 		{
 			MatchId: weeklyId + "-quarterfinal-d",
-			PointsAwarded: 4,
+			PointsAwarded: 5,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-quarterfinal-tiebreak-a",
+			PointsAwarded: 3,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-quarterfinal-tiebreak-b",
+			PointsAwarded: 2,
+			PlayersAwarded: 1,
+		},
+		{
+			MatchId: weeklyId + "-quarterfinal-tiebreak-c",
+			PointsAwarded: 1,
 			PlayersAwarded: 1,
 		},
 		{

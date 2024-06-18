@@ -70,7 +70,7 @@ export class StoreService extends ComponentStore<StoreState> {
           ...match,
           type,
           order: matchTypeOrder.indexOf(type),
-          instance: matchParts.length > 1 ? matchParts[1] : ''
+          instance: matchParts.length > 1 ? matchParts.slice(1).join(' ') : ''
         }
       }).sort((matchA, matchB) => {
         if (matchA.order == matchB.order) return matchA.instance.localeCompare(matchB.instance)

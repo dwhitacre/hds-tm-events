@@ -82,6 +82,12 @@ import { WeeklyResult } from 'src/domain/weekly'
         gap: 2px;
         justify-content: space-between;
       }
+
+      .player-content .name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+      }
       
       .bye {
         font-style: italic;

@@ -91,23 +91,6 @@ func toPlayerData(playerDataDb *PlayerDataDb, playerData *PlayerData) error {
 	return nil
 }
 
-func getPlayerDataFromFile(accountId string) (PlayerData, error) {
-	var playerData PlayerData
-	
-	file, err := os.Open("player/" + accountId)
-	if err != nil {
-		return playerData, err
-	}
-	defer file.Close()
-	
-	jsonParser := json.NewDecoder(file)
-	if err = jsonParser.Decode(&playerData); err != nil {
-		return playerData, err
-	}
-	
-	return playerData, nil
-}
-
 func getPlayerData(accountId string) (PlayerData, error) {
 	playerDataDb, err := getPlayerDataFromDb(accountId)
 	if err == nil {
@@ -118,15 +101,18 @@ func getPlayerData(accountId string) (PlayerData, error) {
 		}
 	}
 
-	logger.Warn("Fell back to file for retrieving player data", "accountId", accountId, "err", err)
-	return getPlayerDataFromFile(accountId)
+	logger.Warn("Missing player data", "accountId", accountId, "err", err)
+	return PlayerData{
+		AccountId: accountId,
+		DisplayName: accountId,
+	}, nil
 }
 
 func toPlayer(playerData *PlayerData, player *Player) error {
 	player.AccountId = playerData.AccountId
 	player.Name = playerData.DisplayName
 
-	if player.Image == "" {
+	if player.Image == "" && playerData.Trophies != nil {
 		flag := playerData.Trophies.Zone.Flag
 		if len(flag) > 3 {
 			flag = playerData.Trophies.Zone.Parent.Flag

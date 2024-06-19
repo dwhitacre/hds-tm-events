@@ -21,6 +21,7 @@ import { InplaceModule } from 'primeng/inplace'
 import { TopCardPlayerComponent } from './top-card-player.component'
 import { ContextMenuModule } from 'primeng/contextmenu'
 import { InputNumberModule } from 'primeng/inputnumber'
+import { StatsTableComponent } from './stats-table.component'
 
 @NgModule({
   imports: [
@@ -41,14 +42,15 @@ import { InputNumberModule } from 'primeng/inputnumber'
     ContextMenuModule,
     InputNumberModule,
   ],
-  declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent, TopCardPlayerComponent],
+  declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent, TopCardPlayerComponent, StatsTableComponent],
   exports: [
     LayoutComponent,
     TopBarComponent,
     ProgressSpinnerModule,
     TopsTableComponent,
     TopsGridComponent,
-    TopCardComponent
+    TopCardComponent,
+    StatsTableComponent,
   ],
 })
 export class ComponentsModule {}

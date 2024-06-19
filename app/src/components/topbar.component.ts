@@ -205,15 +205,17 @@ import { StoreService } from 'src/services/store.service'
         display: none;
       }
 
-      @media (max-width: 724px) {
+      @media (max-width: 780px) {
         .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-standings,
+        .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-stats,
         .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-weekly {
           display: none;
         }
       }
 
-      @media (min-width: 724px) {
+      @media (min-width: 780px) {
         :host::ng-deep .layout-topbar-menu-menuitem .layout-topbar-menu-menuitem-standings,
+        :host::ng-deep .layout-topbar-menu-menuitem .layout-topbar-menu-menuitem-stats,
         :host::ng-deep .layout-topbar-menu-menuitem .layout-topbar-menu-menuitem-weekly,
         :host::ng-deep .layout-topbar-menu-menuitem [role='separator'] {
           display: none;
@@ -254,6 +256,13 @@ export class TopBarComponent {
     routerLink: '/standings',
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-standings'
+  }
+  statsItem: MenuItem = {
+    label: 'Stats',
+    icon: 'pi pi-chart-bar',
+    routerLink: '/stats',
+    visible: false,
+    styleClass: 'layout-topbar-menu-menuitem-stats'
   }
   weeklyItem: MenuItem = {
     label: 'Weekly',
@@ -326,6 +335,7 @@ export class TopBarComponent {
 
       return [
         this.standingsItem,
+        // this.statsItem,
         this.weeklyItem,
         { separator: true },
         this.discordItem,

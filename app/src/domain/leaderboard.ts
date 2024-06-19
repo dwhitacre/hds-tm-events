@@ -20,3 +20,20 @@ export interface Top {
   position: number
   score: number
 }
+
+export type Stat = Top & {
+  weekliesPlayed: number
+  averageWeeklyPosition: number
+  weeklyWins: number
+  weeklyRunnerups: number
+  weeklyLosses: number
+  averageWeeklyScore: number
+  averageQualifierPosition: number
+  qualifiedAmount: number
+  matchWins: number
+  matchLosses: number
+  earningsAmount: number
+  nemesis?: Player
+  nemesisWins?: number
+  nemesisLosses?: number
+}

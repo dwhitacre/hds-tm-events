@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { ComponentStore } from '@ngrx/component-store'
 import { concatLatestFrom, tapResponse } from '@ngrx/operators'
 import { Observable, switchMap } from 'rxjs'
-import { Leaderboard } from 'src/domain/leaderboard'
+import { Leaderboard, Stat } from 'src/domain/leaderboard'
 import { Weekly } from 'src/domain/weekly'
 import { AdminService } from 'src/services/admin.service'
 import { LeaderboardService } from 'src/services/leaderboard.service'
@@ -40,6 +40,62 @@ export class StoreService extends ComponentStore<StoreState> {
     return playerA.name.localeCompare(playerB.name)
   }))
   readonly weeklyIds$: Observable<Array<string>> = this.select((state) => state.leaderboard.weeklies.map(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId).reverse())
+
+  readonly stats$: Observable<Array<Stat>> = this.select(this.leaderboard$, this.toplimit$, (leaderboard, toplimit) => {
+    const stats = leaderboard.tops.reduce<{[_: string]: Stat}>((pv, cv) => {
+      pv[cv.player.accountId] = Object.assign({}, cv, {
+        weekliesPlayed: 0,
+        averageWeeklyPosition: 0,
+        weeklyWins: 0,
+        weeklyLosses: 0,
+        weeklyRunnerups: 0,
+        averageWeeklyScore: 0,
+        earningsAmount: 0,
+        averageQualifierPosition: 0,
+        qualifiedAmount: 0,
+        matchWins: 0,
+        matchLosses: 0,
+      })
+      return pv
+    }, {})
+
+    leaderboard.weeklies.forEach(leadboardWeekly => {
+      leadboardWeekly.weekly.results.forEach(weeklyResult => {
+        const stat = stats[weeklyResult.player.accountId]
+        stat.averageWeeklyPosition = (weeklyResult.position + stat.weekliesPlayed * stat.averageWeeklyPosition) / (stat.weekliesPlayed + 1)
+        stat.averageWeeklyScore = (weeklyResult.score + stat.weekliesPlayed * stat.averageWeeklyScore) / (stat.weekliesPlayed + 1)
+        stat.weekliesPlayed++
+        if (weeklyResult.position == 1) {
+          stat.weeklyWins++
+          stat.earningsAmount += 70
+        }
+        else if (weeklyResult.position == 2) {
+          stat.weeklyRunnerups++
+          stat.earningsAmount += 30
+        }
+        else stat.weeklyLosses++
+      })
+
+      leadboardWeekly.weekly.matches.forEach(weeklyMatch => {
+        if (weeklyMatch.match.matchId.endsWith('qualifying')) {
+          weeklyMatch.match.results.forEach((matchResult, idx) => {
+            const stat = stats[matchResult.player.accountId]
+            stat.averageQualifierPosition = ((idx + 1) + (stat.weekliesPlayed - 1) * stat.averageQualifierPosition) / stat.weekliesPlayed
+            if (idx < toplimit) stat.qualifiedAmount++
+          })
+        } else if (weeklyMatch.match.matchId.toLowerCase().indexOf('tiebreak') < 0) {
+          if (weeklyMatch.match.results.length < 2) return
+          weeklyMatch.match.results.forEach((matchResult, idx) => {
+            const stat = stats[matchResult.player.accountId]
+            if (idx == 0) stat.matchWins++
+            else stat.matchLosses++
+          })
+        }
+      })
+    })
+
+    return Object.values(stats)
+  })
 
   readonly standingsVm$ = this.select(
     this.leaderboard$,

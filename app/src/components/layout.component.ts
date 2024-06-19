@@ -37,8 +37,8 @@ import { StoreService } from 'src/services/store.service';
         flex-direction: column;
         justify-content: space-between;
         padding-top: 3rem;
-        padding-left: 15%;
-        padding-right: 15%;
+        padding-left: 8%;
+        padding-right: 8%;
       }
 
       .layout-main {

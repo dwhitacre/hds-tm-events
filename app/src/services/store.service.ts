@@ -94,6 +94,11 @@ export class StoreService extends ComponentStore<StoreState> {
       })
     })
 
+    // TODO: special cases
+    // week 1 chomp beat wolf in first round after wolf qualified 8 and chomp qualified 9
+    if (stats['83b5f677-3296-4d2a-ad6b-5a100565de22']) stats['83b5f677-3296-4d2a-ad6b-5a100565de22'].qualifiedAmount++
+    if (stats['fcad7ce0-49ac-4c56-ac19-ecfca890a451']) stats['fcad7ce0-49ac-4c56-ac19-ecfca890a451'].qualifiedAmount--
+
     return Object.values(stats)
   })
 

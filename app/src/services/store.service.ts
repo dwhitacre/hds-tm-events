@@ -62,7 +62,7 @@ export class StoreService extends ComponentStore<StoreState> {
     leaderboard.weeklies.forEach(leadboardWeekly => {
       leadboardWeekly.weekly.results.forEach(weeklyResult => {
         const stat = stats[weeklyResult.player.accountId]
-        stat.averageWeeklyPosition = (weeklyResult.position + stat.weekliesPlayed * stat.averageWeeklyPosition) / (stat.weekliesPlayed + 1)
+        if (weeklyResult.position <= toplimit) stat.averageWeeklyPosition = (weeklyResult.position + stat.weekliesPlayed * stat.averageWeeklyPosition) / (stat.weekliesPlayed + 1)
         stat.averageWeeklyScore = (weeklyResult.score + stat.weekliesPlayed * stat.averageWeeklyScore) / (stat.weekliesPlayed + 1)
         stat.weekliesPlayed++
         if (weeklyResult.position == 1) {

@@ -7,20 +7,22 @@ import { Stat } from 'src/domain/leaderboard'
     <div class="stats-table" *ngIf="stats">
       <p-table
         [value]="stats"
+        styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+        [scrollable]="true"
+        [tableStyle]="{'min-width': '40rem'}">
       >
         <ng-template pTemplate="header">
-          <tr>
+          <tr class="header">
             <th></th>
             <th>Player</th>
             <th>Entries</th>
             <th>Avg Quali</th>
-            <th>Bracket Appear</th>
+            <th>MB Appear</th>
             <th>Avg Result</th>
-            <th>Match Wins</th>
-            <th>Match Losses</th>
+            <th>Match Record</th>
             <th>Wins</th>
             <th>Runner Ups</th>
-            <th>Avg Points Earned</th>
+            <th>Avg Points</th>
             <th>Total Points</th>
             <th>Earnings</th>
             <!-- <th>Nemesis</th>
@@ -36,8 +38,7 @@ import { Stat } from 'src/domain/leaderboard'
             <td>{{ stat.averageQualifierPosition | number: '1.2-2' }}</td>
             <td>{{ stat.qualifiedAmount }}</td>
             <td>{{ stat.averageWeeklyPosition | number: '1.2-2' }}</td>
-            <td>{{ stat.matchWins }}</td>
-            <td>{{ stat.matchLosses }}</td>
+            <td>{{ stat.matchWins }}-{{ stat.matchLosses }}</td>
             <td>{{ stat.weeklyWins }}</td>
             <td>{{ stat.weeklyRunnerups }}</td>
             <td>{{ stat.averageWeeklyScore | number: '1.2-2' }}</td>
@@ -56,18 +57,6 @@ import { Stat } from 'src/domain/leaderboard'
       .stats-table {
         margin-top: 12px;
         margin-bottom: 12px;
-        display: flex;
-        justify-content: center;
-      }
-
-      :host::ng-deep table.p-datatable-table {
-        min-width: 48rem;
-      }
-
-      @media (max-width: 784px) {
-        :host::ng-deep table.p-datatable-table {
-          min-width: 24rem;
-        }
       }
     `,
   ],

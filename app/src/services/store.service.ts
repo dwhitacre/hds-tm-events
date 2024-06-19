@@ -62,7 +62,10 @@ export class StoreService extends ComponentStore<StoreState> {
     leaderboard.weeklies.forEach(leadboardWeekly => {
       leadboardWeekly.weekly.results.forEach(weeklyResult => {
         const stat = stats[weeklyResult.player.accountId]
-        if (weeklyResult.position <= toplimit) stat.averageWeeklyPosition = (weeklyResult.position + stat.weekliesPlayed * stat.averageWeeklyPosition) / (stat.weekliesPlayed + 1)
+        if (weeklyResult.position <= toplimit) {
+          stat.averageWeeklyPosition = (weeklyResult.position + stat.qualifiedAmount * stat.averageWeeklyPosition) / (stat.qualifiedAmount + 1)
+          stat.qualifiedAmount++
+        }
         stat.averageWeeklyScore = (weeklyResult.score + stat.weekliesPlayed * stat.averageWeeklyScore) / (stat.weekliesPlayed + 1)
         stat.weekliesPlayed++
         if (weeklyResult.position == 1) {
@@ -81,7 +84,6 @@ export class StoreService extends ComponentStore<StoreState> {
           weeklyMatch.match.results.forEach((matchResult, idx) => {
             const stat = stats[matchResult.player.accountId]
             stat.averageQualifierPosition = ((idx + 1) + (stat.weekliesPlayed - 1) * stat.averageQualifierPosition) / stat.weekliesPlayed
-            if (idx < toplimit) stat.qualifiedAmount++
           })
         } else if (weeklyMatch.match.matchId.toLowerCase().indexOf('tiebreak') < 0) {
           if (weeklyMatch.match.results.length < 2) return
@@ -93,11 +95,6 @@ export class StoreService extends ComponentStore<StoreState> {
         }
       })
     })
-
-    // TODO: special cases
-    // week 1 chomp beat wolf in first round after wolf qualified 8 and chomp qualified 9
-    if (stats['83b5f677-3296-4d2a-ad6b-5a100565de22']) stats['83b5f677-3296-4d2a-ad6b-5a100565de22'].qualifiedAmount++
-    if (stats['fcad7ce0-49ac-4c56-ac19-ecfca890a451']) stats['fcad7ce0-49ac-4c56-ac19-ecfca890a451'].qualifiedAmount--
 
     return Object.values(stats)
   })

@@ -23,9 +23,9 @@ import { Stat } from 'src/domain/leaderboard'
             <th>Avg Points Earned</th>
             <th>Total Points</th>
             <th>Earnings</th>
-            <th>Nemesis</th>
+            <!-- <th>Nemesis</th>
             <th>Nemesis Wins</th>
-            <th>Nemesis Losses</th>
+            <th>Nemesis Losses</th> -->
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-stat let-rowIndex="rowIndex">
@@ -43,9 +43,9 @@ import { Stat } from 'src/domain/leaderboard'
             <td>{{ stat.averageWeeklyScore | number: '1.2-2' }}</td>
             <td>{{ stat.score || 0 }}</td>
             <td>{{ stat.earningsAmount | currency: 'USD' }}</td>
-            <td>{{ stat.nemesis?.name || '' }}</td>
+            <!-- <td>{{ stat.nemesis?.name || '' }}</td>
             <td>{{ stat.nemesisWins || 0 }}</td>
-            <td>{{ stat.nemesisLosses || 0 }}</td>
+            <td>{{ stat.nemesisLosses || 0 }}</td> -->
           </tr>
         </ng-template>
       </p-table>

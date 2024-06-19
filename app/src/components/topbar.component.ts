@@ -261,7 +261,7 @@ export class TopBarComponent {
     label: 'Stats',
     icon: 'pi pi-chart-bar',
     routerLink: '/stats',
-    visible: false,
+    visible: true,
     styleClass: 'layout-topbar-menu-menuitem-stats'
   }
   weeklyItem: MenuItem = {
@@ -335,7 +335,7 @@ export class TopBarComponent {
 
       return [
         this.standingsItem,
-        // this.statsItem,
+        this.statsItem,
         this.weeklyItem,
         { separator: true },
         this.discordItem,

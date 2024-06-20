@@ -124,7 +124,7 @@ context('/api/player', () => {
     })
   })
 
-  // todo add this support
+  // TODO add this support
   it.skip('create player repeat is an update', () => {
     const accountId = faker.string.uuid().replace(/^.{4}/, '2000')
     playerCreate({

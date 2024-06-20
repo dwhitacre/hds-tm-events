@@ -32,6 +32,8 @@ export type Stat = Top & {
   qualifiedAmount: number
   matchWins: number
   matchLosses: number
+  mapWins: number
+  mapLosses: number
   earningsAmount: number
   nemesis?: Player
   nemesisWins?: number

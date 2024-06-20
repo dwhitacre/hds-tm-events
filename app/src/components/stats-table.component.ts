@@ -20,6 +20,7 @@ import { Stat } from 'src/domain/leaderboard'
             <th>MB Appear</th>
             <th>Avg Result</th>
             <th>Match Record</th>
+            <th>Map Record</th>
             <th>Wins</th>
             <th>Runner Ups</th>
             <th>Avg Points</th>
@@ -32,6 +33,7 @@ import { Stat } from 'src/domain/leaderboard'
         </ng-template>
         <ng-template pTemplate="body" let-stat let-rowIndex="rowIndex">
           <tr>
+            <ng-template #emptyTd><td></td></ng-template>
             <td>{{ stat.position || (rowIndex + 1) | position }}</td>
             <td>{{ stat.player.name }}</td>
             <td>{{ stat.weekliesPlayed }}</td>
@@ -39,11 +41,12 @@ import { Stat } from 'src/domain/leaderboard'
             <td>{{ stat.qualifiedAmount }}</td>
             <td>{{ stat.averageWeeklyPosition | number: '1.2-2' }}</td>
             <td>{{ stat.matchWins }}-{{ stat.matchLosses }}</td>
+            <td *ngIf="stat.mapWins > 0 || stat.mapLosses > 0; else emptyTd">{{ stat.mapWins }}-{{ stat.mapLosses }}</td>
             <td>{{ stat.weeklyWins }}</td>
             <td>{{ stat.weeklyRunnerups }}</td>
             <td>{{ stat.averageWeeklyScore | number: '1.2-2' }}</td>
             <td>{{ stat.score || 0 }}</td>
-            <td>{{ stat.earningsAmount | currency: 'USD' }}</td>
+            <td *ngIf="stat.earningsAmount > 0; else emptyTd">{{ stat.earningsAmount | currency: 'USD' }}</td>
             <!-- <td>{{ stat.nemesis?.name || '' }}</td>
             <td>{{ stat.nemesisWins || 0 }}</td>
             <td>{{ stat.nemesisLosses || 0 }}</td> -->

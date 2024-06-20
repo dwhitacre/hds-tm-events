@@ -55,6 +55,8 @@ export class StoreService extends ComponentStore<StoreState> {
         qualifiedAmount: 0,
         matchWins: 0,
         matchLosses: 0,
+        mapWins: 0,
+        mapLosses: 0,
       })
       return pv
     }, {})
@@ -87,10 +89,21 @@ export class StoreService extends ComponentStore<StoreState> {
           })
         } else if (weeklyMatch.match.matchId.toLowerCase().indexOf('tiebreak') < 0) {
           if (weeklyMatch.match.results.length < 2) return
-          weeklyMatch.match.results.forEach((matchResult, idx) => {
-            const stat = stats[matchResult.player.accountId]
-            if (idx == 0) stat.matchWins++
-            else stat.matchLosses++
+
+          weeklyMatch.match.results.forEach((matchResultA, idxA) => {
+            const statA = stats[matchResultA.player.accountId]
+            if (idxA == 0) statA.matchWins++
+            else statA.matchLosses++
+
+            // TODO map data was not captured in this weekly, skip
+            if (leadboardWeekly.weekly.weeklyId == '2024-04-27') return
+
+            statA.mapWins += matchResultA.score
+            weeklyMatch.match.results.forEach((matchResultB, idxB) => {
+              if (idxA != idxB) {
+                statA.mapLosses += matchResultB.score
+              }
+            })
           })
         }
       })

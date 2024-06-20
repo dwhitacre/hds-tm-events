@@ -27,7 +27,7 @@ context('/api/leaderboard', () => {
     })
   })
 
-  // todo would be better for this to not return 204
+  // TODO would be better for this to not return 204
   it('get leaderboard with no weeklies', () => {
     const leaderboardId = faker.string.uuid()
     leaderboardCreate({ leaderboardId }).then(() => {

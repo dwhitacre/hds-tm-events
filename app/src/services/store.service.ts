@@ -123,6 +123,13 @@ export class StoreService extends ComponentStore<StoreState> {
     })
   )
 
+  readonly statsVm$ = this.select(
+    this.stats$,
+    (stats) => ({
+      stats,
+    })
+  )
+
   readonly weeklyVm$ = this.select(
     this.leaderboard$,
     this.selectedWeekly$,

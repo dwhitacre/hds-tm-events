@@ -12,10 +12,12 @@ import { PositionPipe } from 'src/pipes/position.pipe'
         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
       </div>
       <ng-template #stats>
-        <ng-container *ngIf="storeService.stats$ | async as stats">
-          <stats-table
-            [stats]="stats"
-          ></stats-table>
+        <ng-container *ngIf="storeService.statsVm$ | async as vm">
+          <ng-container *ngIf="vm.stats">
+            <stats-table
+              [stats]="vm.stats"
+            ></stats-table>
+          </ng-container>
         </ng-container>
       </ng-template>
     </layout>

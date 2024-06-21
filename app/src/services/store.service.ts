@@ -104,10 +104,9 @@ export class StoreService extends ComponentStore<StoreState> {
             weeklyMatch.match.results.forEach((matchResultB, idxB) => {
               const statB = stats[matchResultB.player.accountId]
               if (idxA != idxB) {
-                statA.opponents[matchResultB.player.accountId] ??= { player: matchResultB.player, matchWins: 0, matchLosses: 0 }
-                statA.opponents[matchResultB.player.accountId].matchWins++
                 statB.opponents[matchResultA.player.accountId] ??= { player: matchResultA.player, matchWins: 0, matchLosses: 0 }
-                statB.opponents[matchResultA.player.accountId].matchLosses++
+                if (idxB == 0) statB.opponents[matchResultA.player.accountId].matchWins++
+                else statB.opponents[matchResultA.player.accountId].matchLosses++
               }
             })
 

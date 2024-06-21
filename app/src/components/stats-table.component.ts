@@ -49,8 +49,8 @@ import { Stat } from 'src/domain/leaderboard'
             <td>{{ stat.score || 0 }}</td>
             <td *ngIf="stat.earningsAmount > 0; else emptyTd">{{ stat.earningsAmount | currency: 'USD' }}</td>
             <ng-container *ngIf="showNemesis">
-              <td *ngIf="stat.nemesis; else emptyTd">{{ stat.nemesis.name }}</td>
-              <td *ngIf="stat.nemesisWins > 0 || stat.nemesisLosses > 0; else emptyTd">{{ stat.nemesisWins }}-{{ stat.nemesisLosses }}</td>
+              <td *ngIf="stat.nemesis && stat.nemesisWins >= 0 && stat.nemesisLosses > 0; else emptyTd">{{ stat.nemesis.name }}</td>
+              <td *ngIf="stat.nemesisWins >= 0 && stat.nemesisLosses > 0; else emptyTd">{{ stat.nemesisWins }}-{{ stat.nemesisLosses }}</td>
             </ng-container>
           </tr>
         </ng-template>

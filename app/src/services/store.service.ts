@@ -23,6 +23,7 @@ export interface StoreState {
   nemesisWeights: {
     win: number
     loss: number
+    match: number
   }
 }
 
@@ -125,7 +126,7 @@ export class StoreService extends ComponentStore<StoreState> {
     })
 
     const calcWeighted = (wins: number, losses: number) => {
-      return ((wins + 1) * nemesisWeights.win) / ((losses + 1) * nemesisWeights.loss)
+      return (((wins + 1) * nemesisWeights.win) / ((losses + 1) * nemesisWeights.loss)) + (nemesisWeights.match / (wins + losses))
     }
 
     return Object.values(stats).map(stat => {
@@ -230,8 +231,9 @@ export class StoreService extends ComponentStore<StoreState> {
       isAdmin: false,
       selectedWeekly: '',
       nemesisWeights: {
-        win: 0.7,
-        loss: 0.2,
+        win: 0.5,
+        loss: 0.3,
+        match: 1.7
       }
     })
 

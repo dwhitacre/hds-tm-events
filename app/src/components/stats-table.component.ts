@@ -63,6 +63,10 @@ import { Stat } from 'src/domain/leaderboard'
         margin-top: 12px;
         margin-bottom: 12px;
       }
+
+      td, th {
+        text-align: center;
+      }
     `,
   ],
 })

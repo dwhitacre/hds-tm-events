@@ -359,4 +359,12 @@ export class StoreService extends ComponentStore<StoreState> {
       ))
     )
   })
+
+  readonly updateNemesisWeights = this.updater((state, weights: StoreState['nemesisWeights']) => ({
+    ...state,
+    nemesisWeights: {
+      ...state.nemesisWeights,
+      ...weights,
+    }
+  }))
 }

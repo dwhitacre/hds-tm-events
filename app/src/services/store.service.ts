@@ -233,7 +233,7 @@ export class StoreService extends ComponentStore<StoreState> {
       nemesisWeights: {
         win: 0.5,
         loss: 0.3,
-        match: 1.7
+        match: 1.4
       }
     })
 

@@ -21,6 +21,12 @@ export interface Top {
   score: number
 }
 
+export type OpponentStat = {
+  player?: Player
+  matchWins: number
+  matchLosses: number
+}
+
 export type Stat = Top & {
   weekliesPlayed: number
   averageWeeklyPosition: number
@@ -35,6 +41,9 @@ export type Stat = Top & {
   mapWins: number
   mapLosses: number
   earningsAmount: number
+  opponents: {
+    [_: string]: OpponentStat
+  }
   nemesis?: Player
   nemesisWins?: number
   nemesisLosses?: number

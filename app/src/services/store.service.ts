@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { ComponentStore } from '@ngrx/component-store'
 import { concatLatestFrom, tapResponse } from '@ngrx/operators'
 import { Observable, switchMap } from 'rxjs'
-import { Leaderboard, Stat } from 'src/domain/leaderboard'
+import { Leaderboard, OpponentStat, Stat } from 'src/domain/leaderboard'
 import { Weekly } from 'src/domain/weekly'
 import { AdminService } from 'src/services/admin.service'
 import { LeaderboardService } from 'src/services/leaderboard.service'
@@ -20,6 +20,10 @@ export interface StoreState {
   toplimit: number
   isAdmin: boolean
   selectedWeekly: Weekly['weeklyId']
+  nemesisWeights: {
+    win: number
+    loss: number
+  }
 }
 
 export type MatchType = 'finals' | 'semifinal' | 'quarterfinal' | 'firstround' | 'qualifying'
@@ -34,6 +38,7 @@ export class StoreService extends ComponentStore<StoreState> {
   readonly toplimit$ = this.select((state) => state.toplimit)
   readonly isAdmin$ = this.select((state) => state.isAdmin)
   readonly selectedWeekly$ = this.select((state) => state.selectedWeekly)
+  readonly nemesisWeights$ = this.select((state) => state.nemesisWeights)
 
   readonly players$ = this.select((state) => state.leaderboard.players.sort((playerA, playerB) => {
     if (playerA.name == playerB.name) return playerA.accountId.localeCompare(playerB.accountId)
@@ -41,7 +46,7 @@ export class StoreService extends ComponentStore<StoreState> {
   }))
   readonly weeklyIds$: Observable<Array<string>> = this.select((state) => state.leaderboard.weeklies.map(leaderboardWeekly => leaderboardWeekly.weekly.weeklyId).reverse())
 
-  readonly stats$: Observable<Array<Stat>> = this.select(this.leaderboard$, this.toplimit$, (leaderboard, toplimit) => {
+  readonly stats$: Observable<Array<Stat>> = this.select(this.leaderboard$, this.toplimit$, this.nemesisWeights$, (leaderboard, toplimit, nemesisWeights) => {
     const stats = leaderboard.tops.reduce<{[_: string]: Stat}>((pv, cv) => {
       pv[cv.player.accountId] = Object.assign({}, cv, {
         weekliesPlayed: 0,
@@ -57,6 +62,7 @@ export class StoreService extends ComponentStore<StoreState> {
         matchLosses: 0,
         mapWins: 0,
         mapLosses: 0,
+        opponents: {}
       })
       return pv
     }, {})
@@ -95,6 +101,16 @@ export class StoreService extends ComponentStore<StoreState> {
             if (idxA == 0) statA.matchWins++
             else statA.matchLosses++
 
+            weeklyMatch.match.results.forEach((matchResultB, idxB) => {
+              const statB = stats[matchResultB.player.accountId]
+              if (idxA != idxB) {
+                statA.opponents[matchResultB.player.accountId] ??= { player: matchResultB.player, matchWins: 0, matchLosses: 0 }
+                statA.opponents[matchResultB.player.accountId].matchWins++
+                statB.opponents[matchResultA.player.accountId] ??= { player: matchResultA.player, matchWins: 0, matchLosses: 0 }
+                statB.opponents[matchResultA.player.accountId].matchLosses++
+              }
+            })
+
             // TODO map data was not captured in this weekly, skip
             if (leadboardWeekly.weekly.weeklyId == '2024-04-27') return
 
@@ -109,7 +125,21 @@ export class StoreService extends ComponentStore<StoreState> {
       })
     })
 
-    return Object.values(stats)
+    const calcWeighted = (wins: number, losses: number) => {
+      return ((wins + 1) * nemesisWeights.win) / ((losses + 1) * nemesisWeights.loss)
+    }
+
+    return Object.values(stats).map(stat => {
+      const nemesis = Object.values(stat.opponents).reduce<OpponentStat>((cv, pv) => {
+        if (!cv.player) return pv
+        return (calcWeighted(cv.matchWins, cv.matchLosses) <= calcWeighted(pv.matchWins, pv.matchLosses)) ? cv : pv
+      }, { player: undefined, matchWins: 0, matchLosses: 0 })
+
+      stat.nemesis = nemesis.player
+      stat.nemesisWins = nemesis.matchWins
+      stat.nemesisLosses = nemesis.matchLosses
+      return stat
+    })
   })
 
   readonly standingsVm$ = this.select(
@@ -125,8 +155,10 @@ export class StoreService extends ComponentStore<StoreState> {
 
   readonly statsVm$ = this.select(
     this.stats$,
-    (stats) => ({
+    this.isAdmin$,
+    (stats, isAdmin) => ({
       stats,
+      isAdmin,
     })
   )
 
@@ -198,6 +230,10 @@ export class StoreService extends ComponentStore<StoreState> {
       toplimit: 8,
       isAdmin: false,
       selectedWeekly: '',
+      nemesisWeights: {
+        win: 0.7,
+        loss: 0.2,
+      }
     })
 
     this.fetchLeaderboard()

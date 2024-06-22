@@ -22,6 +22,7 @@ import { TopCardPlayerComponent } from './top-card-player.component'
 import { ContextMenuModule } from 'primeng/contextmenu'
 import { InputNumberModule } from 'primeng/inputnumber'
 import { StatsTableComponent } from './stats-table.component'
+import { MatchBracketComponent } from './match-bracket.component'
 
 @NgModule({
   imports: [
@@ -42,7 +43,16 @@ import { StatsTableComponent } from './stats-table.component'
     ContextMenuModule,
     InputNumberModule,
   ],
-  declarations: [LayoutComponent, TopBarComponent, TopsTableComponent, TopsGridComponent, TopCardComponent, TopCardPlayerComponent, StatsTableComponent],
+  declarations: [
+    LayoutComponent,
+    TopBarComponent,
+    TopsTableComponent,
+    TopsGridComponent,
+    TopCardComponent,
+    TopCardPlayerComponent,
+    StatsTableComponent,
+    MatchBracketComponent,
+  ],
   exports: [
     LayoutComponent,
     TopBarComponent,
@@ -51,6 +61,7 @@ import { StatsTableComponent } from './stats-table.component'
     TopsGridComponent,
     TopCardComponent,
     StatsTableComponent,
+    MatchBracketComponent,
   ],
 })
 export class ComponentsModule {}

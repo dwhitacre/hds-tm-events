@@ -5,6 +5,7 @@ import { concatLatestFrom, tapResponse } from '@ngrx/operators'
 import { Observable, switchMap } from 'rxjs'
 import { Leaderboard, OpponentStat, Stat } from 'src/domain/leaderboard'
 import { Weekly } from 'src/domain/weekly'
+import { MatchType, MatchDecorated, matchTypeOrder } from 'src/domain/match'
 import { AdminService } from 'src/services/admin.service'
 import { LeaderboardService } from 'src/services/leaderboard.service'
 import { LogService } from 'src/services/log.service'
@@ -26,9 +27,6 @@ export interface StoreState {
     match: number
   }
 }
-
-export type MatchType = 'finals' | 'semifinal' | 'quarterfinal' | 'firstround' | 'qualifying'
-export const matchTypeOrder: Array<MatchType> = ['qualifying', 'firstround', 'quarterfinal', 'semifinal', 'finals']
 
 @Injectable({ providedIn: 'root' })
 export class StoreService extends ComponentStore<StoreState> {
@@ -174,7 +172,7 @@ export class StoreService extends ComponentStore<StoreState> {
       const weekly = leaderboardWeekly?.weekly
       if (!weekly) return { found: false, selectedWeekly, weeklyIds }
 
-      const matches = weekly.matches.map((weeklyMatch) => {
+      const matches: Array<MatchDecorated> = weekly.matches.map((weeklyMatch) => {
         const match = weeklyMatch.match
         const matchParts = match.matchId.replace(weekly.weeklyId + '-', '').split('-')
         const type = matchParts[0] as MatchType

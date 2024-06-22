@@ -51,20 +51,11 @@ import { Match } from 'src/domain/match'
               ></tops-table>
             </ng-container>
             <ng-template #matches>
-              <div class="weekly-matches">
-                <ng-container *ngFor="let match of vm.matches">
-                  <top-card
-                    label="{{ match.type | titlecase }} {{ match.instance | uppercase }}"
-                    [tops]="match.results"
-                    [showMorePlayers]="true"
-                    [editable]="editMode"
-                    [players]="vm.players || []"
-                    (addedMatchResult)="addMatchResult(match, $event)"
-                    (updatedMatchResult)="updateMatchResult(match, $event)"
-                    (deleteMatchResult)="deleteMatchResult(match, $event)"
-                  ></top-card>
-                </ng-container>
-              </div>
+              <match-bracket
+                [matches]="vm.matches!"
+                [players]="vm.players || []"
+                [editable]="editMode"
+              ></match-bracket>
               <tops-table
                 label="{{ vm.qualifying!.type | titlecase }} {{ vm.qualifying!.instance | uppercase }}"
                 [tops]="vm.qualifying!.results"

@@ -94,6 +94,7 @@ export class StoreService extends ComponentStore<StoreState> {
           })
         } else if (weeklyMatch.match.matchId.toLowerCase().indexOf('tiebreak') < 0) {
           if (weeklyMatch.match.results.length < 2) return
+          if (weeklyMatch.match.results[0].score === 0 && weeklyMatch.match.results[1].score === 0) return
 
           weeklyMatch.match.results.forEach((matchResultA, idxA) => {
             const statA = stats[matchResultA.player.accountId]

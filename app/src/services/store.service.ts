@@ -176,13 +176,26 @@ export class StoreService extends ComponentStore<StoreState> {
         const match = weeklyMatch.match
         const matchParts = match.matchId.replace(weekly.weeklyId + '-', '').split('-')
         const type = matchParts[0] as MatchType
+        const displayPositions = [1, 2]
 
-        return {
+        const decoratedMatch = {
           ...match,
           type,
           order: matchTypeOrder.indexOf(type),
-          instance: matchParts.length > 1 ? matchParts.slice(1).join(' ') : ''
+          instance: matchParts.length > 1 ? matchParts.slice(1).join(' ') : '',
+          displayPositions,
         }
+
+        if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'a') decoratedMatch.displayPositions = [1, 8]
+        else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'b') decoratedMatch.displayPositions = [4, 5]
+        else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'c') decoratedMatch.displayPositions = [3, 6]
+        else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'd') decoratedMatch.displayPositions = [2, 7]
+        else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'tiebreak a') decoratedMatch.displayPositions = [5, -1]
+        else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'tiebreak b') decoratedMatch.displayPositions = [6, -1]
+        else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'tiebreak c') decoratedMatch.displayPositions = [7, -1]
+        else if (decoratedMatch.type === 'semifinal' && decoratedMatch.instance === 'tiebreak') decoratedMatch.displayPositions = [3, 4]
+
+        return decoratedMatch
       }).sort((matchA, matchB) => {
         if (matchA.order == matchB.order) return matchA.instance.localeCompare(matchB.instance)
         return matchB.order - matchA.order

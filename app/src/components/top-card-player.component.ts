@@ -10,7 +10,8 @@ import { WeeklyResult } from 'src/domain/weekly'
   template: `
     <div *ngIf="!isBye; else bye" #playercontent>
       <div class="player-content">
-        <span class="position"> {{ top.position || defaultPosition | position }}</span>
+        <span *ngIf="showPosition; else noPosition" class="position">{{ top.position || defaultPosition | position }}</span>
+        <ng-template #noPosition><span class="position"></span></ng-template>
         <span class="name">{{ top.player.name }}</span>
         <span *ngIf="!editable; else scoreedit" class="score">{{ top.score || 0 }}</span>
       </div>
@@ -116,6 +117,7 @@ export class TopCardPlayerComponent implements OnChanges {
   @Input() defaultPosition = 0
   @Input() players: Array<Player> = []
   @Input() editable = false
+  @Input() showPosition = true
 
   playerContentItems: Array<MenuItem> = [{
     label: 'Remove Player',

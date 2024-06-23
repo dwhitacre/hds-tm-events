@@ -18,7 +18,8 @@ export interface MatchResult {
 }
 
 export type MatchDecorated = Match & {
-  type: MatchType,
+  type: MatchType
   order: number
   instance: string
-} 
+  displayPositions: Array<number>
+}

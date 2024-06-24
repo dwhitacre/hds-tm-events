@@ -25,6 +25,8 @@ export type OpponentStat = {
   player?: Player
   matchWins: number
   matchLosses: number
+  mapWins: number
+  mapLosses: number
 }
 
 export type Stat = Top & {
@@ -44,6 +46,7 @@ export type Stat = Top & {
   opponents: {
     [_: string]: OpponentStat
   }
+  opponentsSorted: Array<OpponentStat>
   nemesis?: Player
   nemesisWins?: number
   nemesisLosses?: number

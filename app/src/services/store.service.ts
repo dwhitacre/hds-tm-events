@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { ComponentStore } from '@ngrx/component-store'
 import { concatLatestFrom, tapResponse } from '@ngrx/operators'
 import { Observable, switchMap } from 'rxjs'
-import { Leaderboard, OpponentStat, Stat } from 'src/domain/leaderboard'
+import { Leaderboard, Stat } from 'src/domain/leaderboard'
 import { Weekly } from 'src/domain/weekly'
 import { MatchType, MatchDecorated, matchTypeOrder } from 'src/domain/match'
 import { AdminService } from 'src/services/admin.service'
@@ -61,7 +61,8 @@ export class StoreService extends ComponentStore<StoreState> {
         matchLosses: 0,
         mapWins: 0,
         mapLosses: 0,
-        opponents: {}
+        opponents: {},
+        opponentsSorted: []
       })
       return pv
     }, {})
@@ -104,7 +105,7 @@ export class StoreService extends ComponentStore<StoreState> {
             weeklyMatch.match.results.forEach((matchResultB, idxB) => {
               const statB = stats[matchResultB.player.accountId]
               if (idxA != idxB) {
-                statB.opponents[matchResultA.player.accountId] ??= { player: matchResultA.player, matchWins: 0, matchLosses: 0 }
+                statB.opponents[matchResultA.player.accountId] ??= { player: matchResultA.player, matchWins: 0, matchLosses: 0, mapWins: 0, mapLosses: 0 }
                 if (idxB == 0) statB.opponents[matchResultA.player.accountId].matchWins++
                 else statB.opponents[matchResultA.player.accountId].matchLosses++
               }
@@ -117,6 +118,10 @@ export class StoreService extends ComponentStore<StoreState> {
             weeklyMatch.match.results.forEach((matchResultB, idxB) => {
               if (idxA != idxB) {
                 statA.mapLosses += matchResultB.score
+
+                statA.opponents[matchResultB.player.accountId] ??= { player: matchResultB.player, matchWins: 0, matchLosses: 0, mapWins: 0, mapLosses: 0 }
+                statA.opponents[matchResultB.player.accountId].mapWins += matchResultA.score
+                statA.opponents[matchResultB.player.accountId].mapLosses += matchResultB.score
               }
             })
           })
@@ -129,14 +134,16 @@ export class StoreService extends ComponentStore<StoreState> {
     }
 
     return Object.values(stats).map(stat => {
-      const nemesis = Object.values(stat.opponents).reduce<OpponentStat>((cv, pv) => {
-        if (!cv.player) return pv
-        return (calcWeighted(cv.matchWins, cv.matchLosses) <= calcWeighted(pv.matchWins, pv.matchLosses)) ? cv : pv
-      }, { player: undefined, matchWins: 0, matchLosses: 0 })
+      stat.opponentsSorted = Object.values(stat.opponents).sort((opponentA, opponentB) => {
+        return calcWeighted(opponentA.matchWins, opponentA.matchLosses) - calcWeighted(opponentB.matchWins, opponentB.matchLosses)
+      })
 
-      stat.nemesis = nemesis.player
-      stat.nemesisWins = nemesis.matchWins
-      stat.nemesisLosses = nemesis.matchLosses
+      if (stat.opponentsSorted.length > 0) {
+        stat.nemesis = stat.opponentsSorted[0].player
+        stat.nemesisWins = stat.opponentsSorted[0].matchWins
+        stat.nemesisLosses = stat.opponentsSorted[0].matchLosses
+      }
+
       return stat
     })
   })

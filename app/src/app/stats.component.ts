@@ -16,7 +16,7 @@ import { PositionPipe } from 'src/pipes/position.pipe'
           <ng-container *ngIf="vm.stats">
             <stats-table
               [stats]="vm.stats"
-              [showExpand]="vm.isAdmin"
+              [showExpand]="true"
             ></stats-table>
           </ng-container>
         </ng-container>

@@ -187,10 +187,10 @@ export class StoreService extends ComponentStore<StoreState> {
           displayPositions,
         }
 
-        if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'a') decoratedMatch.displayPositions = [1, 8]
-        else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'b') decoratedMatch.displayPositions = [4, 5]
-        else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'c') decoratedMatch.displayPositions = [3, 6]
-        else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'd') decoratedMatch.displayPositions = [2, 7]
+        if (decoratedMatch.type === 'quarterfinal' && ['a','i'].includes(decoratedMatch.instance)) decoratedMatch.displayPositions = [1, 8]
+        else if (decoratedMatch.type === 'quarterfinal' && ['b','j'].includes(decoratedMatch.instance)) decoratedMatch.displayPositions = [4, 5]
+        else if (decoratedMatch.type === 'quarterfinal' && ['c','k'].includes(decoratedMatch.instance)) decoratedMatch.displayPositions = [3, 6]
+        else if (decoratedMatch.type === 'quarterfinal' && ['d','l'].includes(decoratedMatch.instance)) decoratedMatch.displayPositions = [2, 7]
         else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'tiebreak a') decoratedMatch.displayPositions = [5, -1]
         else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'tiebreak b') decoratedMatch.displayPositions = [6, -1]
         else if (decoratedMatch.type === 'quarterfinal' && decoratedMatch.instance === 'tiebreak c') decoratedMatch.displayPositions = [7, -1]

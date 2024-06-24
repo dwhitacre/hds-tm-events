@@ -100,6 +100,8 @@ import { StoreService } from 'src/services/store.service'
       .header {
         font-size: 1.25rem;
         margin-bottom: 24px;
+        display: flex;
+        justify-content: center;
       }
 
       .weekly-matches {
@@ -234,15 +236,25 @@ export class MatchBracketComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes['matches']) return
     if (!(changes['matches'].currentValue instanceof Array)) return
+    
     const matches = changes['matches'].currentValue as Array<MatchDecorated>
+
+    this.quarterfinalA = undefined
+    this.quarterfinalB = undefined
+    this.quarterfinalC = undefined
+    this.quarterfinalD = undefined
+    this.semifinalA = undefined
+    this.semifinalB = undefined
+    this.finals = undefined
     this.otherMatches = []
+    
     matches.forEach(match => {
-      if (match.type === 'quarterfinal' && match.instance === 'a') this.quarterfinalA = match
-      else if (match.type === 'quarterfinal' && match.instance === 'b') this.quarterfinalB = match
-      else if (match.type === 'quarterfinal' && match.instance === 'c') this.quarterfinalC = match
-      else if (match.type === 'quarterfinal' && match.instance === 'd') this.quarterfinalD = match
-      else if (match.type === 'semifinal' && match.instance === 'a') this.semifinalA = match
-      else if (match.type === 'semifinal' && match.instance === 'b') this.semifinalB = match
+      if (match.type === 'quarterfinal' && ['a', 'i'].includes(match.instance)) this.quarterfinalA = match
+      else if (match.type === 'quarterfinal' && ['b', 'j'].includes(match.instance)) this.quarterfinalB = match
+      else if (match.type === 'quarterfinal' && ['c', 'k'].includes(match.instance)) this.quarterfinalC = match
+      else if (match.type === 'quarterfinal' && ['d', 'l'].includes(match.instance)) this.quarterfinalD = match
+      else if (match.type === 'semifinal' && ['a', 'm'].includes(match.instance)) this.semifinalA = match
+      else if (match.type === 'semifinal' && ['b', 'n'].includes(match.instance)) this.semifinalB = match
       else if (match.type === 'finals') this.finals = match
       else this.otherMatches.push(match)
     })

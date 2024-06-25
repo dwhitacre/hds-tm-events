@@ -35,7 +35,7 @@ import { Stat } from 'src/domain/leaderboard'
         <ng-template pTemplate="body" let-stat let-rowIndex="rowIndex" let-expanded="expanded">
           <tr>
             <ng-template #emptyTd><td></td></ng-template>
-            <td *ngIf="showExpand" class="expand-button"><p-button class="expand-button" type="button" [pRowToggler]="stat" [text]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" /></td>
+            <td *ngIf="showExpand" class="expand-button"><p-button *ngIf="stat.opponentsSorted.length > 0" class="expand-button" type="button" [pRowToggler]="stat" [text]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" /></td>
             <td>{{ stat.position || (rowIndex + 1) | position }}</td>
             <td>{{ stat.player.name }}</td>
             <td>{{ stat.weekliesPlayed }}</td>

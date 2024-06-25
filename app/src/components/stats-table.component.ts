@@ -55,7 +55,7 @@ import { Stat } from 'src/domain/leaderboard'
         </ng-template>
         <ng-template pTemplate="rowexpansion" let-stat>
           <tr>
-            <td colspan="15">
+            <td colspan="16">
               <div>
                 <p-table [value]="stat.opponentsSorted" dataKey="id">
                   <ng-template pTemplate="header">

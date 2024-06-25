@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { MenuItem } from 'primeng/api'
 import { map } from 'rxjs'
-import { StorageService } from 'src/services/storage.service'
 import { StoreService } from 'src/services/store.service'
 
 @Component({
@@ -45,7 +44,7 @@ import { StoreService } from 'src/services/store.service'
       </div>
       <div class="layout-dialog-actions">
         <p-button label="Cancel" severity="secondary" (click)="adminkeyVisible = false" />
-        <p-button label="Enter" (click)="saveAdminKey(adminkey.value)" />
+        <p-button label="Enter" (click)="storeService.updateAdmin(adminkey.value); adminkeyVisible = false" />
       </div>
     </p-dialog>
 
@@ -346,13 +345,7 @@ export class TopBarComponent {
     }),
   )
 
-  constructor(private storageService: StorageService, public storeService: StoreService) {}
-
-  saveAdminKey(value: string) {
-    this.storageService.saveAdminKey(value)
-    this.adminkeyVisible = false
-    window.location.reload()
-  }
+  constructor(public storeService: StoreService) {}
 
   createWeekly(value: string) {
     this.storeService.createWeekly(value)

@@ -51,13 +51,13 @@ import { Match } from 'src/domain/match'
               ></tops-table>
             </ng-container>
             <ng-template #matches>
-              <match-bracket [matches]="vm.matches!" [players]="vm.players || []" [editable]="editMode"></match-bracket>
+              <match-bracket [matches]="vm.matches!" [players]="vm.players || []" [editable]="!!vm.isAdmin && editMode"></match-bracket>
               <tops-table
                 label="{{ vm.qualifying!.type | titlecase }} {{ vm.qualifying!.instance | uppercase }}"
                 [tops]="vm.qualifying!.results"
                 [playercount]="vm.qualifying!.results.length"
                 [lastModified]="vm.lastModified"
-                [editable]="editMode"
+                [editable]="!!vm.isAdmin && editMode"
                 [players]="vm.players || []"
                 (addedMatchResult)="addMatchResult(vm.qualifying!, $event)"
                 (updatedMatchResult)="updateMatchResult(vm.qualifying!, $event)"

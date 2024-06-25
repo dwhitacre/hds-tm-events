@@ -2,7 +2,6 @@ import { ApplicationConfig, inject } from '@angular/core'
 import { provideRouter } from '@angular/router'
 import { appRoutes } from './app.routes'
 import { provideAnimations } from '@angular/platform-browser/animations'
-import { StorageService } from 'src/services/storage.service'
 import { LeaderboardService } from 'src/services/leaderboard.service'
 import { LogService } from 'src/services/log.service'
 import { MessageService } from 'primeng/api'
@@ -16,11 +15,11 @@ import { MatchService } from 'src/services/match.service'
 import { PlayerService } from 'src/services/player.service'
 
 export const adminkeyInterceptor: HttpInterceptorFn = (req, next) => {
-  const storageService = inject(StorageService)
-  if (storageService && storageService.hasAdminKey()) {
+  const adminService = inject(AdminService)
+  if (adminService && adminService.has()) {
     req = req.clone({
       setHeaders: {
-        'x-hdstmevents-adminkey': storageService.getAdminKey() ?? '',
+        'x-hdstmevents-adminkey': adminService.get() ?? '',
       },
     })
   }
@@ -32,7 +31,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideAnimations(),
     provideHttpClient(withInterceptors([adminkeyInterceptor])),
-    StorageService,
     LeaderboardService,
     LogService,
     MessageService,

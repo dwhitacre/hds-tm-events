@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ComponentStore } from '@ngrx/component-store'
 import { concatLatestFrom, tapResponse } from '@ngrx/operators'
-import { Observable, switchMap } from 'rxjs'
+import { Observable, switchMap, tap } from 'rxjs'
 import { Leaderboard, Stat } from 'src/domain/leaderboard'
 import { Weekly } from 'src/domain/weekly'
 import { MatchType, MatchDecorated, matchTypeOrder } from 'src/domain/match'
@@ -328,13 +328,23 @@ export class StoreService extends ComponentStore<StoreState> {
   readonly fetchAdmin = this.effect<void>((trigger$) => {
     return trigger$.pipe(
       switchMap(() =>
-        this.adminService.isAdmin().pipe(
+        this.adminService.validate().pipe(
           tapResponse({
             next: () => this.patchState({ isAdmin: true }),
             error: () => this.patchState({ isAdmin: false }),
           }),
         ),
       ),
+    )
+  })
+
+  readonly updateAdmin = this.effect<string>((key$) => {
+    return key$.pipe(
+      tap((key) => {
+        this.adminService.save(key)
+        this.logService.success('Success', 'Saved admin key')
+        return this.fetchAdmin()
+      }),
     )
   })
 

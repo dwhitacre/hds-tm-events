@@ -10,7 +10,9 @@ import { WeeklyResult } from 'src/domain/weekly'
   template: `
     <div *ngIf="!isBye; else bye" #playercontent>
       <div class="player-content">
-        <span *ngIf="showPosition; else noPosition" class="position">{{ top.position || defaultPosition | position }}</span>
+        <span *ngIf="showPosition; else noPosition" class="position">{{
+          top.position || defaultPosition | position
+        }}</span>
         <ng-template #noPosition><span class="position"></span></ng-template>
         <span class="name">{{ top.player.name }}</span>
         <span *ngIf="!editable; else scoreedit" class="score">{{ top.score || 0 }}</span>
@@ -19,16 +21,17 @@ import { WeeklyResult } from 'src/domain/weekly'
     </div>
 
     <ng-template #scoreedit>
-      <p-inplace *ngIf="!isBye" closeIcon="pi pi-check" closable="closable" (onDeactivate)="updated.emit({ player: top.player, score: updatedScore })">
+      <p-inplace
+        *ngIf="!isBye"
+        closeIcon="pi pi-check"
+        closable="closable"
+        (onDeactivate)="updated.emit({ player: top.player, score: updatedScore })"
+      >
         <ng-template pTemplate="display">
           <span class="score">{{ top.score || 0 }}</span>
         </ng-template>
         <ng-template pTemplate="content">
-          <p-inputNumber
-            [min]="0"
-            [(ngModel)]="updatedScore"
-            [size]="1"
-          />
+          <p-inputNumber [min]="0" [(ngModel)]="updatedScore" [size]="1" />
         </ng-template>
       </p-inplace>
     </ng-template>
@@ -47,18 +50,14 @@ import { WeeklyResult } from 'src/domain/weekly'
           <span>bye</span>
         </ng-template>
         <ng-template pTemplate="content">
-          <p-dropdown
-            [options]="players" 
-            optionLabel="name"
-            [(ngModel)]="selectedPlayer"
-          />
+          <p-dropdown [options]="players" optionLabel="name" [(ngModel)]="selectedPlayer" />
         </ng-template>
       </p-inplace>
     </ng-template>
 
     <p-dialog
       *ngIf="!isBye"
-      header="Remove Player from Match?" 
+      header="Remove Player from Match?"
       [modal]="true"
       [(visible)]="deletePlayerVisible"
       position="top"
@@ -87,9 +86,9 @@ import { WeeklyResult } from 'src/domain/weekly'
       .player-content .name {
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis
+        text-overflow: ellipsis;
       }
-      
+
       .bye {
         font-style: italic;
         justify-content: center;
@@ -119,18 +118,20 @@ export class TopCardPlayerComponent implements OnChanges {
   @Input() editable = false
   @Input() showPosition = true
 
-  playerContentItems: Array<MenuItem> = [{
-    label: 'Remove Player',
-    command: () => this.deletePlayerVisible = true,
-    visible: true
-  }]
+  playerContentItems: Array<MenuItem> = [
+    {
+      label: 'Remove Player',
+      command: () => (this.deletePlayerVisible = true),
+      visible: true,
+    },
+  ]
 
   selectedPlayer?: Player
   @Output() selected = new EventEmitter<Player | undefined>()
 
   updatedScore = 0
-  @Output() updated = new EventEmitter<{ player: Player, score: number }>()
-  
+  @Output() updated = new EventEmitter<{ player: Player; score: number }>()
+
   deletePlayerVisible = false
   @Output() deleted = new EventEmitter<Player>()
 

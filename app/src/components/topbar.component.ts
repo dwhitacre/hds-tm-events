@@ -13,7 +13,7 @@ import { StoreService } from 'src/services/store.service'
         <span class="layout-topbar-title">HD Weekly League</span>
       </a>
       <div class="layout-topbar-menu">
-        <ng-container *ngFor="let menuItem of (menuItems$ | async)">
+        <ng-container *ngFor="let menuItem of menuItems$ | async">
           <div *ngIf="menuItem.visible" class="layout-topbar-menu-standalone" [ngClass]="menuItem.styleClass">
             <p-button
               [icon]="menuItem.icon"
@@ -26,14 +26,14 @@ import { StoreService } from 'src/services/store.service'
           </div>
         </ng-container>
         <div class="layout-topbar-menu-menuitem">
-          <p-menu #menu [model]="(menuItems$ | async) ?? undefined" [popup]="true" [appendTo]="menubutton"/>
-          <p-button #menubutton (click)="menu.toggle($event)" icon="pi pi-cog" [text]="true"/>
+          <p-menu #menu [model]="(menuItems$ | async) ?? undefined" [popup]="true" [appendTo]="menubutton" />
+          <p-button #menubutton (click)="menu.toggle($event)" icon="pi pi-cog" [text]="true" />
         </div>
       </div>
     </div>
 
     <p-dialog
-      header="Enter Admin Key" 
+      header="Enter Admin Key"
       [modal]="true"
       [(visible)]="adminkeyVisible"
       position="topright"
@@ -50,7 +50,7 @@ import { StoreService } from 'src/services/store.service'
     </p-dialog>
 
     <p-dialog
-      header="Enter Weekly Date" 
+      header="Enter Weekly Date"
       [modal]="true"
       [(visible)]="createWeeklyVisible"
       position="topright"
@@ -58,11 +58,12 @@ import { StoreService } from 'src/services/store.service'
       [style]="{ width: '25rem' }"
     >
       <div class="layout-dialog-input">
-        <p-inputMask 
-          [(ngModel)]="createWeeklyDate" 
-          mask="9999-99-99" 
-          [placeholder]="createWeeklyDate" 
-          slotChar="yyyy-mm-dd" />
+        <p-inputMask
+          [(ngModel)]="createWeeklyDate"
+          mask="9999-99-99"
+          [placeholder]="createWeeklyDate"
+          slotChar="yyyy-mm-dd"
+        />
       </div>
       <div class="layout-dialog-actions">
         <p-button label="Cancel" severity="secondary" (click)="createWeeklyVisible = false" />
@@ -71,7 +72,7 @@ import { StoreService } from 'src/services/store.service'
     </p-dialog>
 
     <p-dialog
-      header="Publish Weekly" 
+      header="Publish Weekly"
       [modal]="true"
       [(visible)]="publishWeeklyVisible"
       position="topright"
@@ -82,7 +83,7 @@ import { StoreService } from 'src/services/store.service'
         <div class="layout-dialog-input">
           <span>
             Publish the currently selected weekly?
-            <br/>
+            <br />
             {{ selectedWeekly }}
           </span>
         </div>
@@ -94,7 +95,7 @@ import { StoreService } from 'src/services/store.service'
     </p-dialog>
 
     <p-dialog
-      header="Add Player" 
+      header="Add Player"
       [modal]="true"
       [(visible)]="addPlayerVisible"
       position="topright"
@@ -102,9 +103,9 @@ import { StoreService } from 'src/services/store.service'
       [style]="{ width: '25rem' }"
     >
       <div class="layout-dialog-input">
-        <p-inputMask 
-          [(ngModel)]="addPlayerAccountId" 
-          mask="********-****-****-****-************" 
+        <p-inputMask
+          [(ngModel)]="addPlayerAccountId"
+          mask="********-****-****-****-************"
           [placeholder]="addPlayerAccountId"
         />
       </div>
@@ -113,7 +114,7 @@ import { StoreService } from 'src/services/store.service'
         <p-button label="Create" (click)="addPlayer(addPlayerAccountId)" />
       </div>
     </p-dialog>
-`,
+  `,
   styles: [
     `
       .layout-topbar {
@@ -238,7 +239,7 @@ import { StoreService } from 'src/services/store.service'
 })
 export class TopBarComponent {
   adminkeyVisible = false
-  
+
   createWeeklyVisible = false
   createWeeklyDate = new Date().toISOString().split('T')[0]
 
@@ -248,49 +249,51 @@ export class TopBarComponent {
   addPlayerVisible = false
   addPlayerAccountId = ''
 
-  noop = () => { /*noop*/ }
+  noop = () => {
+    /*noop*/
+  }
 
   standingsItem: MenuItem = {
     label: 'Standings',
     icon: 'pi pi-crown',
     routerLink: '/standings',
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-standings'
+    styleClass: 'layout-topbar-menu-menuitem-standings',
   }
   statsItem: MenuItem = {
     label: 'Stats',
     icon: 'pi pi-chart-bar',
     routerLink: '/stats',
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-stats'
+    styleClass: 'layout-topbar-menu-menuitem-stats',
   }
   weeklyItem: MenuItem = {
     label: 'Weekly',
     icon: 'pi pi-calendar',
     routerLink: '/weekly',
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-weekly'
+    styleClass: 'layout-topbar-menu-menuitem-weekly',
   }
   discordItem: MenuItem = {
     label: 'Join',
     icon: 'pi pi-discord',
     command: () => window.open('https://join.hdweeklyleague.com'),
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-discord'
+    styleClass: 'layout-topbar-menu-menuitem-discord',
   }
   githubItem: MenuItem = {
     label: 'Github',
     icon: 'pi pi-github',
     command: () => window.open('https://github.com/dwhitacre/hds-tm-events'),
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-github'
+    styleClass: 'layout-topbar-menu-menuitem-github',
   }
   adminkeyItem: MenuItem = {
     label: 'Enter Admin Key',
     icon: 'pi pi-lock',
-    command: () => this.adminkeyVisible = true,
+    command: () => (this.adminkeyVisible = true),
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-adminkey'
+    styleClass: 'layout-topbar-menu-menuitem-adminkey',
   }
   togglePublishedItem: MenuItem = {
     label: 'Toggle Published',
@@ -300,38 +303,35 @@ export class TopBarComponent {
       this.storeService.fetchLeaderboard()
     },
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-published'
+    styleClass: 'layout-topbar-menu-menuitem-published',
   }
   createWeeklyItem: MenuItem = {
     label: 'Create Weekly',
     icon: 'pi pi-calendar-plus',
-    command: () => this.createWeeklyVisible = true,
+    command: () => (this.createWeeklyVisible = true),
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-createweekly'
+    styleClass: 'layout-topbar-menu-menuitem-createweekly',
   }
   publishWeeklyItem: MenuItem = {
     label: 'Publish Weekly',
     icon: 'pi pi-cloud-upload',
-    command: () => this.publishWeeklyVisible = true,
+    command: () => (this.publishWeeklyVisible = true),
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-publishweekly'
+    styleClass: 'layout-topbar-menu-menuitem-publishweekly',
   }
   addPlayerItem: MenuItem = {
     label: 'Add Player',
     icon: 'pi pi-user-plus',
-    command: () => this.addPlayerVisible = true,
+    command: () => (this.addPlayerVisible = true),
     visible: true,
-    styleClass: 'layout-topbar-menu-menuitem-addplayer'
+    styleClass: 'layout-topbar-menu-menuitem-addplayer',
   }
-  
+
   menuItems$ = this.storeService.isAdmin$.pipe(
     map((isAdmin) => {
-      const adminMenuItems = isAdmin ? [
-        this.togglePublishedItem,
-        this.createWeeklyItem,
-        this.publishWeeklyItem,
-        this.addPlayerItem,
-      ] : []
+      const adminMenuItems = isAdmin
+        ? [this.togglePublishedItem, this.createWeeklyItem, this.publishWeeklyItem, this.addPlayerItem]
+        : []
 
       return [
         this.standingsItem,
@@ -343,7 +343,8 @@ export class TopBarComponent {
         this.adminkeyItem,
         ...adminMenuItems,
       ]
-    }))
+    }),
+  )
 
   constructor(private storageService: StorageService, public storeService: StoreService) {}
 

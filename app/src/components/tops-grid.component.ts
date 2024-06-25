@@ -7,9 +7,7 @@ import { WeeklyResult } from 'src/domain/weekly'
   template: `
     <div class="tops-grid" *ngIf="tops">
       <ng-container *ngFor="let top of tops">
-        <top-card
-          [tops]="[ top ]"
-        ></top-card>
+        <top-card [tops]="[top]"></top-card>
       </ng-container>
     </div>
   `,
@@ -22,13 +20,13 @@ import { WeeklyResult } from 'src/domain/weekly'
         grid-column-gap: 24px;
         grid-row-gap: 24px;
       }
-      
+
       @media (max-width: 1268px) {
         .tops-grid {
           grid-template-columns: repeat(2, 268px);
         }
       }
-      
+
       @media (max-width: 624px) {
         .tops-grid {
           grid-template-columns: repeat(1, 268px);

@@ -13,7 +13,7 @@ import { WeeklyResult } from 'src/domain/weekly'
       <p-contextMenu #cm [model]="playerContentItems" />
       <p-table
         [value]="tops"
-        [(contextMenuSelection)]="deletedPlayer" 
+        [(contextMenuSelection)]="deletedPlayer"
         [contextMenu]="editable ? cm : undefined"
         (onEditComplete)="onUpdate($event)"
       >
@@ -22,14 +22,11 @@ import { WeeklyResult } from 'src/domain/weekly'
         </ng-template>
         <ng-template pTemplate="body" let-top let-rowIndex="rowIndex">
           <tr [pContextMenuRow]="top.player">
-            <td>{{ top.position || (rowIndex + 1) | position }}</td>
+            <td>{{ top.position || rowIndex + 1 | position }}</td>
             <td>
               <img
                 [alt]="top.player.name"
-                [src]="
-                  top.player.image ||
-                  'assets/images/hds-events-nobg.png'
-                "
+                [src]="top.player.image || 'assets/images/hds-events-nobg.png'"
                 (error)="onImgError($event)"
                 width="64"
                 height="37"
@@ -40,18 +37,10 @@ import { WeeklyResult } from 'src/domain/weekly'
             <ng-template #noteditablescore pTemplate="output">
               <td>{{ top.score || 0 }}</td>
             </ng-template>
-            <td
-              *ngIf="editable; else noteditablescore"
-              [pEditableColumn]="top"
-              pEditableColumnField="score"
-            >
+            <td *ngIf="editable; else noteditablescore" [pEditableColumn]="top" pEditableColumnField="score">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <p-inputNumber
-                    [min]="0"
-                    [(ngModel)]="top.score"
-                    [size]="1"
-                  />
+                  <p-inputNumber [min]="0" [(ngModel)]="top.score" [size]="1" />
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{ top.score || 0 }}
@@ -65,15 +54,8 @@ import { WeeklyResult } from 'src/domain/weekly'
             <span>Total player count: {{ playercount }}</span>
             <span *ngIf="lastModified">Last Updated: {{ lastModified }}</span>
             <div *ngIf="editable" class="player-add">
-              <p-dropdown
-                [options]="players" 
-                optionLabel="name"
-                [(ngModel)]="selectedPlayer"
-              />
-              <p-button
-                icon="pi pi-check"
-                (onClick)="addedMatchResult.emit(selectedPlayer)"
-              />
+              <p-dropdown [options]="players" optionLabel="name" [(ngModel)]="selectedPlayer" />
+              <p-button icon="pi pi-check" (onClick)="addedMatchResult.emit(selectedPlayer)" />
             </div>
           </div>
         </ng-template>
@@ -81,7 +63,7 @@ import { WeeklyResult } from 'src/domain/weekly'
     </div>
 
     <p-dialog
-      header="Remove Player from Match?" 
+      header="Remove Player from Match?"
       [modal]="true"
       [(visible)]="deletePlayerVisible"
       position="top"
@@ -157,16 +139,18 @@ export class TopsTableComponent {
   @Input() editable = false
   @Input() players: Array<Player> = []
 
-  playerContentItems: Array<MenuItem> = [{
-    label: 'Remove Player',
-    command: () => this.deletePlayerVisible = true,
-    visible: true
-  }]
+  playerContentItems: Array<MenuItem> = [
+    {
+      label: 'Remove Player',
+      command: () => (this.deletePlayerVisible = true),
+      visible: true,
+    },
+  ]
 
   selectedPlayer?: Player
   @Output() addedMatchResult = new EventEmitter<Player | undefined>()
 
-  @Output() updatedMatchResult = new EventEmitter<{ player: Player, score: number }>()
+  @Output() updatedMatchResult = new EventEmitter<{ player: Player; score: number }>()
 
   onUpdate(event: TableEditCompleteEvent) {
     if (!event.data?.player) return

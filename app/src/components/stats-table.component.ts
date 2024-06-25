@@ -9,7 +9,7 @@ import { Stat } from 'src/domain/leaderboard'
         [value]="stats"
         styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
         [scrollable]="true"
-        [tableStyle]="{'min-width': '40rem'}"
+        [tableStyle]="{ 'min-width': '40rem' }"
         dataKey="player.accountId"
       >
         <ng-template pTemplate="header">
@@ -35,22 +35,38 @@ import { Stat } from 'src/domain/leaderboard'
         <ng-template pTemplate="body" let-stat let-rowIndex="rowIndex" let-expanded="expanded">
           <tr>
             <ng-template #emptyTd><td></td></ng-template>
-            <td *ngIf="showExpand" class="expand-button"><p-button *ngIf="stat.opponentsSorted.length > 0" class="expand-button" type="button" [pRowToggler]="stat" [text]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" /></td>
-            <td>{{ stat.position || (rowIndex + 1) | position }}</td>
+            <td *ngIf="showExpand" class="expand-button">
+              <p-button
+                *ngIf="stat.opponentsSorted.length > 0"
+                class="expand-button"
+                type="button"
+                [pRowToggler]="stat"
+                [text]="true"
+                [plain]="true"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+              />
+            </td>
+            <td>{{ stat.position || rowIndex + 1 | position }}</td>
             <td>{{ stat.player.name }}</td>
             <td>{{ stat.weekliesPlayed }}</td>
-            <td>{{ stat.averageQualifierPosition | number: '1.2-2' }}</td>
+            <td>{{ stat.averageQualifierPosition | number : '1.2-2' }}</td>
             <td>{{ stat.qualifiedAmount }}</td>
-            <td>{{ stat.averageWeeklyPosition | number: '1.2-2' }}</td>
+            <td>{{ stat.averageWeeklyPosition | number : '1.2-2' }}</td>
             <td>{{ stat.matchWins }}-{{ stat.matchLosses }}</td>
-            <td *ngIf="stat.mapWins > 0 || stat.mapLosses > 0; else emptyTd">{{ stat.mapWins }}-{{ stat.mapLosses }}</td>
+            <td *ngIf="stat.mapWins > 0 || stat.mapLosses > 0; else emptyTd">
+              {{ stat.mapWins }}-{{ stat.mapLosses }}
+            </td>
             <td>{{ stat.weeklyWins }}</td>
             <td>{{ stat.weeklyRunnerups }}</td>
-            <td>{{ stat.averageWeeklyScore | number: '1.2-2' }}</td>
+            <td>{{ stat.averageWeeklyScore | number : '1.2-2' }}</td>
             <td>{{ stat.score || 0 }}</td>
-            <td *ngIf="stat.earningsAmount > 0; else emptyTd">{{ stat.earningsAmount | currency: 'USD' }}</td>
-            <td *ngIf="stat.nemesis && stat.nemesisWins >= 0 && stat.nemesisLosses > 0; else emptyTd">{{ stat.nemesis.name }}</td>
-            <td *ngIf="stat.nemesisWins >= 0 && stat.nemesisLosses > 0; else emptyTd">{{ stat.nemesisWins }}-{{ stat.nemesisLosses }}</td>
+            <td *ngIf="stat.earningsAmount > 0; else emptyTd">{{ stat.earningsAmount | currency : 'USD' }}</td>
+            <td *ngIf="stat.nemesis && stat.nemesisWins >= 0 && stat.nemesisLosses > 0; else emptyTd">
+              {{ stat.nemesis.name }}
+            </td>
+            <td *ngIf="stat.nemesisWins >= 0 && stat.nemesisLosses > 0; else emptyTd">
+              {{ stat.nemesisWins }}-{{ stat.nemesisLosses }}
+            </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="rowexpansion" let-stat>
@@ -88,7 +104,7 @@ import { Stat } from 'src/domain/leaderboard'
       }
 
       :host::ng-deep .p-button.p-button-icon-only {
-        font-size: .5rem;
+        font-size: 0.5rem;
         width: 32px;
         height: 32px;
       }
@@ -97,7 +113,8 @@ import { Stat } from 'src/domain/leaderboard'
         padding: 0;
       }
 
-      td, th {
+      td,
+      th {
         text-align: center;
       }
     `,

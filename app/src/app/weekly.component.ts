@@ -22,21 +22,21 @@ import { Match } from 'src/domain/match'
         <ng-container *ngIf="storeService.weeklyVm$ | async as vm">
           <div class="weekly-header">
             <div class="weekly-header-leftside">
-              <p-dropdown 
-                [options]="vm.weeklyIds" 
+              <p-dropdown
+                [options]="vm.weeklyIds"
                 [ngModel]="vm.selectedWeekly"
                 (onChange)="storeService.updateSelectedWeekly($event.value)"
               />
-              <p-tag *ngIf="!vm.published" severity="primary" value="Unpublished"/>
+              <p-tag *ngIf="!vm.published" severity="primary" value="Unpublished" />
             </div>
             <div class="weekly-header-buffer"></div>
             <div class="weekly-header-buffer"></div>
             <div class="weekly-header-rightside">
               <p-inputSwitch *ngIf="vm.isAdmin" [(ngModel)]="editMode" />
               <p-selectButton
-                [options]="viewOptions" 
-                [(ngModel)]="currentView" 
-                optionLabel="label" 
+                [options]="viewOptions"
+                [(ngModel)]="currentView"
+                optionLabel="label"
                 optionValue="value"
               />
             </div>
@@ -51,11 +51,7 @@ import { Match } from 'src/domain/match'
               ></tops-table>
             </ng-container>
             <ng-template #matches>
-              <match-bracket
-                [matches]="vm.matches!"
-                [players]="vm.players || []"
-                [editable]="editMode"
-              ></match-bracket>
+              <match-bracket [matches]="vm.matches!" [players]="vm.players || []" [editable]="editMode"></match-bracket>
               <tops-table
                 label="{{ vm.qualifying!.type | titlecase }} {{ vm.qualifying!.instance | uppercase }}"
                 [tops]="vm.qualifying!.results"
@@ -70,9 +66,7 @@ import { Match } from 'src/domain/match'
             </ng-template>
           </ng-container>
           <ng-template #weeklynotfound>
-            <div class="weekly-not-found">
-              No weekly found for id: {{ vm.selectedWeekly }}
-            </div>
+            <div class="weekly-not-found">No weekly found for id: {{ vm.selectedWeekly }}</div>
           </ng-template>
         </ng-container>
       </ng-template>
@@ -80,12 +74,14 @@ import { Match } from 'src/domain/match'
   `,
   styles: [
     `
-      .loading, .weekly-not-found {
+      .loading,
+      .weekly-not-found {
         display: flex;
         justify-content: center;
       }
 
-      .weekly-header, .weekly-matches {
+      .weekly-header,
+      .weekly-matches {
         display: grid;
         justify-content: center;
         grid-template-columns: repeat(4, 268px);
@@ -99,21 +95,22 @@ import { Match } from 'src/domain/match'
         gap: 8px;
         align-items: center;
       }
-      
+
       .weekly-header-rightside {
         display: flex;
         justify-content: flex-end;
         gap: 8px;
         align-items: center;
       }
-      
+
       .weekly-header {
         grid-row-gap: 8px;
         margin-bottom: 24px;
       }
 
       @media (max-width: 1268px) {
-        .weekly-header, .weekly-matches {
+        .weekly-header,
+        .weekly-matches {
           grid-template-columns: repeat(2, 268px);
         }
 
@@ -121,9 +118,10 @@ import { Match } from 'src/domain/match'
           display: none;
         }
       }
-      
+
       @media (max-width: 624px) {
-        .weekly-header, .weekly-matches {
+        .weekly-header,
+        .weekly-matches {
           grid-template-columns: repeat(1, 268px);
         }
 
@@ -132,10 +130,13 @@ import { Match } from 'src/domain/match'
         }
       }
     `,
-  ]
+  ],
 })
 export class WeeklyComponent {
-  viewOptions = [{ label: 'Results', value: 'results' }, { label: 'Matches', value: 'matches' }]
+  viewOptions = [
+    { label: 'Results', value: 'results' },
+    { label: 'Matches', value: 'matches' },
+  ]
   currentView = 'results'
 
   editMode = false
@@ -147,7 +148,7 @@ export class WeeklyComponent {
     this.storeService.addMatchResult([match.matchId, player.accountId])
   }
 
-  updateMatchResult(match: Match, { player, score }: { player: Player, score: number }) {
+  updateMatchResult(match: Match, { player, score }: { player: Player; score: number }) {
     this.storeService.updateMatchResult([match.matchId, player.accountId, score])
   }
 
@@ -159,6 +160,15 @@ export class WeeklyComponent {
 @NgModule({
   exports: [WeeklyComponent],
   declarations: [WeeklyComponent],
-  imports: [CommonModule, ComponentsModule, PositionPipe, DropdownModule, FormsModule, SelectButtonModule, TagModule, InputSwitchModule],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    PositionPipe,
+    DropdownModule,
+    FormsModule,
+    SelectButtonModule,
+    TagModule,
+    InputSwitchModule,
+  ],
 })
 export class StandingsModule {}

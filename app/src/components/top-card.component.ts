@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter} from '@angular/core'
+import { Component, Input, Output, EventEmitter } from '@angular/core'
 import { Top } from 'src/domain/leaderboard'
 import { MatchResult } from 'src/domain/match'
 import { Player } from 'src/domain/player'
@@ -10,7 +10,8 @@ import { WeeklyResult } from 'src/domain/weekly'
     <div *ngIf="label" class="label">{{ label }}</div>
     <p-card [style]="{ width: '268px' }">
       <ng-template *ngIf="displayImage" pTemplate="header">
-        <img *ngIf="tops.length > 0; else noPlayerImg"
+        <img
+          *ngIf="tops.length > 0; else noPlayerImg"
           [alt]="tops[0].player.name"
           [src]="tops[0].player.image || 'assets/images/hds-events-nobg.png'"
           (error)="onImgError($event)"
@@ -44,13 +45,9 @@ import { WeeklyResult } from 'src/domain/weekly'
         (deleted)="deleteMatchResult.emit($event)"
       ></top-card-player>
     </div>
-    
+
     <ng-template #noPlayerImg>
-      <img
-        alt="No player"
-        src="assets/images/hds-events-nobg.png"
-        height="192"
-      />
+      <img alt="No player" src="assets/images/hds-events-nobg.png" height="192" />
     </ng-template>
   `,
   styles: [
@@ -65,7 +62,8 @@ import { WeeklyResult } from 'src/domain/weekly'
         border-radius: 4px;
       }
 
-      :host::ng-deep .p-card-body, .footer {
+      :host::ng-deep .p-card-body,
+      .footer {
         padding: 8px 16px;
         background-color: var(--primary-color);
         color: var(--primary-color-text);
@@ -94,7 +92,7 @@ export class TopCardComponent {
   @Input() displayPositions: Array<number> = [1, 2]
 
   @Output() addedMatchResult = new EventEmitter<Player>()
-  @Output() updatedMatchResult = new EventEmitter<{ player: Player, score: number }>()
+  @Output() updatedMatchResult = new EventEmitter<{ player: Player; score: number }>()
   @Output() deleteMatchResult = new EventEmitter<Player>()
 
   onImgError(event: Event) {

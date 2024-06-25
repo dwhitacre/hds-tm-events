@@ -7,6 +7,7 @@
     "build": "nx build",
     "test": "nx test",
     "lint": "nx format:check && nx lint",
+    "lint:fix": "nx format --all",
     "format": "nx format",
     "e2e": "nx e2e e2e"
   },

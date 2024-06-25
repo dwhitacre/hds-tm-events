@@ -14,11 +14,7 @@ import { PositionPipe } from 'src/pipes/position.pipe'
       <ng-template #standings>
         <ng-container *ngIf="storeService.standingsVm$ | async as vm">
           <tops-grid [tops]="vm.top"></tops-grid>
-          <tops-table
-            [tops]="vm.bottom"
-            [playercount]="vm.playercount"
-            [lastModified]="vm.lastModified"
-          ></tops-table>
+          <tops-table [tops]="vm.bottom" [playercount]="vm.playercount" [lastModified]="vm.lastModified"></tops-table>
         </ng-container>
       </ng-template>
     </layout>
@@ -30,7 +26,7 @@ import { PositionPipe } from 'src/pipes/position.pipe'
         justify-content: center;
       }
     `,
-  ]
+  ],
 })
 export class StandingsComponent {
   constructor(public storeService: StoreService) {}

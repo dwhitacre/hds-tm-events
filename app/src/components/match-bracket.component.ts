@@ -7,42 +7,98 @@ import { StoreService } from 'src/services/store.service'
   selector: 'match-bracket',
   template: `
     <div class="weekly-matches weekly-matches-lg">
-      <div class="header">Quarterfinals</div><div class="blank"></div><div class="header">Semifinals</div><div class="blank"></div><div class="header">Finals</div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalA }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'down' }"></div><div class="blank"></div><div class="blank"></div><div class="blank"></div>
-      <div class="blank"></div><div class="connector" *ngTemplateOutlet="connectorTemplate;context:{ connected: true }"></div><div class="semifinal" *ngTemplateOutlet="matchTemplate;context:{ match: semifinalA }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'down' }"></div><div class="blank"></div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalB }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'up' }"></div><div class="blank"></div><div class="connector" *ngTemplateOutlet="connectorTemplate;context:{ connected: false }"></div><div class="blank"></div>
-      <div class="blank"></div><div class="blank"></div><div class="blank"></div><div class="connector" *ngTemplateOutlet="connectorTemplate;context:{ connected: true }"></div><div class="finals" *ngTemplateOutlet="matchTemplate;context:{ match: finals }"></div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalC }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'down' }"></div><div class="blank"></div><div class="connector" *ngTemplateOutlet="connectorTemplate;context:{ connected: false }"></div><div class="blank"></div>
-      <div class="blank"></div><div class="connector" *ngTemplateOutlet="connectorTemplate;context:{ connected: true }"></div><div class="semifinal" *ngTemplateOutlet="matchTemplate;context:{ match: semifinalB }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'up' }"></div><div class="blank"></div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalD }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'up' }"></div><div class="blank"></div><div class="blank"></div><div class="blank"></div>
+      <div class="header">Quarterfinals</div>
+      <div class="blank"></div>
+      <div class="header">Semifinals</div>
+      <div class="blank"></div>
+      <div class="header">Finals</div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalA }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'down' }"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="connector" *ngTemplateOutlet="connectorTemplate; context: { connected: true }"></div>
+      <div class="semifinal" *ngTemplateOutlet="matchTemplate; context: { match: semifinalA }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'down' }"></div>
+      <div class="blank"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalB }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'up' }"></div>
+      <div class="blank"></div>
+      <div class="connector" *ngTemplateOutlet="connectorTemplate; context: { connected: false }"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="connector" *ngTemplateOutlet="connectorTemplate; context: { connected: true }"></div>
+      <div class="finals" *ngTemplateOutlet="matchTemplate; context: { match: finals }"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalC }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'down' }"></div>
+      <div class="blank"></div>
+      <div class="connector" *ngTemplateOutlet="connectorTemplate; context: { connected: false }"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="connector" *ngTemplateOutlet="connectorTemplate; context: { connected: true }"></div>
+      <div class="semifinal" *ngTemplateOutlet="matchTemplate; context: { match: semifinalB }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'up' }"></div>
+      <div class="blank"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalD }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'up' }"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
     </div>
     <div class="weekly-matches weekly-matches-md">
-      <div class="header">Quarterfinals</div><div class="blank"></div><div class="header">Semifinals</div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalA }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'down' }"></div><div class="blank"></div>
-      <div class="blank"></div><div class="connector" *ngTemplateOutlet="connectorTemplate;context:{ connected: true }"></div><div class="semifinal" *ngTemplateOutlet="matchTemplate;context:{ match: semifinalA }"></div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalB }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'up' }"></div><div class="blank"></div>
-      <div class="padding"></div><div class="padding"></div><div class="padding"></div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalC }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'down' }"></div><div class="blank"></div>
-      <div class="blank"></div><div class="connector" *ngTemplateOutlet="connectorTemplate;context:{ connected: true }"></div><div class="semifinal" *ngTemplateOutlet="matchTemplate;context:{ match: semifinalB }"></div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalD }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'up' }"></div><div class="blank"></div>
+      <div class="header">Quarterfinals</div>
+      <div class="blank"></div>
+      <div class="header">Semifinals</div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalA }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'down' }"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="connector" *ngTemplateOutlet="connectorTemplate; context: { connected: true }"></div>
+      <div class="semifinal" *ngTemplateOutlet="matchTemplate; context: { match: semifinalA }"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalB }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'up' }"></div>
+      <div class="blank"></div>
+      <div class="padding"></div>
+      <div class="padding"></div>
+      <div class="padding"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalC }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'down' }"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="connector" *ngTemplateOutlet="connectorTemplate; context: { connected: true }"></div>
+      <div class="semifinal" *ngTemplateOutlet="matchTemplate; context: { match: semifinalB }"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalD }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'up' }"></div>
+      <div class="blank"></div>
     </div>
     <div class="weekly-matches weekly-matches-md">
-      <div class="header">Semifinals</div><div class="blank"></div><div class="header">Finals</div>
-      <div class="semifinal" *ngTemplateOutlet="matchTemplate;context:{ match: semifinalA }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'down' }"></div><div class="blank"></div>
-      <div class="blank"></div><div class="connector" *ngTemplateOutlet="connectorTemplate;context:{ connected: true }"></div><div class="finals" *ngTemplateOutlet="matchTemplate;context:{ match: finals }"></div>
-      <div class="semifinal" *ngTemplateOutlet="matchTemplate;context:{ match: semifinalB }"></div><div *ngTemplateOutlet="lineTemplate;context:{ direction: 'up' }"></div><div class="blank"></div>
+      <div class="header">Semifinals</div>
+      <div class="blank"></div>
+      <div class="header">Finals</div>
+      <div class="semifinal" *ngTemplateOutlet="matchTemplate; context: { match: semifinalA }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'down' }"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="connector" *ngTemplateOutlet="connectorTemplate; context: { connected: true }"></div>
+      <div class="finals" *ngTemplateOutlet="matchTemplate; context: { match: finals }"></div>
+      <div class="semifinal" *ngTemplateOutlet="matchTemplate; context: { match: semifinalB }"></div>
+      <div *ngTemplateOutlet="lineTemplate; context: { direction: 'up' }"></div>
+      <div class="blank"></div>
     </div>
     <div class="weekly-matches weekly-matches-sm">
       <div class="header">Quarterfinals</div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalA }"></div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalB }"></div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalC }"></div>
-      <div *ngTemplateOutlet="matchTemplate;context:{ match: quarterfinalD }"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalA }"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalB }"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalC }"></div>
+      <div *ngTemplateOutlet="matchTemplate; context: { match: quarterfinalD }"></div>
       <div class="header">Semifinals</div>
-      <div class="semifinal" *ngTemplateOutlet="matchTemplate;context:{ match: semifinalA }"></div>
-      <div class="semifinal" *ngTemplateOutlet="matchTemplate;context:{ match: semifinalB }"></div>
+      <div class="semifinal" *ngTemplateOutlet="matchTemplate; context: { match: semifinalA }"></div>
+      <div class="semifinal" *ngTemplateOutlet="matchTemplate; context: { match: semifinalB }"></div>
       <div class="header">Finals</div>
-      <div class="finals" *ngTemplateOutlet="matchTemplate;context:{ match: finals }"></div>
+      <div class="finals" *ngTemplateOutlet="matchTemplate; context: { match: finals }"></div>
     </div>
     <div class="other-matches">
       <ng-container *ngFor="let match of otherMatches">
@@ -113,7 +169,8 @@ import { StoreService } from 'src/services/store.service'
         margin-bottom: 48px;
       }
 
-      .weekly-matches-md, .weekly-matches-sm {
+      .weekly-matches-md,
+      .weekly-matches-sm {
         display: none;
       }
 
@@ -124,12 +181,13 @@ import { StoreService } from 'src/services/store.service'
       .other-matches {
         display: grid;
         justify-content: center;
-        grid-template-columns: repeat(4, 268px);;
+        grid-template-columns: repeat(4, 268px);
         grid-column-gap: 24px;
         grid-row-gap: 24px;
       }
 
-      .line, .connector {
+      .line,
+      .connector {
         width: 100%;
         display: flex;
       }
@@ -146,7 +204,7 @@ import { StoreService } from 'src/services/store.service'
       .column-left {
         border-left: var(--primary-600) solid 2px;
       }
-      
+
       .row-right {
         height: 51%;
         width: calc(100% + 2px);
@@ -164,11 +222,11 @@ import { StoreService } from 'src/services/store.service'
         border-right: var(--primary-600) solid 2px;
         border-top: var(--primary-600) solid 2px;
       }
-      
+
       .row-down-buffer {
         height: 49%;
       }
-      
+
       @media (max-width: 1268px) {
         .weekly-matches {
           grid-template-columns: 268px 67px 268px 67px 268px;
@@ -192,9 +250,10 @@ import { StoreService } from 'src/services/store.service'
           display: grid;
         }
       }
-      
+
       @media (max-width: 624px) {
-        .weekly-matches, .other-matches {
+        .weekly-matches,
+        .other-matches {
           grid-template-columns: repeat(1, 268px);
         }
 
@@ -236,7 +295,7 @@ export class MatchBracketComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes['matches']) return
     if (!(changes['matches'].currentValue instanceof Array)) return
-    
+
     const matches = changes['matches'].currentValue as Array<MatchDecorated>
 
     this.quarterfinalA = undefined
@@ -247,8 +306,8 @@ export class MatchBracketComponent implements OnChanges {
     this.semifinalB = undefined
     this.finals = undefined
     this.otherMatches = []
-    
-    matches.forEach(match => {
+
+    matches.forEach((match) => {
       if (match.type === 'quarterfinal' && ['a', 'i'].includes(match.instance)) this.quarterfinalA = match
       else if (match.type === 'quarterfinal' && ['b', 'j'].includes(match.instance)) this.quarterfinalB = match
       else if (match.type === 'quarterfinal' && ['c', 'k'].includes(match.instance)) this.quarterfinalC = match
@@ -265,7 +324,7 @@ export class MatchBracketComponent implements OnChanges {
     this.storeService.addMatchResult([match.matchId, player.accountId])
   }
 
-  updateMatchResult(match: Match, { player, score }: { player: Player, score: number }) {
+  updateMatchResult(match: Match, { player, score }: { player: Player; score: number }) {
     this.storeService.updateMatchResult([match.matchId, player.accountId, score])
   }
 

@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core"
+import { Injectable } from '@angular/core'
 
 @Injectable({ providedIn: 'root' })
 export class StorageService {
-  #adminkey = "hds-tm-events.admin-key"
+  #adminkey = 'hds-tm-events.admin-key'
 
   saveAdminKey(value: string) {
     localStorage.setItem(this.#adminkey, value)

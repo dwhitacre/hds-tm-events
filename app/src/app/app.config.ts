@@ -8,7 +8,7 @@ import { LogService } from 'src/services/log.service'
 import { MessageService } from 'primeng/api'
 import { PositionPipe } from 'src/pipes/position.pipe'
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn } from '@angular/common/http'
 import { AdminService } from 'src/services/admin.service'
 import { StoreService } from 'src/services/store.service'
 import { WeeklyService } from 'src/services/weekly.service'
@@ -18,12 +18,14 @@ import { PlayerService } from 'src/services/player.service'
 export const adminkeyInterceptor: HttpInterceptorFn = (req, next) => {
   const storageService = inject(StorageService)
   if (storageService && storageService.hasAdminKey()) {
-    req = req.clone({ setHeaders: {
-      'x-hdstmevents-adminkey': storageService.getAdminKey() ?? ''
-    }})
+    req = req.clone({
+      setHeaders: {
+        'x-hdstmevents-adminkey': storageService.getAdminKey() ?? '',
+      },
+    })
   }
-  return next(req);
-};
+  return next(req)
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [

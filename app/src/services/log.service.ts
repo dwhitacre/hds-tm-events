@@ -13,7 +13,7 @@ export class LogService {
         severity: 'success',
         summary,
         detail,
-        key: 'log'
+        key: 'log',
       })
     }
   }
@@ -25,7 +25,7 @@ export class LogService {
       summary: error.name,
       detail: error.message,
       sticky: true,
-      key: 'log'
+      key: 'log',
     })
   }
 }

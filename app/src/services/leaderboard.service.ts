@@ -15,9 +15,11 @@ export class LeaderboardService {
   addWeeklyToLeaderboard(uid: string, weeklyId: string) {
     return this.httpClient.patch(`${this.#baseUrl}`, {
       leaderboardId: uid,
-      weeklies: [{
-        weekly: { weeklyId }
-      }]
+      weeklies: [
+        {
+          weekly: { weeklyId },
+        },
+      ],
     })
   }
 }

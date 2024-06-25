@@ -14,10 +14,7 @@ import { PositionPipe } from 'src/pipes/position.pipe'
       <ng-template #stats>
         <ng-container *ngIf="storeService.statsVm$ | async as vm">
           <ng-container *ngIf="vm.stats">
-            <stats-table
-              [stats]="vm.stats"
-              [showExpand]="true"
-            ></stats-table>
+            <stats-table [stats]="vm.stats" [showExpand]="true"></stats-table>
           </ng-container>
         </ng-container>
       </ng-template>
@@ -30,7 +27,7 @@ import { PositionPipe } from 'src/pipes/position.pipe'
         justify-content: center;
       }
     `,
-  ]
+  ],
 })
 export class StatsComponent {
   constructor(public storeService: StoreService) {}

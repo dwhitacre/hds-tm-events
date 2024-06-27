@@ -4,14 +4,16 @@ import { faker } from '@faker-js/faker'
 import { playerGet, playerCreate, playerOverridesCreate } from '../api/player'
 
 context('/api/player', () => {
-  it('get player dne', () => {
-    playerGet('000').then(response => {
-      expect(response.status).to.eq(204)
+  it('get player dne in tmio', () => {
+    playerGet('000').then((response) => {
+      expect(response.status).to.eq(200)
+      expect(response.body.accountId).to.eq('000')
+      expect(response.body.name).to.eq('000')
     })
   })
 
   it('create player bad method', () => {
-    playerCreate({ method: 'POST' }).then(response => {
+    playerCreate({ method: 'POST' }).then((response) => {
       expect(response.status).to.eq(405)
     })
   })
@@ -19,7 +21,7 @@ context('/api/player', () => {
   it('create player bad body', () => {
     playerCreate({
       body: faker.string.uuid(),
-    }).then(response => {
+    }).then((response) => {
       expect(response.status).to.eq(400)
     })
   })
@@ -27,31 +29,31 @@ context('/api/player', () => {
   it('create player no account id', () => {
     playerCreate({
       body: {},
-    }).then(response => {
+    }).then((response) => {
       expect(response.status).to.eq(400)
     })
   })
 
   it('create player tmio not found', () => {
     playerCreate({
-      accountId: '404'
-    }).then(response => {
+      accountId: '404',
+    }).then((response) => {
       expect(response.status).to.eq(400)
     })
   })
 
   it('create player tmio found no accountid', () => {
     playerCreate({
-      accountId: '4000'
-    }).then(response => {
+      accountId: '4000',
+    }).then((response) => {
       expect(response.status).to.eq(400)
     })
   })
 
   it('create player tmio found no displayname', () => {
     playerCreate({
-      accountId: '4001'
-    }).then(response => {
+      accountId: '4001',
+    }).then((response) => {
       expect(response.status).to.eq(400)
     })
   })
@@ -59,10 +61,10 @@ context('/api/player', () => {
   it('create player top level flag', () => {
     const accountId = faker.string.uuid().replace(/^.{4}/, '2000')
     playerCreate({
-      accountId
-    }).then(response => {
+      accountId,
+    }).then((response) => {
       expect(response.status).to.eq(201)
-      playerGet(accountId).then(response => {
+      playerGet(accountId).then((response) => {
         expect(response.status).to.eq(200)
         expect(response.body.accountId).to.eq(accountId)
         expect(response.body.name).to.have.length.gt(0)
@@ -76,10 +78,10 @@ context('/api/player', () => {
   it('create player second level flag', () => {
     const accountId = faker.string.uuid().replace(/^.{4}/, '2001')
     playerCreate({
-      accountId
-    }).then(response => {
+      accountId,
+    }).then((response) => {
       expect(response.status).to.eq(201)
-      playerGet(accountId).then(response => {
+      playerGet(accountId).then((response) => {
         expect(response.status).to.eq(200)
         expect(response.body.accountId).to.eq(accountId)
         expect(response.body.name).to.have.length.gt(0)
@@ -93,10 +95,10 @@ context('/api/player', () => {
   it('create player third level flag', () => {
     const accountId = faker.string.uuid().replace(/^.{4}/, '2002')
     playerCreate({
-      accountId
-    }).then(response => {
+      accountId,
+    }).then((response) => {
       expect(response.status).to.eq(201)
-      playerGet(accountId).then(response => {
+      playerGet(accountId).then((response) => {
         expect(response.status).to.eq(200)
         expect(response.body.accountId).to.eq(accountId)
         expect(response.body.name).to.have.length.gt(0)
@@ -110,10 +112,10 @@ context('/api/player', () => {
   it('create player fourth level flag', () => {
     const accountId = faker.string.uuid().replace(/^.{4}/, '2003')
     playerCreate({
-      accountId
-    }).then(response => {
+      accountId,
+    }).then((response) => {
       expect(response.status).to.eq(201)
-      playerGet(accountId).then(response => {
+      playerGet(accountId).then((response) => {
         expect(response.status).to.eq(200)
         expect(response.body.accountId).to.eq(accountId)
         expect(response.body.name).to.have.length.gt(0)
@@ -128,23 +130,23 @@ context('/api/player', () => {
   it.skip('create player repeat is an update', () => {
     const accountId = faker.string.uuid().replace(/^.{4}/, '2000')
     playerCreate({
-      accountId
-    }).then(response => {
+      accountId,
+    }).then((response) => {
       expect(response.status).to.eq(201)
-      playerGet(accountId).then(response => {
+      playerGet(accountId).then((response) => {
         expect(response.status).to.eq(200)
         expect(response.body.accountId).to.eq(accountId)
         expect(response.body.name).to.have.length.gt(0)
         const firstName = response.body.name
         playerCreate({
-          accountId
-        }).then(response => {
+          accountId,
+        }).then((response) => {
           expect(response.status).to.eq(201)
-          playerGet(accountId).then(response => {
+          playerGet(accountId).then((response) => {
             expect(response.status).to.eq(200)
             expect(response.body.accountId).to.eq(accountId)
             expect(response.body.name).to.have.length.gt(0)
-            
+
             expect(response.body.name).not.to.eq(firstName)
           })
         })
@@ -155,8 +157,8 @@ context('/api/player', () => {
   it('get player with overrides', () => {
     const accountId = faker.string.uuid().replace(/^.{4}/, '2000')
     playerCreate({
-      accountId
-    }).then(response => {
+      accountId,
+    }).then((response) => {
       expect(response.status).to.eq(201)
 
       const name = faker.internet.userName()
@@ -169,9 +171,9 @@ context('/api/player', () => {
         name,
         image,
         twitch,
-        discord
+        discord,
       }).then(() => {
-        playerGet(accountId).then(response => {
+        playerGet(accountId).then((response) => {
           expect(response.status).to.eq(200)
           expect(response.body.accountId).to.eq(accountId)
           expect(response.body.name).to.eq(name)

@@ -225,12 +225,126 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "82027271-1261-47a2-b601-0aacde61b623",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/map/:mapUid",
+      "responses": [
+        {
+          "uuid": "38031f15-439c-4d18-887d-0202a0f760a3",
+          "body": "{\n  \"author\": \"{{ faker 'string.uuid' }}\",\n  \"name\": \"{{ faker 'lorem.words' }}\",\n  \"mapType\": \"TrackMania\\\\TM_Race\",\n  \"mapStyle\": \"\",\n  \"authorScore\": {{ faker 'number.int' min=10000 max=60000 }},\n  \"goldScore\": {{ faker 'number.int' min=60000 max=70000 }},\n  \"silverScore\": {{ faker 'number.int' min=70000 max=80000 }},\n  \"bronzeScore\": {{ faker 'number.int' min=80000 max=90000 }},\n  \"collectionName\": \"Stadium\",\n  \"filename\": \"{{ faker 'lorem.words' }}.Gbx\",\n  \"isPlayable\": true,\n  \"mapId\": \"{{ faker 'string.uuid' }}\",\n  \"mapUid\": \"{{ urlParam 'mapUid' }}\",\n  \"submitter\": \"{{ faker 'string.uuid' }}\",\n  \"timestamp\": \"2023-03-19T20:35:47+00:00\",\n  \"fileUrl\": \"https://core.trackmania.nadeo.live/storageObjects/2919f5e1-adca-472f-9dad-13ec267a11e6\",\n  \"thumbnailUrl\": \"https://core.trackmania.nadeo.live/storageObjects/5f321ab4-0dd8-46fb-b14f-f9d8772f21fd.jpg\",\n  \"authorplayer\": {\n    \"name\": \"{{ faker 'internet.userName' }}\",\n    \"tag\": \"\",\n    \"id\": \"{{ faker 'string.uuid' }}\",\n    \"zone\": {},\n    \"meta\": {}\n  },\n  \"submitterplayer\": {\n    \"name\": \"{{ faker 'internet.userName' }}\",\n    \"tag\": \"\",\n    \"id\": \"{{ faker 'string.uuid' }}\",\n    \"zone\": {},\n    \"meta\": {}\n  },\n  \"exchangeid\": {{ faker 'number.int' min=5000 max=200000 }}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Map found",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "1c92fca9-678c-4975-81c6-575f24918fa1",
+          "body": "{\n  \"author\": \"{{ faker 'string.uuid' }}\",\n  \"mapType\": \"TrackMania\\\\TM_Race\",\n  \"mapStyle\": \"\",\n  \"authorScore\": {{ faker 'number.int' min=10000 max=60000 }},\n  \"goldScore\": {{ faker 'number.int' min=60000 max=70000 }},\n  \"silverScore\": {{ faker 'number.int' min=70000 max=80000 }},\n  \"bronzeScore\": {{ faker 'number.int' min=80000 max=90000 }},\n  \"collectionName\": \"Stadium\",\n  \"filename\": \"{{ faker 'lorem.words' }}.Gbx\",\n  \"isPlayable\": true,\n  \"mapId\": \"{{ faker 'string.uuid' }}\",\n  \"mapUid\": \"{{ urlParam 'mapUid' }}\",\n  \"submitter\": \"{{ faker 'string.uuid' }}\",\n  \"timestamp\": \"2023-03-19T20:35:47+00:00\",\n  \"fileUrl\": \"https://core.trackmania.nadeo.live/storageObjects/2919f5e1-adca-472f-9dad-13ec267a11e6\",\n  \"thumbnailUrl\": \"https://core.trackmania.nadeo.live/storageObjects/5f321ab4-0dd8-46fb-b14f-f9d8772f21fd.jpg\",\n  \"authorplayer\": {\n    \"name\": \"{{ faker 'internet.userName' }}\",\n    \"tag\": \"\",\n    \"id\": \"{{ faker 'string.uuid' }}\",\n    \"zone\": {},\n    \"meta\": {}\n  },\n  \"submitterplayer\": {\n    \"name\": \"{{ faker 'internet.userName' }}\",\n    \"tag\": \"\",\n    \"id\": \"{{ faker 'string.uuid' }}\",\n    \"zone\": {},\n    \"meta\": {}\n  },\n  \"exchangeid\": {{ faker 'number.int' min=5000 max=200000 }}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Map found no name",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "mapUid",
+              "value": "4001",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "75e0c3d5-6b22-4d3f-abdf-eea57a741936",
+          "body": "{\n  \"author\": \"{{ faker 'string.uuid' }}\",\n  \"name\": \"{{ faker 'lorem.words' }}\",\n  \"mapType\": \"TrackMania\\\\TM_Race\",\n  \"mapStyle\": \"\",\n  \"authorScore\": {{ faker 'number.int' min=10000 max=60000 }},\n  \"goldScore\": {{ faker 'number.int' min=60000 max=70000 }},\n  \"silverScore\": {{ faker 'number.int' min=70000 max=80000 }},\n  \"bronzeScore\": {{ faker 'number.int' min=80000 max=90000 }},\n  \"collectionName\": \"Stadium\",\n  \"filename\": \"{{ faker 'lorem.words' }}.Gbx\",\n  \"isPlayable\": true,\n  \"mapId\": \"{{ faker 'string.uuid' }}\",\n  \"submitter\": \"{{ faker 'string.uuid' }}\",\n  \"timestamp\": \"2023-03-19T20:35:47+00:00\",\n  \"fileUrl\": \"https://core.trackmania.nadeo.live/storageObjects/2919f5e1-adca-472f-9dad-13ec267a11e6\",\n  \"thumbnailUrl\": \"https://core.trackmania.nadeo.live/storageObjects/5f321ab4-0dd8-46fb-b14f-f9d8772f21fd.jpg\",\n  \"authorplayer\": {\n    \"name\": \"{{ faker 'internet.userName' }}\",\n    \"tag\": \"\",\n    \"id\": \"{{ faker 'string.uuid' }}\",\n    \"zone\": {},\n    \"meta\": {}\n  },\n  \"submitterplayer\": {\n    \"name\": \"{{ faker 'internet.userName' }}\",\n    \"tag\": \"\",\n    \"id\": \"{{ faker 'string.uuid' }}\",\n    \"zone\": {},\n    \"meta\": {}\n  },\n  \"exchangeid\": {{ faker 'number.int' min=5000 max=200000 }}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Map found no mapUid",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "mapUid",
+              "value": "4000",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a688e308-bf8b-4e68-8370-34825ee6da39",
+          "body": "{\"error\":\"map does not exist on API. (If you're trying to get your map visible on Trackmania.io, upload your map in-game via the Upload button in the map browser, via Map Review, a Club Campaign, or a Club Room.)\"}",
+          "latency": 0,
+          "statusCode": 500,
+          "label": "Map not found",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "mapUid",
+              "value": "404",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
     {
       "type": "route",
       "uuid": "83e8197c-c3ca-4910-b0d8-413e6fa761ed"
+    },
+    {
+      "type": "route",
+      "uuid": "82027271-1261-47a2-b601-0aacde61b623"
     }
   ],
   "proxyMode": false,

@@ -37,6 +37,8 @@ func main() {
 	http.HandleFunc("/api/match/{matchId}/matchresult", api.AdminMiddleware(api.MatchResultHandler))
 	http.HandleFunc("/api/weekly", api.AdminMiddleware(api.CreateWeeklyHandler))
 	http.HandleFunc("/api/admin", api.AdminMiddleware(api.AdminHandler))
+	http.HandleFunc("/api/map/{id}", api.MapHandler)
+	http.HandleFunc("/api/map", api.AdminMiddleware(api.CreateMapHandler))
 	http.HandleFunc("/", api.DirectHandler)
 
 	logger.Info("Server started")

@@ -3,7 +3,7 @@
 import { faker } from '@faker-js/faker'
 import { mapGet, mapCreate } from '../api/map'
 
-context('/api/player', () => {
+context('/api/map', () => {
   it('get map dne', () => {
     mapGet('000').then((response) => {
       expect(response.status).to.eq(204)

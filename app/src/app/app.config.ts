@@ -13,6 +13,7 @@ import { StoreService } from 'src/services/store.service'
 import { WeeklyService } from 'src/services/weekly.service'
 import { MatchService } from 'src/services/match.service'
 import { PlayerService } from 'src/services/player.service'
+import { MapService } from 'src/services/map.service'
 
 export const adminkeyInterceptor: HttpInterceptorFn = (req, next) => {
   const adminService = inject(AdminService)
@@ -40,5 +41,6 @@ export const appConfig: ApplicationConfig = {
     WeeklyService,
     MatchService,
     PlayerService,
+    MapService,
   ],
 }

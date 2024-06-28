@@ -12,6 +12,7 @@ import { LogService } from 'src/services/log.service'
 import { WeeklyService } from './weekly.service'
 import { MatchService } from './match.service'
 import { PlayerService } from './player.service'
+import { MapService } from './map.service'
 
 export interface StoreState {
   leaderboard: Leaderboard
@@ -265,6 +266,7 @@ export class StoreService extends ComponentStore<StoreState> {
     private weeklyService: WeeklyService,
     private matchService: MatchService,
     private playerService: PlayerService,
+    private mapService: MapService,
   ) {
     super({
       leaderboard: {
@@ -428,6 +430,20 @@ export class StoreService extends ComponentStore<StoreState> {
             next: () => this.logService.success('Success', `Added player: ${accountId}`),
             error: (error: HttpErrorResponse) => this.logService.error(error),
             finalize: () => this.fetchLeaderboard(),
+          }),
+        ),
+      ),
+    )
+  })
+
+  readonly addMap = this.effect<string>((mapUid$) => {
+    return mapUid$.pipe(
+      switchMap((mapUid) =>
+        this.mapService.addMap(mapUid).pipe(
+          tapResponse({
+            next: () => this.logService.success('Success', `Added map: ${mapUid}`),
+            error: (error: HttpErrorResponse) => this.logService.error(error),
+            // finalize: () => this.fetchLeaderboard(),
           }),
         ),
       ),

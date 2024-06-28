@@ -113,6 +113,23 @@ import { StoreService } from 'src/services/store.service'
         <p-button label="Create" (click)="addPlayer(addPlayerAccountId)" />
       </div>
     </p-dialog>
+
+    <p-dialog
+      header="Add Map (uid)"
+      [modal]="true"
+      [(visible)]="addMapVisible"
+      position="topright"
+      [draggable]="false"
+      [style]="{ width: '25rem' }"
+    >
+      <div class="layout-dialog-input">
+        <input pInputText #mapUid autocomplete="off" />
+      </div>
+      <div class="layout-dialog-actions">
+        <p-button label="Cancel" severity="secondary" (click)="addMapVisible = false" />
+        <p-button label="Create" (click)="addMap(mapUid.value)" />
+      </div>
+    </p-dialog>
   `,
   styles: [
     `
@@ -201,7 +218,8 @@ import { StoreService } from 'src/services/store.service'
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-published,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-createweekly,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-publishweekly,
-      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-addplayer {
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-addplayer,
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-addmap {
         display: none;
       }
 
@@ -247,6 +265,8 @@ export class TopBarComponent {
 
   addPlayerVisible = false
   addPlayerAccountId = ''
+
+  addMapVisible = false
 
   noop = () => {
     /*noop*/
@@ -325,11 +345,18 @@ export class TopBarComponent {
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-addplayer',
   }
+  addMapItem: MenuItem = {
+    label: 'Add Map',
+    icon: 'pi pi-map',
+    command: () => (this.addMapVisible = true),
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-addmap',
+  }
 
   menuItems$ = this.storeService.isAdmin$.pipe(
     map((isAdmin) => {
       const adminMenuItems = isAdmin
-        ? [this.togglePublishedItem, this.createWeeklyItem, this.publishWeeklyItem, this.addPlayerItem]
+        ? [this.togglePublishedItem, this.createWeeklyItem, this.publishWeeklyItem, this.addPlayerItem, this.addMapItem]
         : []
 
       return [
@@ -360,5 +387,10 @@ export class TopBarComponent {
   addPlayer(value: string) {
     this.storeService.addPlayer(value)
     this.addPlayerVisible = false
+  }
+
+  addMap(value: string) {
+    this.storeService.addMap(value)
+    this.addMapVisible = false
   }
 }

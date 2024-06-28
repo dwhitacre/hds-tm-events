@@ -30,3 +30,51 @@ func CreateWeeklyHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Info("Created weekly", "id", weekly.WeeklyId)
 	w.WriteHeader(http.StatusCreated)
 }
+
+func WeeklyMapHandler(w http.ResponseWriter, r *http.Request) {
+	weeklyId := r.PathValue("id")
+	
+	var weekly domain.Weekly
+	weekly.WeeklyId = weeklyId
+	err := domain.WeeklyGet(&weekly)
+	
+	if err != nil {
+		logger.Warn("No weekly found with weeklyId", "weeklyId", weeklyId, "err", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	var weeklyMap domain.WeeklyMapData
+	jsonParser := json.NewDecoder(r.Body)
+	if err := jsonParser.Decode(&weeklyMap); err != nil {
+		logger.Warn("Failed to parse weeklyMap", "err", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if weeklyMap.MapUid == "" {
+		logger.Warn("Missing mapUid")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if r.Method == http.MethodPut {
+		err := domain.WeeklyMapAdd(weeklyId, weeklyMap.MapUid)
+		if err != nil {
+			logger.Error("Failed to add weeklyMap", "err", err)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		logger.Info("Added weekly map", "weeklyId", weeklyId, "mapUid", weeklyMap.MapUid)
+	} else if r.Method == http.MethodDelete {
+		err := domain.WeeklyMapDelete(weeklyId, weeklyMap.MapUid)
+		if err != nil {
+			logger.Error("Failed to delete weeklyMap", "err", err)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		logger.Info("Deleted weekly map", "weeklyId", weeklyId, "mapUid", weeklyMap.MapUid)
+	}
+
+	w.WriteHeader(http.StatusOK)
+}

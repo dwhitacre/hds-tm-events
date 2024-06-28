@@ -29,6 +29,10 @@ type WeeklyData struct {
 	MatchId string
 }
 
+type WeeklyMapData struct {
+	MapUid string
+}
+
 func getWeeklyData(weeklyId string) ([]WeeklyData, error) {
 	var weeklyData []WeeklyData
 
@@ -224,3 +228,32 @@ func WeeklyMatchAdd(weeklyId string, matchId string) error {
 
 	return nil
 }
+
+func WeeklyMapAdd(weeklyId string, mapUid string) error {
+	_, err := db.Exec(
+		context.Background(),
+		`insert into weeklymap (WeeklyId, MapUid) values ($1, $2)`,
+		weeklyId,
+		mapUid,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func WeeklyMapDelete(weeklyId string, mapUid string) error {
+	_, err := db.Exec(
+		context.Background(),
+		`delete from weeklymap where WeeklyId = $1 and MapUid = $2`,
+		weeklyId,
+		mapUid,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+

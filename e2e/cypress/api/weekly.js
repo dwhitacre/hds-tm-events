@@ -9,7 +9,31 @@ export const weeklyCreate = ({ weeklyId = fakeWeeklyId(), body, method = 'PUT' }
     method,
     failOnStatusCode: false,
     headers: {
-      'x-hdstmevents-adminkey': 'developer-test-key'
-    }
+      'x-hdstmevents-adminkey': 'developer-test-key',
+    },
+  })
+}
+
+export const weeklyMapAdd = ({ weeklyId, mapUid, body, method = 'PUT' } = {}) => {
+  return cy.api({
+    url: `/api/weekly/${weeklyId}/map`,
+    body: body ?? { mapUid },
+    method,
+    failOnStatusCode: false,
+    headers: {
+      'x-hdstmevents-adminkey': 'developer-test-key',
+    },
+  })
+}
+
+export const weeklyMapDelete = ({ weeklyId, mapUid, body, method = 'DELETE' } = {}) => {
+  return cy.api({
+    url: `/api/weekly/${weeklyId}/map`,
+    body: body ?? { mapUid },
+    method,
+    failOnStatusCode: false,
+    headers: {
+      'x-hdstmevents-adminkey': 'developer-test-key',
+    },
   })
 }

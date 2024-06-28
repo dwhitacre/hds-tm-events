@@ -36,6 +36,7 @@ func main() {
 	http.HandleFunc("/api/player", api.AdminMiddleware(api.CreatePlayerHandler))
 	http.HandleFunc("/api/match/{matchId}/matchresult", api.AdminMiddleware(api.MatchResultHandler))
 	http.HandleFunc("/api/weekly", api.AdminMiddleware(api.CreateWeeklyHandler))
+	http.HandleFunc("/api/weekly/{id}/map", api.AdminMiddleware(api.WeeklyMapHandler))
 	http.HandleFunc("/api/admin", api.AdminMiddleware(api.AdminHandler))
 	http.HandleFunc("/api/map/{id}", api.MapHandler)
 	http.HandleFunc("/api/map", api.AdminMiddleware(api.CreateMapHandler))

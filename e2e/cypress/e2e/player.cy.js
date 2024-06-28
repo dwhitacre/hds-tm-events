@@ -12,6 +12,20 @@ context('/api/player', () => {
     })
   })
 
+  it('create player no adminkey', () => {
+    const accountId = faker.string.uuid().replace(/^.{4}/, '2000')
+    return cy
+      .api({
+        url: '/api/player',
+        body: { accountId },
+        method: 'PUT',
+        failOnStatusCode: false,
+      })
+      .then((response) => {
+        expect(response.status).to.eq(403)
+      })
+  })
+
   it('create player bad method', () => {
     playerCreate({ method: 'POST' }).then((response) => {
       expect(response.status).to.eq(405)

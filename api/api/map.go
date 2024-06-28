@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func MapHandler(w http.ResponseWriter, r *http.Request) {
+func GetMapHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 
 	var m domain.Map
@@ -24,7 +24,25 @@ func MapHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(m)
 }
 
-func CreateMapHandler(w http.ResponseWriter, r *http.Request) {
+func MapListHandler(w http.ResponseWriter, r *http.Request) {
+	maps, err := domain.MapList()
+	if err != nil {
+		logger.Warn("Failed to get all maps", "err", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	logger.Info("Map list found")
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(maps)
+}
+
+func MapHandler(w http.ResponseWriter, r *http.Request) {
+	if (r.Method == http.MethodGet) {
+		MapListHandler(w, r)
+		return
+	}
+
 	if r.Method != http.MethodPut {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return

@@ -38,8 +38,8 @@ func main() {
 	http.HandleFunc("/api/weekly", api.AdminMiddleware(api.CreateWeeklyHandler))
 	http.HandleFunc("/api/weekly/{id}/map", api.AdminMiddleware(api.WeeklyMapHandler))
 	http.HandleFunc("/api/admin", api.AdminMiddleware(api.AdminHandler))
-	http.HandleFunc("/api/map/{id}", api.MapHandler)
-	http.HandleFunc("/api/map", api.AdminMiddleware(api.CreateMapHandler))
+	http.HandleFunc("/api/map/{id}", api.GetMapHandler)
+	http.HandleFunc("/api/map", api.AdminExceptionMiddleware(api.MapHandler, []string{ http.MethodGet }))
 	http.HandleFunc("/", api.DirectHandler)
 
 	logger.Info("Server started")

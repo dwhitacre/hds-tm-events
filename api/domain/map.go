@@ -44,6 +44,25 @@ func getMapDataFromDb(mapUid string) (MapDataDb, error) {
 	return mapData, nil
 }
 
+func getAllMapDataFromDb() ([]MapDataDb, error) {
+	var maps []MapDataDb
+
+	rows, err := db.Query(
+		context.Background(),
+		`select MapUid, TmioData from Map`,
+	)
+	if err != nil {
+		return maps, err
+	}
+
+	maps, err = pgx.CollectRows(rows, pgx.RowToStructByName[MapDataDb])
+	if err != nil {
+		return maps, err
+	}
+
+	return maps, nil
+}
+
 func toMapData(mapDataDb *MapDataDb, mapData *MapData) error {
 	if mapDataDb.TmioData == "" {
 		return errors.New("missing tmioData in db")
@@ -84,6 +103,32 @@ func MapGet(m *Map) error {
 
 	return nil
 }
+
+func MapList() ([]*Map, error) {
+	var maps []*Map
+	
+	mapDataDb, err := getAllMapDataFromDb()
+	if err != nil {
+		return maps, err
+	}
+
+	for i := 0; i < len(mapDataDb); i++ {
+		var mapData MapData
+		if err = toMapData(&mapDataDb[i], &mapData); err != nil {
+			return maps, err
+		}
+
+		var m Map
+		if err = toMap(&mapData, &m); err != nil {
+			return maps, err
+		}
+
+		maps = append(maps, &m)
+	}
+
+	return maps, nil
+}
+
 
 func MapAdd(m *Map) error {
 	if m.MapUid == "" {

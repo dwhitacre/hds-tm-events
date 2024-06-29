@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
+import { Map } from 'src/domain/map'
 
 @Injectable({ providedIn: 'root' })
 export class WeeklyService {
@@ -11,5 +12,9 @@ export class WeeklyService {
     return this.httpClient.put(`${this.#baseUrl}`, {
       weeklyId,
     })
+  }
+
+  listWeeklyMaps(weeklyId: string) {
+    return this.httpClient.get<Array<Map>>(`${this.#baseUrl}/${weeklyId}/map`)
   }
 }

@@ -51,7 +51,7 @@ import { Match } from 'src/domain/match'
               ></tops-table>
               <div class="maps">
                 <tops-grid
-                  *ngIf="vm.maps!.length > 0"
+                  *ngIf="!!vm.isAdmin && vm.maps!.length > 0"
                   [tops]="vm.maps!"
                   [showPositions]="false"
                   [showScores]="false"

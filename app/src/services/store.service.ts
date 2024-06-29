@@ -17,7 +17,7 @@ import { MapService } from './map.service'
 
 export interface StoreState {
   leaderboard: Leaderboard
-  leaderboardUid: string
+  leaderboardUid: Leaderboard['leaderboardId']
   leaderboardPublished: boolean
   loading: boolean
   toplimit: number
@@ -29,6 +29,7 @@ export interface StoreState {
     match: number
   }
   maps: Array<Map>
+  weeklies: { [weeklyId: Weekly['weeklyId']]: Partial<Weekly> }
 }
 
 @Injectable({ providedIn: 'root' })
@@ -42,6 +43,7 @@ export class StoreService extends ComponentStore<StoreState> {
   readonly selectedWeekly$ = this.select((state) => state.selectedWeekly)
   readonly nemesisWeights$ = this.select((state) => state.nemesisWeights)
   readonly maps$ = this.select((state) => state.maps)
+  readonly weeklies$ = this.select((state) => state.weeklies)
 
   readonly players$ = this.select((state) =>
     state.leaderboard.players.sort((playerA, playerB) => {
@@ -199,11 +201,12 @@ export class StoreService extends ComponentStore<StoreState> {
     this.weeklyIds$,
     this.players$,
     this.isAdmin$,
-    (leaderboard, selectedWeekly, toplimit, weeklyIds, players, isAdmin) => {
+    this.weeklies$,
+    (leaderboard, selectedWeekly, toplimit, weeklyIds, players, isAdmin, weeklies) => {
       const leaderboardWeekly = leaderboard.weeklies.find(
         (leaderboardWeekly) => leaderboardWeekly.weekly.weeklyId == selectedWeekly,
       )
-      const weekly = leaderboardWeekly?.weekly
+      const weekly = Object.assign({}, leaderboardWeekly?.weekly, weeklies[selectedWeekly])
       if (!weekly) return { found: false, selectedWeekly, weeklyIds }
 
       const matches: Array<MatchDecorated> = weekly.matches
@@ -292,6 +295,7 @@ export class StoreService extends ComponentStore<StoreState> {
         match: 1.4,
       },
       maps: [],
+      weeklies: {},
     })
 
     this.fetchLeaderboard()
@@ -299,12 +303,19 @@ export class StoreService extends ComponentStore<StoreState> {
     this.fetchAdmin()
   }
 
-  readonly updateSelectedWeekly = this.updater((state, selectedWeekly?: string) => ({
+  readonly updateSelectedWeeklyState = this.updater((state, selectedWeekly?: string) => ({
     ...state,
     selectedWeekly: selectedWeekly
       ? selectedWeekly
       : state.selectedWeekly || state.leaderboard.weeklies[state.leaderboard.weeklies.length - 1].weekly.weeklyId,
   }))
+
+  readonly updateSelectedWeekly = this.effect<string>((selectedWeekly$) => {
+    return selectedWeekly$.pipe(
+      tap((selectedWeekly) => this.fetchWeekly(selectedWeekly)),
+      tap((selectedWeekly) => this.updateSelectedWeeklyState(selectedWeekly)),
+    )
+  })
 
   readonly toggleLeaderboardPublished = this.updater((state) => ({
     ...state,
@@ -322,7 +333,7 @@ export class StoreService extends ComponentStore<StoreState> {
               if (typeof leaderboard.lastModified === 'string')
                 leaderboard.lastModified = new Date(leaderboard.lastModified)
               this.patchState({ leaderboard })
-              this.updateSelectedWeekly(undefined)
+              this.updateSelectedWeeklyState(undefined)
             },
             error: (error: HttpErrorResponse) => this.logService.error(error),
             finalize: () => this.patchState({ loading: false }),
@@ -352,6 +363,30 @@ export class StoreService extends ComponentStore<StoreState> {
         this.logService.success('Success', 'Saved admin key')
         return this.fetchAdmin()
       }),
+    )
+  })
+
+  readonly updateWeeklyMaps = this.updater((state, [weeklyId, maps]: [string, Array<Map>]) => ({
+    ...state,
+    weeklies: {
+      ...state.weeklies,
+      [weeklyId]: {
+        ...(state.weeklies[weeklyId] ?? {}),
+        maps,
+      },
+    },
+  }))
+
+  readonly fetchWeekly = this.effect<string>((weeklyId$) => {
+    return weeklyId$.pipe(
+      switchMap((weeklyId) =>
+        this.weeklyService.getWeeklyMaps(weeklyId).pipe(
+          tapResponse({
+            next: (maps) => this.updateWeeklyMaps([weeklyId, maps]),
+            error: (error: HttpErrorResponse) => this.logService.error(error),
+          }),
+        ),
+      ),
     )
   })
 

@@ -14,7 +14,7 @@ export class WeeklyService {
     })
   }
 
-  listWeeklyMaps(weeklyId: string) {
+  getWeeklyMaps(weeklyId: string) {
     return this.httpClient.get<Array<Map>>(`${this.#baseUrl}/${weeklyId}/map`)
   }
 }

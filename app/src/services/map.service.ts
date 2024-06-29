@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
+import { Map } from 'src/domain/map'
 
 @Injectable({ providedIn: 'root' })
 export class MapService {
@@ -11,5 +12,9 @@ export class MapService {
     return this.httpClient.put(`${this.#baseUrl}`, {
       mapUid,
     })
+  }
+
+  listMap() {
+    return this.httpClient.get<Array<Map>>(`${this.#baseUrl}`)
   }
 }

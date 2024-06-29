@@ -5,6 +5,7 @@ import { concatLatestFrom, tapResponse } from '@ngrx/operators'
 import { Observable, switchMap, tap } from 'rxjs'
 import { Leaderboard, Stat } from 'src/domain/leaderboard'
 import { Weekly } from 'src/domain/weekly'
+import { Map } from 'src/domain/map'
 import { MatchType, MatchDecorated, matchTypeOrder } from 'src/domain/match'
 import { AdminService } from 'src/services/admin.service'
 import { LeaderboardService } from 'src/services/leaderboard.service'
@@ -27,6 +28,7 @@ export interface StoreState {
     loss: number
     match: number
   }
+  maps: Array<Map>
 }
 
 @Injectable({ providedIn: 'root' })
@@ -39,6 +41,7 @@ export class StoreService extends ComponentStore<StoreState> {
   readonly isAdmin$ = this.select((state) => state.isAdmin)
   readonly selectedWeekly$ = this.select((state) => state.selectedWeekly)
   readonly nemesisWeights$ = this.select((state) => state.nemesisWeights)
+  readonly maps$ = this.select((state) => state.maps)
 
   readonly players$ = this.select((state) =>
     state.leaderboard.players.sort((playerA, playerB) => {
@@ -288,9 +291,11 @@ export class StoreService extends ComponentStore<StoreState> {
         loss: 0.3,
         match: 1.4,
       },
+      maps: [],
     })
 
     this.fetchLeaderboard()
+    this.fetchMaps()
     this.fetchAdmin()
   }
 
@@ -436,6 +441,19 @@ export class StoreService extends ComponentStore<StoreState> {
     )
   })
 
+  readonly fetchMaps = this.effect<void>((trigger$) => {
+    return trigger$.pipe(
+      switchMap(() =>
+        this.mapService.listMap().pipe(
+          tapResponse({
+            next: (maps) => this.patchState({ maps }),
+            error: (error: HttpErrorResponse) => this.logService.error(error),
+          }),
+        ),
+      ),
+    )
+  })
+
   readonly addMap = this.effect<string>((mapUid$) => {
     return mapUid$.pipe(
       switchMap((mapUid) =>
@@ -443,7 +461,7 @@ export class StoreService extends ComponentStore<StoreState> {
           tapResponse({
             next: () => this.logService.success('Success', `Added map: ${mapUid}`),
             error: (error: HttpErrorResponse) => this.logService.error(error),
-            // finalize: () => this.fetchLeaderboard(),
+            finalize: () => this.fetchMaps(),
           }),
         ),
       ),

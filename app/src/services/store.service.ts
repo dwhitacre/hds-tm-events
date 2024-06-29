@@ -506,7 +506,7 @@ export class StoreService extends ComponentStore<StoreState> {
       switchMap(() =>
         this.mapService.listMap().pipe(
           tapResponse({
-            next: (maps) => this.patchState({ maps }),
+            next: (maps) => this.patchState({ maps: maps.sort((mapA, mapB) => mapA.name.localeCompare(mapB.name)) }),
             error: (error: HttpErrorResponse) => this.logService.error(error),
           }),
         ),

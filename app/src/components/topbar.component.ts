@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { MenuItem } from 'primeng/api'
 import { map } from 'rxjs'
 import { StoreService } from 'src/services/store.service'
+import { Map } from 'src/domain/map'
 
 @Component({
   selector: 'topbar',
@@ -94,12 +95,12 @@ import { StoreService } from 'src/services/store.service'
     </p-dialog>
 
     <p-dialog
-      header="Add Weekly Map (uid)"
+      header="Add Weekly Map"
       [modal]="true"
       [(visible)]="addWeeklyMapVisible"
       position="topright"
       [draggable]="false"
-      [style]="{ width: '25rem' }"
+      [style]="{ width: '25rem', height: '25rem' }"
     >
       <ng-container *ngIf="storeService.selectedWeekly$ | async as selectedWeekly">
         <div class="layout-dialog-input">
@@ -108,11 +109,13 @@ import { StoreService } from 'src/services/store.service'
             <br />
             {{ selectedWeekly }}
           </span>
-          <input pInputText #weeklyMapUid autocomplete="off" />
         </div>
+        <ng-container *ngIf="storeService.maps$ | async as maps">
+          <p-dropdown [options]="maps" optionLabel="name" [(ngModel)]="addWeeklyMapSelected" />
+        </ng-container>
         <div class="layout-dialog-actions">
           <p-button label="Cancel" severity="secondary" (click)="addWeeklyMapVisible = false" />
-          <p-button label="Add" (click)="addWeeklyMap(selectedWeekly, weeklyMapUid.value)" />
+          <p-button label="Add" (click)="addWeeklyMap(selectedWeekly, addWeeklyMapSelected!.mapUid)" />
         </div>
       </ng-container>
     </p-dialog>
@@ -289,6 +292,7 @@ export class TopBarComponent {
   publishSelectedWeekly = ''
 
   addWeeklyMapVisible = false
+  addWeeklyMapSelected: Map | undefined = undefined
 
   addPlayerVisible = false
   addPlayerAccountId = ''

@@ -24,6 +24,7 @@ import { WeeklyResult } from 'src/domain/weekly'
           [top]="tops[0]"
           [defaultPosition]="displayPositions[0]"
           [showPosition]="showPositions"
+          [showScore]="showScores"
           [players]="players"
           [editable]="editable"
           (selected)="addedMatchResult.emit($event)"
@@ -38,6 +39,7 @@ import { WeeklyResult } from 'src/domain/weekly'
         [top]="tops[1]"
         [defaultPosition]="displayPositions[1]"
         [showPosition]="showPositions"
+        [showScore]="showScores"
         [players]="players"
         [editable]="editable"
         (selected)="addedMatchResult.emit($event)"
@@ -86,6 +88,7 @@ export class TopCardComponent {
   @Input() label?: string
   @Input() showMorePlayers = false
   @Input() showPositions = true
+  @Input() showScores = true
   @Input() tops!: Array<Top | WeeklyResult | MatchResult>
   @Input() editable = false
   @Input() players: Array<Player> = []

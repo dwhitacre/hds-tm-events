@@ -15,7 +15,10 @@ import { WeeklyResult } from 'src/domain/weekly'
         }}</span>
         <ng-template #noPosition><span class="position"></span></ng-template>
         <span class="name">{{ top.player.name }}</span>
-        <span *ngIf="!editable; else scoreedit" class="score">{{ top.score || 0 }}</span>
+        <ng-container *ngIf="showScore; else noScore">
+          <span *ngIf="!editable; else scoreedit" class="score">{{ top.score || 0 }}</span>
+        </ng-container>
+        <ng-template #noScore><span class="class"></span></ng-template>
       </div>
       <p-contextMenu *ngIf="editable" [target]="playercontent" [model]="playerContentItems" />
     </div>
@@ -117,6 +120,7 @@ export class TopCardPlayerComponent implements OnChanges {
   @Input() players: Array<Player> = []
   @Input() editable = false
   @Input() showPosition = true
+  @Input() showScore = true
 
   playerContentItems: Array<MenuItem> = [
     {

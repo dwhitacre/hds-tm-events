@@ -49,9 +49,21 @@ import { Match } from 'src/domain/match'
                 [playercount]="vm.playercount!"
                 [lastModified]="vm.lastModified"
               ></tops-table>
+              <div class="maps">
+                <tops-grid
+                  *ngIf="vm.maps!.length > 0"
+                  [tops]="vm.maps!"
+                  [showPositions]="false"
+                  [showScores]="false"
+                ></tops-grid>
+              </div>
             </ng-container>
             <ng-template #matches>
-              <match-bracket [matches]="vm.matches!" [players]="vm.players || []" [editable]="!!vm.isAdmin && editMode"></match-bracket>
+              <match-bracket
+                [matches]="vm.matches!"
+                [players]="vm.players || []"
+                [editable]="!!vm.isAdmin && editMode"
+              ></match-bracket>
               <tops-table
                 label="{{ vm.qualifying!.type | titlecase }} {{ vm.qualifying!.instance | uppercase }}"
                 [tops]="vm.qualifying!.results"
@@ -78,6 +90,11 @@ import { Match } from 'src/domain/match'
       .weekly-not-found {
         display: flex;
         justify-content: center;
+      }
+
+      .maps {
+        margin-top: 48px;
+        margin-bottom: 24px;
       }
 
       .weekly-header,

@@ -7,7 +7,7 @@ import { WeeklyResult } from 'src/domain/weekly'
   template: `
     <div class="tops-grid" *ngIf="tops">
       <ng-container *ngFor="let top of tops">
-        <top-card [tops]="[top]"></top-card>
+        <top-card [tops]="[top]" [showPositions]="showPositions" [showScores]="showScores"></top-card>
       </ng-container>
     </div>
   `,
@@ -37,4 +37,6 @@ import { WeeklyResult } from 'src/domain/weekly'
 })
 export class TopsGridComponent {
   @Input() tops!: Array<Top | WeeklyResult>
+  @Input() showPositions = true
+  @Input() showScores = true
 }

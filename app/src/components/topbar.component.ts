@@ -94,6 +94,30 @@ import { StoreService } from 'src/services/store.service'
     </p-dialog>
 
     <p-dialog
+      header="Add Weekly Map (uid)"
+      [modal]="true"
+      [(visible)]="addWeeklyMapVisible"
+      position="topright"
+      [draggable]="false"
+      [style]="{ width: '25rem' }"
+    >
+      <ng-container *ngIf="storeService.selectedWeekly$ | async as selectedWeekly">
+        <div class="layout-dialog-input">
+          <span>
+            Add map to currently selected weekly?
+            <br />
+            {{ selectedWeekly }}
+          </span>
+          <input pInputText #weeklyMapUid autocomplete="off" />
+        </div>
+        <div class="layout-dialog-actions">
+          <p-button label="Cancel" severity="secondary" (click)="addWeeklyMapVisible = false" />
+          <p-button label="Add" (click)="addWeeklyMap(selectedWeekly, weeklyMapUid.value)" />
+        </div>
+      </ng-container>
+    </p-dialog>
+
+    <p-dialog
       header="Add Player"
       [modal]="true"
       [(visible)]="addPlayerVisible"
@@ -218,6 +242,7 @@ import { StoreService } from 'src/services/store.service'
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-published,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-createweekly,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-publishweekly,
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-addweeklymap,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-addplayer,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-addmap {
         display: none;
@@ -262,6 +287,8 @@ export class TopBarComponent {
 
   publishWeeklyVisible = false
   publishSelectedWeekly = ''
+
+  addWeeklyMapVisible = false
 
   addPlayerVisible = false
   addPlayerAccountId = ''
@@ -338,6 +365,13 @@ export class TopBarComponent {
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-publishweekly',
   }
+  addWeeklyMapItem: MenuItem = {
+    label: 'Add Weekly Map',
+    icon: 'pi pi-map',
+    command: () => (this.addWeeklyMapVisible = true),
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-addweeklymap',
+  }
   addPlayerItem: MenuItem = {
     label: 'Add Player',
     icon: 'pi pi-user-plus',
@@ -356,7 +390,14 @@ export class TopBarComponent {
   menuItems$ = this.storeService.isAdmin$.pipe(
     map((isAdmin) => {
       const adminMenuItems = isAdmin
-        ? [this.togglePublishedItem, this.createWeeklyItem, this.publishWeeklyItem, this.addPlayerItem, this.addMapItem]
+        ? [
+            this.togglePublishedItem,
+            this.createWeeklyItem,
+            this.publishWeeklyItem,
+            this.addWeeklyMapItem,
+            this.addPlayerItem,
+            this.addMapItem,
+          ]
         : []
 
       return [
@@ -382,6 +423,11 @@ export class TopBarComponent {
   publishWeekly(value: string) {
     this.storeService.publishWeekly(value)
     this.publishWeeklyVisible = false
+  }
+
+  addWeeklyMap(weeklyId: string, value: string) {
+    this.storeService.addWeeklyMap([weeklyId, value])
+    this.addWeeklyMapVisible = false
   }
 
   addPlayer(value: string) {

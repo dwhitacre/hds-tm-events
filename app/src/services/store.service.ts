@@ -4,7 +4,7 @@ import { ComponentStore } from '@ngrx/component-store'
 import { concatLatestFrom, tapResponse } from '@ngrx/operators'
 import { Observable, switchMap, tap } from 'rxjs'
 import { Leaderboard, Stat } from 'src/domain/leaderboard'
-import { Weekly } from 'src/domain/weekly'
+import { Weekly, WeeklyResult } from 'src/domain/weekly'
 import { Map } from 'src/domain/map'
 import { MatchType, MatchDecorated, matchTypeOrder } from 'src/domain/match'
 import { AdminService } from 'src/services/admin.service'
@@ -14,6 +14,7 @@ import { WeeklyService } from './weekly.service'
 import { MatchService } from './match.service'
 import { PlayerService } from './player.service'
 import { MapService } from './map.service'
+import { Player } from 'src/domain/player'
 
 export interface StoreState {
   leaderboard: Leaderboard
@@ -248,6 +249,14 @@ export class StoreService extends ComponentStore<StoreState> {
           return matchB.order - matchA.order
         })
 
+      // TODO support maps in consuming components
+      const maps: Array<WeeklyResult> = (weekly.maps ?? []).map(
+        (map) =>
+          ({
+            player: { name: map.name, image: map.thumbnailUrl } as Player,
+          } as WeeklyResult),
+      )
+
       return {
         found: true,
         published: leaderboardWeekly?.published,
@@ -261,6 +270,7 @@ export class StoreService extends ComponentStore<StoreState> {
         qualifying: matches[matches.length - 1],
         players,
         isAdmin,
+        maps,
       }
     },
   )
@@ -334,6 +344,7 @@ export class StoreService extends ComponentStore<StoreState> {
                 leaderboard.lastModified = new Date(leaderboard.lastModified)
               this.patchState({ leaderboard })
               this.updateSelectedWeeklyState(undefined)
+              this.updateSelectedWeekly(this.state().selectedWeekly)
             },
             error: (error: HttpErrorResponse) => this.logService.error(error),
             finalize: () => this.patchState({ loading: false }),
@@ -384,6 +395,20 @@ export class StoreService extends ComponentStore<StoreState> {
           tapResponse({
             next: (maps) => this.updateWeeklyMaps([weeklyId, maps]),
             error: (error: HttpErrorResponse) => this.logService.error(error),
+          }),
+        ),
+      ),
+    )
+  })
+
+  readonly addWeeklyMap = this.effect<[string, string]>((trigger$) => {
+    return trigger$.pipe(
+      switchMap(([weeklyId, mapUid]) =>
+        this.weeklyService.addWeeklyMap(weeklyId, mapUid).pipe(
+          tapResponse({
+            next: () => this.logService.success('Success', `Added map: ${mapUid} to weekly: ${weeklyId}`),
+            error: (error: HttpErrorResponse) => this.logService.error(error),
+            finalize: () => this.fetchWeekly(weeklyId),
           }),
         ),
       ),

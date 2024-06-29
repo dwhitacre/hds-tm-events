@@ -17,4 +17,10 @@ export class WeeklyService {
   getWeeklyMaps(weeklyId: string) {
     return this.httpClient.get<Array<Map>>(`${this.#baseUrl}/${weeklyId}/map`)
   }
+
+  addWeeklyMap(weeklyId: string, mapUid: string) {
+    return this.httpClient.put(`${this.#baseUrl}/${weeklyId}/map`, {
+      mapUid,
+    })
+  }
 }

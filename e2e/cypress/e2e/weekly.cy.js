@@ -3,7 +3,7 @@
 import { faker } from '@faker-js/faker'
 import { fakeWeeklyId, weeklyCreate, weeklyMapAdd, weeklyMapDelete } from '../api/weekly'
 import { leaderboardCreateAndCreateAndAddWeekly } from '../api/leaderboard'
-import { mapCreate } from '../api/map'
+import { mapCreate, mapGet } from '../api/map'
 
 context('/api/weekly', () => {
   it('create weekly bad method', () => {
@@ -37,6 +37,27 @@ context('/api/weekly', () => {
 
 context('/api/weekly/{weeklyId}/map', () => {
   context('put', () => {
+    it('add weeklyMap no admin key', () => {
+      const mapUid = faker.string.alphanumeric(18).replace(/^.{4}/, '2000')
+      const leaderboardId = faker.string.uuid()
+      const weeklyId = fakeWeeklyId()
+
+      leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
+        mapCreate({ mapUid }).then(() => {
+          return cy
+            .api({
+              url: `/api/weekly/${weeklyId}/map`,
+              body: { mapUid },
+              method: 'PUT',
+              failOnStatusCode: false,
+            })
+            .then((response) => {
+              expect(response.status).to.eq(403)
+            })
+        })
+      })
+    })
+
     it('add weeklyMap weekly dne', () => {
       const mapUid = faker.string.alphanumeric(18).replace(/^.{4}/, '2000')
       mapCreate({ mapUid }).then(() => {
@@ -98,6 +119,32 @@ context('/api/weekly/{weeklyId}/map', () => {
         mapCreate({ mapUid }).then(() => {
           weeklyMapAdd({ weeklyId, mapUid }).then((response) => {
             expect(response.status).to.eq(200)
+          })
+        })
+      })
+    })
+
+    it('get weeklyMap list', () => {
+      const mapUid = faker.string.alphanumeric(18).replace(/^.{4}/, '2000')
+      const leaderboardId = faker.string.uuid()
+      const weeklyId = fakeWeeklyId()
+
+      leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
+        mapCreate({ mapUid }).then(() => {
+          weeklyMapAdd({ weeklyId, mapUid }).then((response) => {
+            mapGet(mapUid).then((response) => {
+              const map = response.body
+              return cy
+                .api({
+                  url: `/api/weekly/${weeklyId}/map`,
+                  method: 'GET',
+                  failOnStatusCode: false,
+                })
+                .then((response) => {
+                  expect(response.status).to.eq(200)
+                  expect(response.body).to.deep.include.members([map])
+                })
+            })
           })
         })
       })

@@ -33,6 +33,29 @@ type WeeklyMapData struct {
 	MapUid string
 }
 
+func getWeeklyMapData(weeklyId string) ([]WeeklyMapData, error) {
+	var weeklyMapData []WeeklyMapData
+
+	rows, err := db.Query(
+		context.Background(),
+		`select wm.MapUid
+			from Weekly w
+			join WeeklyMap wm on w.WeeklyId = wm.WeeklyId
+			where w.WeeklyId=$1`,
+		weeklyId,
+	)
+	if err != nil {
+		return weeklyMapData, err
+	}
+
+	weeklyMapData, err = pgx.CollectRows(rows, pgx.RowToStructByName[WeeklyMapData])
+	if err != nil {
+		return weeklyMapData, err
+	}
+
+	return weeklyMapData, nil
+}
+
 func getWeeklyData(weeklyId string) ([]WeeklyData, error) {
 	var weeklyData []WeeklyData
 
@@ -227,6 +250,28 @@ func WeeklyMatchAdd(weeklyId string, matchId string) error {
 	}
 
 	return nil
+}
+
+func WeeklyMapList(weeklyId string) ([]*Map, error) {
+	var maps []*Map
+
+	weeklyMapData, err := getWeeklyMapData(weeklyId)
+	if err != nil {
+		return maps, err
+	}
+
+	for i := 0; i < len(weeklyMapData); i++ {
+		var m Map
+		m.MapUid = weeklyMapData[i].MapUid
+
+		if err = MapGet(&m); err != nil {
+			return maps, err;
+		}
+
+		maps = append(maps, &m)
+	}
+
+	return maps, nil
 }
 
 func WeeklyMapAdd(weeklyId string, mapUid string) error {

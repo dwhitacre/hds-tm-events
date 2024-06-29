@@ -31,6 +31,20 @@ func CreateWeeklyHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+func WeeklyMapListHandler(w http.ResponseWriter, r *http.Request) {
+	weeklyId := r.PathValue("id")
+	maps, err := domain.WeeklyMapList(weeklyId)
+	if err != nil {
+		logger.Warn("Failed to get all weekly maps", "weeklyId", weeklyId, "err", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	logger.Info("Weekly map list found")
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(maps)
+}
+
 func WeeklyMapHandler(w http.ResponseWriter, r *http.Request) {
 	weeklyId := r.PathValue("id")
 	
@@ -41,6 +55,11 @@ func WeeklyMapHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		logger.Warn("No weekly found with weeklyId", "weeklyId", weeklyId, "err", err)
 		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if (r.Method == http.MethodGet) {
+		WeeklyMapListHandler(w, r)
 		return
 	}
 

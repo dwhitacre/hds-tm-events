@@ -253,7 +253,7 @@ func WeeklyMatchAdd(weeklyId string, matchId string) error {
 }
 
 func WeeklyMapList(weeklyId string) ([]*Map, error) {
-	var maps []*Map
+	maps := []*Map{}
 
 	weeklyMapData, err := getWeeklyMapData(weeklyId)
 	if err != nil {

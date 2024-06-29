@@ -149,6 +149,25 @@ context('/api/weekly/{weeklyId}/map', () => {
         })
       })
     })
+
+    it('get weeklyMap list no weekly maps', () => {
+      const mapUid = faker.string.alphanumeric(18).replace(/^.{4}/, '2000')
+      const leaderboardId = faker.string.uuid()
+      const weeklyId = fakeWeeklyId()
+
+      leaderboardCreateAndCreateAndAddWeekly(leaderboardId, weeklyId).then(() => {
+        return cy
+          .api({
+            url: `/api/weekly/${weeklyId}/map`,
+            method: 'GET',
+            failOnStatusCode: false,
+          })
+          .then((response) => {
+            expect(response.status).to.eq(200)
+            expect(response.body).to.deep.eq([])
+          })
+      })
+    })
   })
 
   context('delete', () => {

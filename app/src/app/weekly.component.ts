@@ -43,13 +43,22 @@ import { Match } from 'src/domain/match'
           </div>
           <ng-container *ngIf="vm.found; else weeklynotfound">
             <ng-container *ngIf="currentView === 'results'; else matches">
+              <div class="maps" *ngIf="vm.top!.length < 1">
+                <tops-grid
+                  *ngIf="vm.maps!.length > 0"
+                  [tops]="vm.maps!"
+                  [showPositions]="false"
+                  [showScores]="false"
+                  [isTmText]="true"
+                ></tops-grid>
+              </div>
               <tops-grid [tops]="vm.top!"></tops-grid>
               <tops-table
                 [tops]="vm.bottom!"
                 [playercount]="vm.playercount!"
                 [lastModified]="vm.lastModified"
               ></tops-table>
-              <div class="maps">
+              <div class="maps" *ngIf="vm.top!.length > 0">
                 <tops-grid
                   *ngIf="vm.maps!.length > 0"
                   [tops]="vm.maps!"

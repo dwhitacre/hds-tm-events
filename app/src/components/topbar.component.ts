@@ -110,9 +110,18 @@ import { Map } from 'src/domain/map'
             {{ selectedWeekly }}
           </span>
         </div>
-        <ng-container *ngIf="storeService.maps$ | async as maps">
-          <p-dropdown [options]="maps" optionLabel="name" [(ngModel)]="addWeeklyMapSelected" />
-        </ng-container>
+        <div class="layout-dialog-input">
+          <ng-container *ngIf="storeService.maps$ | async as maps">
+            <p-dropdown [options]="maps" [placeholder]="'Select Map'" [(ngModel)]="addWeeklyMapSelected">
+              <ng-template let-map pTemplate="selectedItem">
+                <span>{{ map.name | tm : 'humanize' }}</span>
+              </ng-template>
+              <ng-template let-map pTemplate="item">
+                <span>{{ map.name | tm : 'humanize' }}</span>
+              </ng-template>
+            </p-dropdown>
+          </ng-container>
+        </div>
         <div class="layout-dialog-actions">
           <p-button label="Cancel" severity="secondary" (click)="addWeeklyMapVisible = false" />
           <p-button label="Add" (click)="addWeeklyMap(selectedWeekly, addWeeklyMapSelected!.mapUid)" />

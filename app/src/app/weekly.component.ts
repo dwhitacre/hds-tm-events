@@ -55,6 +55,7 @@ import { Match } from 'src/domain/match'
                   [tops]="vm.maps!"
                   [showPositions]="false"
                   [showScores]="false"
+                  [isTmText]="true"
                 ></tops-grid>
               </div>
             </ng-container>

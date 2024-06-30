@@ -23,26 +23,10 @@ import { ContextMenuModule } from 'primeng/contextmenu'
 import { InputNumberModule } from 'primeng/inputnumber'
 import { StatsTableComponent } from './stats-table.component'
 import { MatchBracketComponent } from './match-bracket.component'
+import { TmPipe } from 'src/pipes/tm.pipe'
+import { SafeHtmlPipe } from 'src/pipes/safe-html.pipe'
 
 @NgModule({
-  imports: [
-    ButtonModule,
-    CardModule,
-    ProgressSpinnerModule,
-    TableModule,
-    PositionPipe,
-    MenuModule,
-    DialogModule,
-    InputTextModule,
-    CommonModule,
-    MessagesModule,
-    InputMaskModule,
-    FormsModule,
-    DropdownModule,
-    InplaceModule,
-    ContextMenuModule,
-    InputNumberModule,
-  ],
   declarations: [
     LayoutComponent,
     TopBarComponent,
@@ -62,6 +46,26 @@ import { MatchBracketComponent } from './match-bracket.component'
     TopCardComponent,
     StatsTableComponent,
     MatchBracketComponent,
+  ],
+  imports: [
+    ButtonModule,
+    CardModule,
+    ProgressSpinnerModule,
+    TableModule,
+    PositionPipe,
+    MenuModule,
+    DialogModule,
+    InputTextModule,
+    CommonModule,
+    MessagesModule,
+    InputMaskModule,
+    FormsModule,
+    DropdownModule,
+    InplaceModule,
+    ContextMenuModule,
+    InputNumberModule,
+    TmPipe,
+    SafeHtmlPipe,
   ],
 })
 export class ComponentsModule {}

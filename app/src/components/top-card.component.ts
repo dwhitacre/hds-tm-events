@@ -25,6 +25,7 @@ import { WeeklyResult } from 'src/domain/weekly'
           [defaultPosition]="displayPositions[0]"
           [showPosition]="showPositions"
           [showScore]="showScores"
+          [isTmText]="isPlayerTmText"
           [players]="players"
           [editable]="editable"
           (selected)="addedMatchResult.emit($event)"
@@ -40,6 +41,7 @@ import { WeeklyResult } from 'src/domain/weekly'
         [defaultPosition]="displayPositions[1]"
         [showPosition]="showPositions"
         [showScore]="showScores"
+        [isTmText]="isPlayerTmText"
         [players]="players"
         [editable]="editable"
         (selected)="addedMatchResult.emit($event)"
@@ -93,6 +95,7 @@ export class TopCardComponent {
   @Input() editable = false
   @Input() players: Array<Player> = []
   @Input() displayPositions: Array<number> = [1, 2]
+  @Input() isPlayerTmText = false
 
   @Output() addedMatchResult = new EventEmitter<Player>()
   @Output() updatedMatchResult = new EventEmitter<{ player: Player; score: number }>()

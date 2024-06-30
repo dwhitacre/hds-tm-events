@@ -14,6 +14,8 @@ import { WeeklyService } from 'src/services/weekly.service'
 import { MatchService } from 'src/services/match.service'
 import { PlayerService } from 'src/services/player.service'
 import { MapService } from 'src/services/map.service'
+import { TmPipe } from 'src/pipes/tm.pipe'
+import { SafeHtmlPipe } from 'src/pipes/safe-html.pipe'
 
 export const adminkeyInterceptor: HttpInterceptorFn = (req, next) => {
   const adminService = inject(AdminService)
@@ -42,5 +44,7 @@ export const appConfig: ApplicationConfig = {
     MatchService,
     PlayerService,
     MapService,
+    TmPipe,
+    SafeHtmlPipe,
   ],
 }

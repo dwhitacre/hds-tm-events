@@ -14,7 +14,10 @@ import { WeeklyResult } from 'src/domain/weekly'
           top.position || defaultPosition | position
         }}</span>
         <ng-template #noPosition><span class="position"></span></ng-template>
-        <span class="name">{{ top.player.name }}</span>
+        <span *ngIf="isTmText; else unstyledName" class="name" [innerHTML]="top.player.name | tm | safeHtml"></span>
+        <ng-template #unstyledName
+          ><span class="name">{{ top.player.name }}</span></ng-template
+        >
         <ng-container *ngIf="showScore; else noScore">
           <span *ngIf="!editable; else scoreedit" class="score">{{ top.score || 0 }}</span>
         </ng-container>
@@ -121,6 +124,7 @@ export class TopCardPlayerComponent implements OnChanges {
   @Input() editable = false
   @Input() showPosition = true
   @Input() showScore = true
+  @Input() isTmText = false
 
   playerContentItems: Array<MenuItem> = [
     {

@@ -107,7 +107,7 @@ export class StoreService extends ComponentStore<StoreState> {
             if (weeklyMatch.match.results.length < 2) return
             if (weeklyMatch.match.results[0].score === 0 && weeklyMatch.match.results[1].score === 0) return
 
-            if (weeklyMatch.match.matchId.toLowerCase() === 'finals') {
+            if (weeklyMatch.match.matchId.endsWith('-finals')) {
               stats[weeklyMatch.match.results[0].player.accountId].weeklyWins++
               stats[weeklyMatch.match.results[0].player.accountId].earningsAmount += 70
               stats[weeklyMatch.match.results[1].player.accountId].weeklyRunnerups++

@@ -93,13 +93,7 @@ export class StoreService extends ComponentStore<StoreState> {
           stat.averageWeeklyScore =
             (weeklyResult.score + stat.weekliesPlayed * stat.averageWeeklyScore) / (stat.weekliesPlayed + 1)
           stat.weekliesPlayed++
-          if (weeklyResult.position == 1) {
-            stat.weeklyWins++
-            stat.earningsAmount += 70
-          } else if (weeklyResult.position == 2) {
-            stat.weeklyRunnerups++
-            stat.earningsAmount += 30
-          } else stat.weeklyLosses++
+          if (weeklyResult.position > 2) stat.weeklyLosses++
         })
 
         leadboardWeekly.weekly.matches.forEach((weeklyMatch) => {
@@ -112,6 +106,13 @@ export class StoreService extends ComponentStore<StoreState> {
           } else if (weeklyMatch.match.matchId.toLowerCase().indexOf('tiebreak') < 0) {
             if (weeklyMatch.match.results.length < 2) return
             if (weeklyMatch.match.results[0].score === 0 && weeklyMatch.match.results[1].score === 0) return
+
+            if (weeklyMatch.match.matchId.toLowerCase() === 'finals') {
+              stats[weeklyMatch.match.results[0].player.accountId].weeklyWins++
+              stats[weeklyMatch.match.results[0].player.accountId].earningsAmount += 70
+              stats[weeklyMatch.match.results[1].player.accountId].weeklyRunnerups++
+              stats[weeklyMatch.match.results[1].player.accountId].earningsAmount += 30
+            }
 
             weeklyMatch.match.results.forEach((matchResultA, idxA) => {
               const statA = stats[matchResultA.player.accountId]

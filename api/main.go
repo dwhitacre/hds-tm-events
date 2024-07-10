@@ -30,6 +30,7 @@ func main() {
 	domain.Setup(logger, pool, tmio)
 	api.Setup(logger, pool)
 	http.HandleFunc("/ready", api.ReadyHandler)
+	http.HandleFunc("/api/ready", api.ReadyHandler)
 	http.HandleFunc("/api/leaderboard/{id}", api.LeaderboardHandler)
 	http.HandleFunc("/api/leaderboard", api.AdminMiddleware(api.PatchLeaderboardHandler))
 	http.HandleFunc("/api/player/{id}", api.PlayerHandler)

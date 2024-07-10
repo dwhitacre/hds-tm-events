@@ -22,6 +22,7 @@ export interface StoreState {
   leaderboardPublished: boolean
   loading: boolean
   toplimit: number
+  bottomlimit: number
   isAdmin: boolean
   selectedWeekly: Weekly['weeklyId']
   nemesisWeights: {
@@ -40,6 +41,7 @@ export class StoreService extends ComponentStore<StoreState> {
   readonly leaderboardPublished$ = this.select((state) => state.leaderboardPublished)
   readonly loading$ = this.select((state) => state.loading)
   readonly toplimit$ = this.select((state) => state.toplimit)
+  readonly bottomlimit$ = this.select((state) => state.bottomlimit)
   readonly isAdmin$ = this.select((state) => state.isAdmin)
   readonly selectedWeekly$ = this.select((state) => state.selectedWeekly)
   readonly nemesisWeights$ = this.select((state) => state.nemesisWeights)
@@ -191,10 +193,18 @@ export class StoreService extends ComponentStore<StoreState> {
     lastModified: leaderboard.lastModified.toLocaleDateString() + ' ' + leaderboard.lastModified.toLocaleTimeString(),
   }))
 
-  readonly statsVm$ = this.select(this.stats$, this.isAdmin$, (stats, isAdmin) => ({
-    stats,
-    isAdmin,
-  }))
+  readonly statsVm$ = this.select(
+    this.stats$,
+    this.isAdmin$,
+    this.toplimit$,
+    this.bottomlimit$,
+    (stats, isAdmin, toplimit, bottomlimit) => ({
+      stats,
+      isAdmin,
+      toplimit,
+      bottomlimit,
+    }),
+  )
 
   readonly weeklyVm$ = this.select(
     this.leaderboard$,
@@ -298,6 +308,7 @@ export class StoreService extends ComponentStore<StoreState> {
       leaderboardPublished: true,
       loading: true,
       toplimit: 8,
+      bottomlimit: 16,
       isAdmin: false,
       selectedWeekly: '',
       nemesisWeights: {

@@ -33,7 +33,12 @@ import { Stat } from 'src/domain/leaderboard'
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-stat let-rowIndex="rowIndex" let-expanded="expanded">
-          <tr>
+          <tr
+            [ngClass]="{
+              'row-top': stat.position <= topLimit,
+              'row-bottom': stat.position > topLimit && stat.position <= bottomLimit
+            }"
+          >
             <ng-template #emptyTd><td></td></ng-template>
             <td *ngIf="showExpand" class="expand-button">
               <p-button
@@ -103,6 +108,22 @@ import { Stat } from 'src/domain/leaderboard'
         margin-bottom: 12px;
       }
 
+      .row-top {
+        background-color: rgba(24, 138, 66, 0.2);
+      }
+
+      .row-top:nth-child(odd) {
+        background-color: rgba(24, 138, 66, 0.1);
+      }
+
+      .row-bottom {
+        background-color: rgba(255, 61, 50, 0.2);
+      }
+
+      .row-bottom:nth-child(odd) {
+        background-color: rgba(255, 61, 50, 0.1);
+      }
+
       :host::ng-deep .p-button.p-button-icon-only {
         font-size: 0.5rem;
         width: 32px;
@@ -122,6 +143,8 @@ import { Stat } from 'src/domain/leaderboard'
 })
 export class StatsTableComponent {
   @Input() stats!: Array<Stat>
+  @Input() topLimit = 0
+  @Input() bottomLimit = 0
   @Input() showExpand = false
 
   onImgError(event: Event) {

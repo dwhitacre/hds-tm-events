@@ -2,6 +2,7 @@ import { Route } from '@angular/router'
 import { StandingsComponent } from './standings.component'
 import { WeeklyComponent } from './weekly.component'
 import { StatsComponent } from './stats.component'
+import { RulesComponent } from './rules.component'
 
 export const appRoutes: Route[] = [
   {
@@ -15,6 +16,10 @@ export const appRoutes: Route[] = [
   {
     path: 'weekly',
     component: WeeklyComponent,
+  },
+  {
+    path: 'rules',
+    component: RulesComponent,
   },
   {
     path: '**',

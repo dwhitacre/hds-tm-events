@@ -43,4 +43,4 @@ export class StatsComponent {
   declarations: [StatsComponent],
   imports: [CommonModule, ComponentsModule, PositionPipe],
 })
-export class StandingsModule {}
+export class StatsModule {}

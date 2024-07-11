@@ -198,4 +198,4 @@ export class WeeklyComponent {
     InputSwitchModule,
   ],
 })
-export class StandingsModule {}
+export class WeeklyModule {}

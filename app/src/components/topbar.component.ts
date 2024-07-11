@@ -251,6 +251,7 @@ import { Map } from 'src/domain/map'
 
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-adminkey,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-github,
+      .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-rules,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-published,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-createweekly,
       .layout-topbar-menu-standalone.layout-topbar-menu-menuitem-publishweekly,
@@ -340,6 +341,13 @@ export class TopBarComponent {
     visible: true,
     styleClass: 'layout-topbar-menu-menuitem-discord',
   }
+  rulesItem: MenuItem = {
+    label: 'Rules',
+    icon: 'pi pi-book',
+    routerLink: '/rules',
+    visible: true,
+    styleClass: 'layout-topbar-menu-menuitem-rules',
+  }
   githubItem: MenuItem = {
     label: 'Github',
     icon: 'pi pi-github',
@@ -419,6 +427,7 @@ export class TopBarComponent {
         this.weeklyItem,
         { separator: true },
         this.discordItem,
+        this.rulesItem,
         this.githubItem,
         this.adminkeyItem,
         ...adminMenuItems,

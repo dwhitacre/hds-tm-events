@@ -17,6 +17,8 @@ type Leaderboard struct {
 	Weeklies			[]*LeaderboardWeekly `json:"weeklies"`
 	LastModified  string 		`json:"lastModified"`
 	Players				[]*Player `json:"players"`
+	CampaignId		string		`json:"campaignId"`
+	ClubId				string		`json:"clubId"`
 }
 
 type LeaderboardWeekly struct {
@@ -35,6 +37,8 @@ type LeaderboardData struct {
 	LastModified string
 	WeeklyId string
 	Published bool
+	ClubId string
+	CampaignId string
 }
 
 func getLeaderboardData(leaderboardId string) ([]LeaderboardData, error) {
@@ -42,7 +46,7 @@ func getLeaderboardData(leaderboardId string) ([]LeaderboardData, error) {
 
 	rows, err := db.Query(
 		context.Background(),
-		`select l.LeaderboardId, l.LastModified, lw.WeeklyId, TRUE as Published
+		`select l.LeaderboardId, l.LastModified, lw.WeeklyId, TRUE as Published, l.ClubId, l.CampaignId
 			from Leaderboard l
 			join LeaderboardWeekly lw on l.leaderboardId = lw.LeaderboardId
 			where l.LeaderboardId=$1`,
@@ -65,7 +69,7 @@ func getUnpublishedLeaderboardData() ([]LeaderboardData, error) {
 
 	rows, err := db.Query(
 		context.Background(),
-		`select '' as LeaderboardId, '' as LastModified, w.WeeklyId, FALSE as Published
+		`select '' as LeaderboardId, '' as LastModified, w.WeeklyId, FALSE as Published, '' as ClubId, '' as CampaignId
 			from Weekly w
 			left join LeaderboardWeekly lw on lw.weeklyid = w.weeklyid
 			where leaderboardweeklyid is null`,
@@ -89,6 +93,8 @@ func toLeaderboard(leaderboardData []LeaderboardData, leaderboard *Leaderboard) 
 
 	leaderboard.LeaderboardId = leaderboardData[0].LeaderboardId
 	leaderboard.LastModified = leaderboardData[0].LastModified
+	leaderboard.CampaignId = leaderboardData[0].CampaignId
+	leaderboard.ClubId = leaderboardData[0].ClubId
 
 	for i := 0; i < len(leaderboardData); i++ {
 		var weekly Weekly

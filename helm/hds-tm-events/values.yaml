@@ -59,14 +59,20 @@ ingress:
   hosts:
     - host: hdweeklyleague.com
     - host: www.hdweeklyleague.com
+    - host: liguehebdomadairehd.com
+    - host: www.liguehebdomadairehd.com
   tls:
     - hosts:
         - hdweeklyleague.com
         - www.hdweeklyleague.com
         - join.hdweeklyleague.com
+        - liguehebdomadairehd.com
+        - www.liguehebdomadairehd.com
+        - join.liguehebdomadairehd.com
       secretName: hdweeklyleague-tls
   directs:
     - host: join.hdweeklyleague.com
+    - host: join.liguehebdomadairehd.com
 
 nodeSelector: {}
 tolerations: []

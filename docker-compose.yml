@@ -1,4 +1,4 @@
-name: hds-events-tm
+name: hds-tm-events
 
 services:
   api:
